@@ -39,6 +39,8 @@ public function gantisesi(Request $request)
         'session_id' => 'required|exists:tsession,id'
     ]);
 
+    $sesi = Session::where('jenis_sesi', 1)->first();
+
     // 1. Nonaktifkan semua sesi
     Session::where('jenis_sesi', 1)->update(['jenis_sesi' => 0]);
 
@@ -46,9 +48,9 @@ public function gantisesi(Request $request)
     Session::where('id', $request->session_id)->update(['jenis_sesi' => 1]);
 
     // 3. Ambil durasi sesi yang dipilih (dalam menit)
-    $sesi = $request->session_id - 1;
-    $durasiSesi = Session::find($sesi)->durasi ?? 35;
-    $demand = Session::find($sesi)->demand ?? 30;
+    Log::info(" sesi = " . $sesi);
+    $durasiSesi = $sesi->durasi ?? 35;
+    $demand = $sesi->demand ?? 30;
 
     // 4. Proses semua tim
     $teams = Team::all();
@@ -59,7 +61,7 @@ public function gantisesi(Request $request)
         $totalHargaMaintenance = count($teamMachines) * $maintenanceCost;
 
         $team->unlocked_babak2 = 0;
-        if($sesi == 3 || $sesi == "3"){
+        if( $sesi->id == "3"){
             $team->harga_unlock = $totalHargaMaintenance * 1.5;
         }
         else{
@@ -93,15 +95,14 @@ public function gantisesi(Request $request)
                     $totalProduk += $result['jumlah_produksi'];
                 }
             }
-            Log::info($totalProduk);   
-            Log::info($demand);   
+        
 
             if($totalProduk > $demand){
                 $totalProduk -= $demand;
                 $team->inventory_babak_2 = $totalProduk;
                 $uang = $team->total_uang_babak2;
                 $poin = floor($uang / 10000);
-                if($sesi == 2 || $sesi = "2"){
+                if($sesi->id == "2"){
                     $team->poin_total_babak2 += ($demand + $poin) * 1.5;
                 }
                 else{
@@ -112,8 +113,10 @@ public function gantisesi(Request $request)
             else{
                 $uang = $team->total_uang_babak2;
                 $poin = floor($uang / 10000);
-                if($sesi == 2 || $sesi = "2"){
+                
+                if( $sesi->id == "2"){
                     $team->poin_total_babak2 += ($totalProduk + $poin) * 1.5;
+                    Log::info($poin . "   ". $uang .  "   "    . $sesi . "  "  .  $totalProduk );
                 }
                 else{
                    $team->poin_total_babak2 += $totalProduk + $poin;
