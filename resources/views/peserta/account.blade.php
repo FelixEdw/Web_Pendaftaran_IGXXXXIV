@@ -78,41 +78,6 @@
             </form>
         </div>
     </section>
-
-    <!-- Footer (Konsisten dengan halaman lain) -->
-        <!-- PERUBAHAN DI SINI: Mengubah grid-cols-1 md:grid-cols-3 menjadi grid-cols-1 md:grid-cols-2 dan menambahkan grid-rows-2 -->
-        <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
-            <!-- Social Media -->
-            <div>
-                <h3 class="text-3xl font-bold mb-4 mt-12">OUR SOCIAL MEDIA</h3>
-                <ul>
-                    <li class="mb-2"><a href="https://www.instagram.com/ig_ubaya" target="_blank" class="flex items-center hover:text-gray-300"><img src="{{ asset('icons/Instagram.png') }}" alt="Instagram" class="w-6 h-6 mr-2">@ig_ubaya</a></li>
-                    <li class="mb-2"><a href="https://www.tiktok.com/@ig_ubaya?is_from_webapp=1&sender_device=pc" target="_blank" class="flex items-center hover:text-gray-300"><img src="{{ asset('icons/Tiktok.png') }}" alt="Tiktok" class="w-6 h-6 mr-2">@ig_ubaya</a></li>
-                </ul>
-            </div>
-
-            <!-- Contact Us -->
-            <div>
-                <h3 class="text-3xl font-bold mb-4 mt-12">CONTACT US</h3>
-                <ul>
-                    <li class="mb-2 flex items-center"><img src="{{ asset('icons/Line.png') }}" alt="Line" class="w-6 h-6 mr-2">257saktt (admin)</li>
-                    <li class="mb-2 flex items-center"><img src="{{ asset('icons/Whatsapp.png') }}" alt="WhatsApp" class="w-6 h-6 mr-2">085103929088 (Philander)</li>
-                    <li class="mb-2 flex items-center"><img src="{{ asset('icons/Whatsapp.png') }}" alt="WhatsApp" class="w-6 h-6 mr-2">081330286135 (Rachel)</li>
-                    <li class="mb-2 flex items-center"><img src="{{ asset('icons/Gmail.png') }}" alt="Email" class="w-6 h-6 mr-2">industrialgames.ubaya@gmail.com</li>
-                </ul>
-            </div>
-
-            <!-- Sponsored By -->
-            <!-- PERUBAHAN DI SINI: Menambahkan col-span-full untuk menempati lebar penuh di baris baru -->
-            <div class="col-span-full mt-8"> <!-- Menambahkan margin-top untuk jeda dari bagian atas -->
-                <h3 class="text-3xl font-bold mb-[200px]">SPONSORED BY:</h3>
-                <div class="flex flex-wrap gap-4">
-                    <!-- Placeholder for sponsor logos if any -->
-                </div>
-            </div>
-        </div>
-    </footer>
-
 </body>
 @endsection
   
