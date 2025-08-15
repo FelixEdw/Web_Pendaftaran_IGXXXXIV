@@ -133,7 +133,7 @@
         <div class="form-container">
             <h2 class="text-4xl font-pirata text-white text-center mb-4">UPLOAD BUKTI PEMBAYARAN</h2>
             <p class="text-sm text-gray-300 mt-1 mb-2">
-             Pembayaran paket single EarlyBird: 175.000.<br> Transfer ke Transfer ke 003455403312 / BLU (BCAD) atas nama Kimberly Callista Mindarto.
+             Pembayaran paket single EarlyBird: 175.000.<br>Transfer ke 003455403312 / BLU (BCAD) atas nama Kimberly Callista Mindarto.
             </p>
             <input type="file" name="foto_bukti_pembayaran" class="form-input" required>
         </div>
