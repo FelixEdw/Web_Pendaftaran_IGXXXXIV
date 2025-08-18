@@ -30,7 +30,7 @@
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-300 mb-1 font-poppins">Nama Tim</label>
                         <input id="name" name="name" type="text" value="{{ old('name') }}" autocomplete="username" required
-                            class="w-full px-4 py-2 rounded-md border bg-white/80 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#d6b05b] focus:border-[#d6b05b] @error('name') border-red-500 @else border-gray-500 @enderror"
+                            class="w-full px-4 py-2 rounded-md border bg-white/80 text-gray-500 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#d6b05b] focus:border-[#d6b05b] @error('name') border-red-500 @else border-gray-500 @enderror"
                             placeholder="Masukkan Nama Tim">
                         @error('name')
                             <p class="text-sm text-red-400 mt-1">{{ $message }}</p>
@@ -41,7 +41,7 @@
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-300 mb-1">Password</label>
                         <input id="password" name="password" type="password" required
-                            class="w-full px-4 py-2 rounded-md border bg-white/80 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#d6b05b] focus:border-[#d6b05b] @error('password') border-red-500 @else border-gray-500 @enderror"
+                            class="w-full px-4 py-2 rounded-md border bg-white/80 text-gray-500 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#d6b05b] focus:border-[#d6b05b] @error('password') border-red-500 @else border-gray-500 @enderror"
                             placeholder="Masukkan Password">
                         @error('password')
                             <p class="text-sm text-red-400 mt-1">{{ $message }}</p>
