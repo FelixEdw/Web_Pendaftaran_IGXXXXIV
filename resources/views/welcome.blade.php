@@ -31,7 +31,7 @@
     </div>
 </section>
 
-<section class="bg-[#14191A] py-16 relative" style="background-image: url('{{ asset('images/Background_Timeline.svg') }}'); background-size: cover; background-position: center;">
+<section class="bg-[#14191A] py-16 relative" style="background-image: url('{{ asset('images/Background_Timeline.png') }}'); background-size: cover; background-position: center;">
     <div class="text-center px-4">
         <img src="{{ asset('images/Timeline_Tulisan.png') }}" alt="Timeline" class="mx-auto h-16 sm:h-24 md:h-32 mb-10">
         <img src="{{ asset('images/Timeline.png') }}" alt="Timeline Content" class="mx-auto w-full max-w-5xl h-auto">
