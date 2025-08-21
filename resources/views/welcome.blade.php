@@ -1,7 +1,7 @@
 @extends("layouts.app")
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 @section("content")
-<section class="relative min-h-screen bg-cover bg-center font-poppins" style="background-image: url('{{ asset('images/Background_Industrial_Games.png') }}');">
+<section class="relative min-h-screen bg-cover bg-center font-poppins" style="background-image: url('{{ asset('images/Background_Industrial_Games.svg') }}');">
   <div class="absolute inset-0 bg-black bg-opacity-5 flex flex-col justify-start items-center text-center pt-20 px-4 sm:px-6 md:px-8">
      <img src="{{ asset('images/Industrial_Games_Tulisan.png') }}" 
      alt="Industrial Games Title" 
@@ -25,13 +25,13 @@
   </div>
 </section>
 
-<section class="bg-[#14191A] py-16 flex justify-center items-center relative" style="background-image: url('{{ asset('images/Background_Poster.png') }}'); background-size: cover; background-position: center;">
+<section class="bg-[#14191A] py-16 flex justify-center items-center relative" style="background-image: url('{{ asset('images/Background_Poster.svg') }}'); background-size: cover; background-position: center;">
     <div class="w-full max-w-md px-4 text-center">
         <img src="{{ asset('images/POSTER_IG.png') }}" alt="Industrial Games XXXIV Poster" class="mx-auto w-full h-auto shadow-lg rounded-lg">
     </div>
 </section>
 
-<section class="bg-[#14191A] py-16 relative" style="background-image: url('{{ asset('images/Background_Timeline.png') }}'); background-size: cover; background-position: center;">
+<section class="bg-[#14191A] py-16 relative" style="background-image: url('{{ asset('images/Background_Timeline.svg') }}'); background-size: cover; background-position: center;">
     <div class="text-center px-4">
         <img src="{{ asset('images/Timeline_Tulisan.png') }}" alt="Timeline" class="mx-auto h-16 sm:h-24 md:h-32 mb-10">
         <img src="{{ asset('images/Timeline.png') }}" alt="Timeline Content" class="mx-auto w-full max-w-5xl h-auto">

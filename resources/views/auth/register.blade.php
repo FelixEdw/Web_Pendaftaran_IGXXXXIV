@@ -25,7 +25,7 @@
    
 
     <!-- Main Content - Initial Registration Form -->
-    <main class="flex-grow flex items-center justify-center py-12 px-4 relative min-h-screen" style="background-image: url('{{ asset('images/Background_Registration.png') }}'); background-size: cover; background-position: center;">
+    <main class="flex-grow flex items-center justify-center py-12 px-4 relative min-h-screen" style="background-image: url('{{ asset('images/Background_Registration.svg') }}'); background-size: cover; background-position: center;">
         <!-- Overlay untuk background agar konten lebih menonjol -->
         <div class="absolute inset-0 bg-black bg-opacity-0"></div>
 

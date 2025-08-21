@@ -7,7 +7,7 @@
     body {
         background-color: #0c0c0c;
         color: white;
-        background-image: url('{{ asset('images/Background_BundleRegistration.png') }}');
+        background-image: url('{{ asset('images/Background_SingleRegistration.svg') }}');
         background-repeat: no-repeat;
         background-size: cover;
         background-position: top center;
@@ -20,7 +20,7 @@
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     }
     .form-input {
-        background-color: rgba(255, 255, 255, 0.35);
+        background-color: rgba(255, 255, 255, 0.2);
         border: none;
         padding: 0.75rem 1rem;
         border-radius: 0.5rem;

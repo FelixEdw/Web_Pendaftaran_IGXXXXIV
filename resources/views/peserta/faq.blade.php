@@ -60,7 +60,7 @@
     
 
     <!-- FAQ Section -->
-    <section class="relative py-16 px-4 flex flex-col items-center justify-center min-h-screen" style="background-image: url('{{ asset('images/Background_FAQ.png') }}'); background-size: cover; background-position: center; background-attachment: fixed;">
+    <section class="relative py-16 px-4 flex flex-col items-center justify-center min-h-screen" style="background-image: url('{{ asset('images/Background_FAQ.svg') }}'); background-size: cover; background-position: center; background-attachment: fixed;">
         <div class="absolute inset-0 bg-black bg-opacity-0"></div> <!-- Overlay -->
         
         <div class="relative z-10 w-full max-w-4xl h-auto text-center">
