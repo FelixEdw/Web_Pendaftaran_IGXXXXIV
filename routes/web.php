@@ -54,7 +54,7 @@ Auth::routes();
 
 // Rute ini HANYA untuk MENAMPILKAN formulir isian single team.
 Route::get('/register/single-form', function () {
-    return view('auth.register_single_form'); 
+    return view('auth.register_single_form');
 })->name('register.single.form');
 
 // Rute untuk MENAMPILKAN formulir isian bundle.
@@ -65,7 +65,7 @@ Route::post('/register/bundle-form', [BundleRegistrationController::class, 'stor
 
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', fn () => view('admin.dashboard'))->name('admin.dashboard');
+    Route::get('/admin/dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
 });
 
 //=====================ADMIN====================//
@@ -74,7 +74,7 @@ Route::group([
     'prefix' => 'admin',
     'as' => 'admin.'
 ], function () {
-     Route::get('/rally1', [AdminController::class, 'rally1'])->name('rally-1.index');
+    Route::get('/rally1', [AdminController::class, 'rally1'])->name('rally-1.index');
     //======================RALLY 1====================//
     Route::get('/rally1/pos', [R1AdminController::class, 'overview'])->name('overview');
     Route::get('/rally1/pos/{id}', [R1AdminController::class, 'index'])->name('pos');
@@ -84,17 +84,21 @@ Route::group([
     Route::post('/rally1/pos/{id}/kalah/{tim}', [R1AdminController::class, 'beriKalah'])->name('kalah');
     Route::post('/rally1/pos/{id}/gagal', [R1AdminController::class, 'beriGagal'])->name('gagal');
 
-
     Route::post('/admin/pos/{id}/aksi', [R1AdminController::class, 'aksi'])->name('aksi');
 
-        Route::get('/admin', function () {
-        return view('admin.rally-1.home_admin');
-    })->name('admin.home');
+    Route::prefix('admin')->group(function () {
+        Route::get('/', function () {
+            return view('admin.rally-1.index');
+        })->name('home');
+    });
+    Route::post('/admin/rally1/pos/{id}/battle', [R1AdminController::class, 'simpanBattle'])
+        ->name('battle.hasil');
+
+
 
     //=============================RALLY 2 =============//
     Route::get('/rally2', action: [AdminController::class, 'rally2'])->name('rally-2.index');
     Route::post('/gantisesi', [AdminController::class, 'gantisesi'])->name('rally-2.gantisesigame');
-
 });
 
 
@@ -141,7 +145,7 @@ Route::group([
         return redirect()->route('peserta.rally-2.claim-envelope', $id);
     });
 
-        //================MAIN RALLY 2=======================
+    //================MAIN RALLY 2=======================
     Route::post('/rally2/buy', [R2Controller::class, 'buyMachine'])->name('rally2.buy');
     Route::post('/rally2/upgrade', [R2Controller::class, 'upgradeMachine'])->name('rally2.upgrade');
     Route::post('/rally2/sell', [R2Controller::class, 'sell'])->name('rally2.sell');
@@ -163,25 +167,24 @@ Route::group([
 
     Route::get('/rally1/jual', [R1PesertaController::class, 'showJual'])->name('jual');
     Route::post('/rally1/jual', [R1PesertaController::class, 'jualSepeda'])->name('jual.sepeda');
-
 });
 
 
 Route::get('peserta/rally2/{id}', function ($id) {
-        if (is_numeric($id)) {
-            return redirect("peserta/rally2/qr-redirect/$id");
-        }
+    if (is_numeric($id)) {
+        return redirect("peserta/rally2/qr-redirect/$id");
+    }
 
-        abort(404);
-    });
+    abort(404);
+});
 
-    
+
 
 
 Route::get('/mystery-envelope/{id}', function ($id) {
-        if (is_numeric($id)) {
-            return redirect("peserta/rally2/envelope-redirect/$id");
-        }
+    if (is_numeric($id)) {
+        return redirect("peserta/rally2/envelope-redirect/$id");
+    }
 
-        abort(404);
-    });
+    abort(404);
+});
