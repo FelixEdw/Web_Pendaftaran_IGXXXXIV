@@ -119,33 +119,48 @@ class R1AdminController extends Controller
         $timHariIni = DB::table('riwayat_pos')
             ->where('pos_id', $id)
             ->whereDate('waktu', today())
-            ->pluck('peserta_namaTim')
-            ->toArray();
+            ->get(['id', 'peserta_namaTim']); // ambil id & nama tim
 
         return view('admin.rally-1.admin_pos', compact('pos', 'timHariIni'));
     }
 
     public function simpanBattle(Request $request, $id)
     {
-        $winnerId = $request->winner;
+        $hasilArray = $request->input('hasil', []);
 
-        $tim = DB::table('riwayat_pos')
-            ->join('teams', 'riwayat_pos.peserta_namaTim', '=', 'teams.nama_tim')
-            ->where('riwayat_pos.pos_id', $id)
-            ->whereDate('riwayat_pos.waktu', today())
-            ->select('teams.id', 'teams.nama_tim')
-            ->get();
+        if (count($hasilArray) < 2) {
+            return back()->with('error', 'Silakan pilih hasil untuk kedua tim.');
+        }
 
-        foreach ($tim as $t) {
-            if ($t->id == $winnerId) {
-                $this->beriMenang($id, $t->id);
-            } else {
-                $this->beriKalah($id, $t->id);
+        foreach ($hasilArray as $timId => $hasil) {
+            $tim = DB::table('riwayat_pos')->where('id', $timId)->first();
+            if (!$tim) continue;
+
+            if ($hasil === 'menang') {
+                $this->beriMenang($id, $tim->peserta_namaTim);
+            } elseif ($hasil === 'kalah') {
+                $this->beriKalah($id, $tim->peserta_namaTim);
+            } elseif ($hasil === 'gagal') {
+                $this->beriGagal($id, $tim->peserta_namaTim);
             }
         }
 
-        return redirect()->route('overview')->with('success', 'Hasil battle berhasil disimpan!');
+        // setelah diproses, kosongkan pos
+        DB::table('pos')->where('id', $id)->update(['status' => 'kosong']);
+
+        DB::table('riwayat_pos')
+            ->where('pos_id', $id)
+            ->whereDate('waktu', today())
+            ->delete();
+
+
+        return back()->with('success', 'Hasil battle berhasil diproses!');
     }
+
+
+
+
+
 
 
 
