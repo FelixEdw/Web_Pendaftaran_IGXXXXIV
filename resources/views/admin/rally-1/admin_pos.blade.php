@@ -28,11 +28,9 @@
     <button type="submit">⬅️ Kembali ke Halaman Utama Admin</button>
   </form>
 
-  @if ($timHariIni->count() === 0)
-  <p><em>Belum ada tim yang datang hari ini.</em></p>
-  @else
   {{-- Pos Battle --}}
-  @if ($pos->tipe === 'battle' && $timHariIni->count() === 2)
+  @if ($pos->tipe === 'battle')
+  @if ($timHariIni && $timHariIni->count() === 2)
   <h3>Battle antara:</h3>
   <form action="{{ route('admin.battle.hasil', $pos->id) }}" method="POST">
     @csrf
@@ -73,32 +71,36 @@
       const otherIndex = selectedIndex === 0 ? 1 : 0;
 
       if (result === "menang") {
-        // lawan otomatis kalah
         rows[otherIndex + 1].querySelector("input[value='kalah']").checked = true;
       }
       if (result === "kalah") {
-        // lawan otomatis menang
         rows[otherIndex + 1].querySelector("input[value='menang']").checked = true;
       }
-      // kalau gagal → lawan bebas dipilih manual
     }
   </script>
+  @else
+  <p><em>Belum ada tim yang datang hari ini untuk battle.</em></p>
+  @endif
 
   {{-- Pos Single --}}
-  @elseif ($pos->tipe === 'single' && $timHariIni->count() === 1)
+  @elseif ($pos->tipe === 'single')
+  @if ($timHariIni)
   <h3>Tim yang sedang di pos:</h3>
-  <p><strong>{{ $timHariIni[0]->peserta_namaTim }}</strong></p>
+  <p><strong>{{ $timHariIni->peserta_namaTim }}</strong></p>
 
   <form method="POST" action="{{ route('admin.aksi', $pos->id) }}">
     @csrf
-    <input type="hidden" name="tim_id" value="{{ $timHariIni[0]->id }}">
+    <input type="hidden" name="nama_tim" value="{{ $timHariIni->peserta_namaTim }}">
     <button name="action" value="menang" type="submit">🏆 Menang</button>
     <button name="action" value="kalah" type="submit">😞 Kalah</button>
     <button name="action" value="gagal" type="submit"
       onclick="return confirm('Yakin menyatakan tim gagal dan mengosongkan pos?')">❌ Gagal</button>
   </form>
+  @else
+  <p><em>Belum ada tim yang datang hari ini.</em></p>
   @endif
   @endif
+
 </body>
 
 </html>
