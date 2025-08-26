@@ -76,7 +76,7 @@
 </style>
 
 <!-- What is IG Section -->
-<section class="relative py-16 px-4 min-h-screen flex items-center justify-center font-poppins" style="background-image: url('{{ asset('images/Background_WhatIsIg.png') }}'); background-size: cover; background-position: center; background-attachment: fixed;">
+<section class="relative py-16 px-4 min-h-screen flex items-center justify-center font-poppins" style="background-image: url('{{ asset('images/Background_WhatIsIg.svg') }}'); background-size: cover; background-position: center; background-attachment: fixed;">
     <div class="absolute inset-0 bg-black bg-opacity-10"></div>
 
     <div class="relative z-10 w-full max-w-5xl text-center px-4">
@@ -106,7 +106,7 @@
 </section>
 
 <!-- Join Now Section -->
-<section class="relative py-16 px-4 min-h-screen flex items-center justify-center" style="background-image: url('{{ asset('images/Background_JoinNow.png') }}'); background-size: cover; background-position: center; background-attachment: fixed;">
+<section class="relative py-16 px-4 min-h-screen flex items-center justify-center" style="background-image: url('{{ asset('images/Background_JoinNow.svg') }}'); background-size: cover; background-position: center; background-attachment: fixed;">
     <div class="absolute inset-0 bg-black bg-opacity-70"></div>
 
     <div class="relative z-10 w-full max-w-5xl text-center px-4">
