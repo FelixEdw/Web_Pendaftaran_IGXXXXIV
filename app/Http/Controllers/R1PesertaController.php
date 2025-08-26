@@ -170,51 +170,77 @@ class R1PesertaController extends Controller
 
 
 
-    public function pergiKePos($id)
-    {
-        $tim = Auth::user()->name;
+   public function pergiKePos($id)
+{
+    $tim = Auth::user()->name;
 
-        $lastVisited = DB::table('riwayat_pos')
-            ->where('peserta_namaTim', $tim)
-            ->orderByDesc('waktu')
-            ->limit(3)
-            ->pluck('pos_id')
-            ->toArray();
-
-        if (in_array($id, $lastVisited)) {
-            return back()->with('error', 'Tidak boleh mengunjungi pos yang sama sebelum mengunjungi 3 pos lain.');
-        }
-
-        $uang = DB::table('teams')->where('nama_tim', $tim)->value('uang');
-        if ($uang < 3) {
-            return back()->with('error', 'Uang tidak cukup.');
-        }
-        DB::table('teams')->where('nama_tim', $tim)->decrement('uang', 3);
-
-        DB::table('riwayat_pos')->insert([
-            'peserta_namaTim' => $tim,
-            'pos_id' => $id,
-            'waktu' => now()
-        ]);
-
-        $pos = DB::table('pos')->where('id', $id)->first();
-        if ($pos->tipe === 'single') {
-            DB::table('pos')->where('id', $id)->update(['status' => 'terisi']);
-        } else if ($pos->tipe === 'battle') {
-            $existingCount = DB::table('riwayat_pos')
-                ->where('pos_id', $id)
-                ->whereDate('waktu', today())
-                ->count();
-
-            if ($existingCount == 1) {
-                DB::table('pos')->where('id', $id)->update(['status' => 'butuh_grup']);
-            } else if ($existingCount >= 2) {
-                DB::table('pos')->where('id', $id)->update(['status' => 'terisi']);
-            }
-        }
-
-        return back()->with('success', "Berhasil mengunjungi Pos $id");
+    //Cek pos
+    $pos = DB::table('pos')->where('id', $id)->first();
+    if (!$pos) {
+        return back()->with('error', 'Pos tidak ditemukan.');
     }
+
+    //Pengecekan untuk SINGLE
+    if ($pos->tipe === 'single' && $pos->status === 'terisi') {
+        return back()->with('error', 'Pos telah terisi');
+    }
+
+    //Pengecekan untuk BATTLE (maksimal 2 tim)
+    if ($pos->tipe === 'battle') {
+        $existingCount = DB::table('riwayat_pos')
+            ->where('pos_id', $id)
+            ->whereDate('waktu', today())
+            ->count();
+
+        if ($existingCount >= 2) {
+            return back()->with('error', 'Pos battle ini sudah penuh (2 tim).');
+        }
+    }
+
+    //Cek 3 pos terakhir
+    $lastVisited = DB::table('riwayat_pos')
+        ->where('peserta_namaTim', $tim)
+        ->orderByDesc('waktu')
+        ->limit(3)
+        ->pluck('pos_id')
+        ->toArray();
+
+    if (in_array($id, $lastVisited)) {
+        return back()->with('error', 'Tidak boleh mengunjungi pos yang sama sebelum mengunjungi 3 pos lain.');
+    }
+
+    //Cek uang
+    $uang = DB::table('teams')->where('nama_tim', $tim)->value('uang');
+    if ($uang < 3) {
+        return back()->with('error', 'Uang tidak cukup.');
+    }
+    DB::table('teams')->where('nama_tim', $tim)->decrement('uang', 3);
+
+    //Catat kunjungan
+    DB::table('riwayat_pos')->insert([
+        'peserta_namaTim' => $tim,
+        'pos_id' => $id,
+        'waktu' => now()
+    ]);
+
+    //Update status pos
+    if ($pos->tipe === 'single') {
+        DB::table('pos')->where('id', $id)->update(['status' => 'terisi']);
+    } else if ($pos->tipe === 'battle') {
+        $existingCount = DB::table('riwayat_pos')
+            ->where('pos_id', $id)
+            ->whereDate('waktu', today())
+            ->count();
+
+        if ($existingCount == 1) {
+            DB::table('pos')->where('id', $id)->update(['status' => 'butuh_grup']);
+        } else if ($existingCount >= 2) {
+            DB::table('pos')->where('id', $id)->update(['status' => 'terisi']);
+        }
+    }
+
+    return back()->with('success', "Berhasil mengunjungi Pos $id");
+}
 
     public function jualSepeda(Request $r)
     {
