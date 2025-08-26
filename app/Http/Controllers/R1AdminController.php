@@ -116,10 +116,17 @@ class R1AdminController extends Controller
     {
         $pos = DB::table('pos')->where('id', $id)->first();
 
-        $timHariIni = DB::table('riwayat_pos')
-            ->where('pos_id', $id)
-            ->whereDate('waktu', today())
-            ->get(['id', 'peserta_namaTim']); // ambil id & nama tim
+        if ($pos->tipe === 'battle') {
+            $timHariIni = DB::table('riwayat_pos')
+                ->where('pos_id', $id)
+                ->whereDate('waktu', today())
+                ->get(['id', 'peserta_namaTim']); // Collection untuk battle
+        } else {
+            $timHariIni = DB::table('riwayat_pos')
+                ->where('pos_id', $id)
+                ->whereDate('waktu', today())
+                ->first(['id', 'peserta_namaTim']); // Object tunggal untuk single
+        }
 
         return view('admin.rally-1.admin_pos', compact('pos', 'timHariIni'));
     }
@@ -204,7 +211,7 @@ class R1AdminController extends Controller
     public function beriGagal($id)
     {
         DB::table('pos')->where('id', $id)->update(['status' => 'kosong']);
-        return back()->with('success', 'Pos berhasil direset menjadi kosong (tim gagal).');
+        return back()->with('success', "Tim dinyatakan gagal. Status Pos $id direset.");
     }
 
     private function beriKomponenByResult($posId, $tim, $result)
@@ -226,10 +233,18 @@ class R1AdminController extends Controller
             }
         }
 
+        // Kosongkan pos
         DB::table('pos')->where('id', $posId)->update(['status' => 'kosong']);
+
+        // **Hapus riwayat_pos untuk tim ini di pos single**
+        DB::table('riwayat_pos')
+            ->where('pos_id', $posId)
+            ->where('peserta_namaTim', $tim)
+            ->delete();
 
         return back()->with('success', "Tim $tim mendapatkan komponen karena $result.");
     }
+
 
 
 
@@ -292,16 +307,23 @@ class R1AdminController extends Controller
 
         switch ($aksi) {
             case 'menang':
-                return $this->beriMenang($id, $namaTim);
+                $this->beriMenang($id, $namaTim);
+                break;
 
             case 'kalah':
-                return $this->beriKalah($id, $namaTim);
+                $this->beriKalah($id, $namaTim);
+                break;
 
             case 'gagal':
-                return $this->gagal($id); // tidak butuh nama tim
+                $this->gagal($id);
+                break;
 
             default:
                 return back()->with('error', 'Aksi tidak dikenali.');
         }
+
+        // Redirect ke halaman pos supaya data terbaru diambil
+        return redirect()->route('admin.pos', $id)
+            ->with('success', "Hasil aksi '$aksi' untuk tim $namaTim berhasil diproses.");
     }
 }
