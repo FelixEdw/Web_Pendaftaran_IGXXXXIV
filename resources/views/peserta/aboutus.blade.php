@@ -95,8 +95,6 @@
                 <div class="carousel-slide"><img src="images/DOKUM_9.jpg" alt="Carousel Image 9"></div>
                 <div class="carousel-slide"><img src="images/DOKUM_10.jpg" alt="Carousel Image 10"></div>
                 <div class="carousel-slide"><img src="images/DOKUM_11.jpg" alt="Carousel Image 11"></div>
-                <div class="carousel-slide"><img src="images/DOKUM_12.jpg" alt="Carousel Image 12"></div>
-                <div class="carousel-slide"><img src="images/DOKUM_13.jpg" alt="Carousel Image 13"></div>
             </div>
             <button class="carousel-button left" onclick="moveSlide(-1)">&#10094;</button>
             <button class="carousel-button right" onclick="moveSlide(1)">&#10095;</button>
