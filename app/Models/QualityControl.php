@@ -9,7 +9,7 @@ class QualityControl extends Model
 {
     use HasFactory;
 
-    protected $table = 'tQualityControl';
+    protected $table = 'tqualitycontrol';
 
     protected $fillable = [
         'idTeam',

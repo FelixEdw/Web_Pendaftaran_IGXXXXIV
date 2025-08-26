@@ -9,7 +9,7 @@ class Production extends Model
 {
     use HasFactory;
 
-    protected $table = 'tProduction';
+    protected $table = 'tproduction';
 
     protected $fillable = [
         'idTeam',
