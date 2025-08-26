@@ -34,10 +34,10 @@ class R1PesertaController extends Controller
         12 => ['chain_and_gear' => 1],
     ];
 
-   // private function getTim()
-   // {
-  //     return session('namaTim') ?? 'TimDemo';
-  //  }
+    // private function getTim()
+    // {
+    //     return session('namaTim') ?? 'TimDemo';
+    //  }
 
     private function getSesiAktif()
     {
@@ -72,7 +72,7 @@ class R1PesertaController extends Controller
     }
 
     public function showProduksi()
-    {        
+    {
         $user = Auth::user();
         $team = Team::where('nama_tim', $user->name)->firstOrFail();
 
@@ -90,7 +90,7 @@ class R1PesertaController extends Controller
 
     public function produksiSepeda($jenis)
     {
-             
+
         $user = Auth::user();
         $team = Team::where('nama_tim', $user->name)->firstOrFail();
         $komponen = DB::table('komponen')->where('team_id', $team->id)->first();
@@ -124,13 +124,17 @@ class R1PesertaController extends Controller
 
     public function showJual()
     {
-        $tim = Auth::user()->name;
-        $stok = DB::table('sepeda')->where('team_id', $tim)->first();
+        $timId = Auth::user()->id;
+        $stok = DB::table('sepeda')->where('team_id', $timId)->first();
+
         $sesi = $this->getSesiAktif();
         $harga = $this->sesiHarga[$sesi];
 
         return view('peserta.rally-1.jual', compact('stok', 'sesi', 'harga'));
     }
+
+
+
 
     public function daftarPos()
     {
@@ -150,17 +154,19 @@ class R1PesertaController extends Controller
 
     public function lihatKomponen()
     {
-        $tim = Auth::user()->name;
+        $user = Auth::user();
+        $timId = $user->id;
 
         $komponen = DB::table('komponen')
-            ->where('team_id', $tim)
+            ->where('team_id', $timId)
             ->first();
 
         return view('peserta.rally-1.peserta_komponen', [
-            'tim' => $tim,
+            'tim' => $user->name,
             'komponen' => $komponen
         ]);
     }
+
 
 
 
@@ -212,24 +218,26 @@ class R1PesertaController extends Controller
 
     public function jualSepeda(Request $r)
     {
-         $user = Auth::user();
+        $user = Auth::user();
         $team = Team::where('nama_tim', $user->name)->firstOrFail();
+
         $sesi = $this->getSesiAktif();
         $harga = $this->sesiHarga[$sesi];
 
         $total = 0;
         foreach ($harga as $jenis => $h) {
             $jumlah = (int) $r->input($jenis, 0);
-            DB::table('sepeda')->where('team_id', $team->id)->decrement($jenis, $jumlah);
-            $total += $jumlah * $h;
+
+            if ($jumlah > 0) {
+                DB::table('sepeda')
+                    ->where('team_id', $team->id)
+                    ->decrement($jenis, $jumlah);
+
+                $total += $jumlah * $h;
+            }
         }
 
-        DB::table('poin_babak1')->updateOrInsert(
-            ['sepeda_komponen_peserta_namaTim1' => $team->id],
-            ['poin' => DB::raw("poin + $total"), 'sesi' => $sesi]
-        );
-
-        DB::table('teams')->where('nama_tim', $team->id)->increment('uang', $total);
+        DB::table('teams')->where('id', $team->id)->increment('uang', $total);
 
         return back()->with('success', "Berhasil menjual. Pemasukan: $$total");
     }

@@ -114,35 +114,55 @@ class R1AdminController extends Controller
 
     public function index($id)
     {
-        $komponenList = [
-            'wheel_26',
-            'wheel_27',
-            'wheel_16',
-            'city_frame',
-            'mountain_frame',
-            'folding_frame',
-            'unicycle_frame',
-            'hinge',
-            'mountain_suspension',
-            'brake',
-            'pedal',
-            'chain_and_gear',
-            'basket'
-        ];
+        $pos = DB::table('pos')->where('id', $id)->first();
 
         $timHariIni = DB::table('riwayat_pos')
             ->where('pos_id', $id)
             ->whereDate('waktu', today())
-            ->pluck('peserta_namaTim')
-            ->toArray();
+            ->get(['id', 'peserta_namaTim']); // ambil id & nama tim
 
-        $timList = DB::table('teams')
-        ->whereNotIn('nama_tim', $timHariIni)
-        ->pluck('nama_tim');
-        $pos = DB::table('pos')->where('id', $id)->first();
-
-        return view('admin.rally-1.admin_pos', compact('id', 'komponenList', 'timList', 'pos', 'timHariIni'));
+        return view('admin.rally-1.admin_pos', compact('pos', 'timHariIni'));
     }
+
+    public function simpanBattle(Request $request, $id)
+    {
+        $hasilArray = $request->input('hasil', []);
+
+        if (count($hasilArray) < 2) {
+            return back()->with('error', 'Silakan pilih hasil untuk kedua tim.');
+        }
+
+        foreach ($hasilArray as $timId => $hasil) {
+            $tim = DB::table('riwayat_pos')->where('id', $timId)->first();
+            if (!$tim) continue;
+
+            if ($hasil === 'menang') {
+                $this->beriMenang($id, $tim->peserta_namaTim);
+            } elseif ($hasil === 'kalah') {
+                $this->beriKalah($id, $tim->peserta_namaTim);
+            } elseif ($hasil === 'gagal') {
+                $this->beriGagal($id, $tim->peserta_namaTim);
+            }
+        }
+
+        // setelah diproses, kosongkan pos
+        DB::table('pos')->where('id', $id)->update(['status' => 'kosong']);
+
+        DB::table('riwayat_pos')
+            ->where('pos_id', $id)
+            ->whereDate('waktu', today())
+            ->delete();
+
+
+        return back()->with('success', 'Hasil battle berhasil diproses!');
+    }
+
+
+
+
+
+
+
 
     public function beriReward($id, $namaTim, $tipe)
     {
@@ -187,7 +207,7 @@ class R1AdminController extends Controller
         return back()->with('success', 'Pos berhasil direset menjadi kosong (tim gagal).');
     }
 
-   private function beriKomponenByResult($posId, $tim, $result)
+    private function beriKomponenByResult($posId, $tim, $result)
     {
         if (!isset($this->rewardList[$posId][$result])) {
             return back()->with('error', "Tidak ada data komponen untuk Pos $posId saat $result.");
@@ -284,5 +304,4 @@ class R1AdminController extends Controller
                 return back()->with('error', 'Aksi tidak dikenali.');
         }
     }
-
 }

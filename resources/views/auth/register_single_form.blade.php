@@ -14,7 +14,7 @@
     body {
         background-color: #0c0c0c;
         color: white;
-        background-image: url('{{ asset('images/Background_SingleRegistration.png') }}');
+        background-image: url('{{ asset('images/Background_SingleRegistration.svg') }}');
         background-repeat: no-repeat;
         background-size: cover;
         background-position: top center;
