@@ -3,10 +3,12 @@
 @section('title', 'Question - Rally 2')
 
 @section('content')
-    <div class="flex items-center justify-center min-h-screen px-6 py-8">
-        <div class="bg-white rounded-2xl p-8 w-full max-w-md mx-auto shadow-2xl">
+    <div class="flex items-center justify-center min-h-screen px-6 py-8 mb-8 bg-cover bg-center"
+        style="background-image: url('{{ asset('icons/motif_gear.svg') }}');">
+        <div class="bg-gradient-to-br from-gray-400 via-gray-500 to-gray-700 rounded-2xl p-8 w-full max-w-md mx-auto shadow-2xl">
             @if ($pernahAkses)
-                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded-lg text-center font-semibold">
+                <div
+                    class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded-lg text-center font-semibold">
                     ⚠️ Kamu sudah pernah mengakses soal ini sebelumnya.
                 </div>
                 <script>
@@ -25,65 +27,65 @@
             @endif
 
             <div class="text-left mb-6">
-                <span class="text-4xl font-bold text-green-600">${{ $soal->reward_amount }}</span>
+                <span class="text-4xl font-bold text-green-400">${{ $soal->reward_amount }}</span>
             </div>
 
             <div class="flex flex-wrap items-start justify-start">
-                <p class="text-xl font-bold text-black break-words">
+                <p class="text-xl font-bold text-white break-words">
                     {{ $soal->pertanyaan }}
                 </p>
                 @if ($soal->gambar_soal)
                     <div class="my-4">
-                        <img src="{{ asset('storage/' . $soal->gambar_soal) }}" alt="Gambar Soal" class="max-w-full h-auto mx-auto rounded-lg border">
+                        <img src="{{ asset('storage/' . $soal->gambar_soal) }}" alt="Gambar Soal"
+                            class="max-w-full h-auto mx-auto rounded-lg border">
                     </div>
                 @endif
             </div>
 
             <div class="flex flex-col gap-4 mt-4">
                 @if ($soal->option_1)
-                    <button class="option-btn w-full p-4 text-left bg-gray-100 rounded-lg border-2" onclick="selectOption(this);">
+                    <button class="option-btn w-full p-4 text-left bg-gray-100 rounded-lg border-2"
+                        onclick="selectOption(this);">
                         <span class="text-lg font-medium text-black">{{ $soal->option_1 }}</span>
                     </button>
 
-                    <button class="option-btn w-full p-4 text-left bg-gray-100 rounded-lg border-2" onclick="selectOption(this);">
+                    <button class="option-btn w-full p-4 text-left bg-gray-100 rounded-lg border-2"
+                        onclick="selectOption(this);">
                         <span class="text-lg font-medium text-black">{{ $soal->option_2 }}</span>
                     </button>
-                
-                    <button class="option-btn w-full p-4 text-left bg-gray-100 rounded-lg border-2" onclick="selectOption(this);">
+
+                    <button class="option-btn w-full p-4 text-left bg-gray-100 rounded-lg border-2"
+                        onclick="selectOption(this);">
                         <span class="text-lg font-medium text-black">{{ $soal->option_3 }}</span>
                     </button>
 
-                    <button class="option-btn w-full p-4 text-left bg-gray-100 rounded-lg border-2" onclick="selectOption(this);">
+                    <button class="option-btn w-full p-4 text-left bg-gray-100 rounded-lg border-2"
+                        onclick="selectOption(this);">
                         <span class="text-lg font-medium text-black">{{ $soal->option_4 }}</span>
                     </button>
                 @elseif ($soal->jawaban_benar === 'TRUE' || $soal->jawaban_benar === 'FALSE')
-                    <button class="option-btn w-full p-4 text-left bg-gray-100 rounded-lg border-2" onclick="selectOption(this);">
+                    <button class="option-btn w-full p-4 text-left bg-gray-100 rounded-lg border-2"
+                        onclick="selectOption(this);">
                         <span class="text-lg font-medium text-black">TRUE</span>
                     </button>
 
-                    <button class="option-btn w-full p-4 text-left bg-gray-100 rounded-lg border-2" onclick="selectOption(this);">
+                    <button class="option-btn w-full p-4 text-left bg-gray-100 rounded-lg border-2"
+                        onclick="selectOption(this);">
                         <span class="text-lg font-medium text-black">FALSE</span>
                     </button>
                 @else
                     <label for="jawaban" class="block text-lg font-semibold mb-2">Masukkan jawaban kamu:</label>
 
-                    <input 
-                        type="text" 
-                        name="jawaban" 
-                        id="jawabanInput"
-                        class="w-full p-3 border-2 rounded-lg text-lg text-black"
-                        placeholder="Contoh: -3.5 atau +5"
-                        inputmode="decimal"
-                        required
-                        oninput="enableSubmitIfValid();"
-                    >
+                    <input type="text" name="jawaban" id="jawabanInput"
+                        class="w-full p-3 border-2 rounded-lg text-lg" placeholder="Contoh: -3.5 atau +5"
+                        inputmode="decimal" required oninput="enableSubmitIfValid();">
                 @endif
             </div>
 
             <input type="hidden" name="jawaban" id="selectedAnswer">
 
-            <button type = "submit" id="submitBtn"
-                class="w-full bg-[#FFB886] mt-4 text-black font-bold py-4 px-6 rounded-lg text-lg cursor-pointer"
+            <button type="submit" id="submitBtn"
+                class="w-full bg-[#A8814F] mt-4 text-white font-bold py-4 px-6 rounded-full text-lg cursor-pointer"
                 onclick="submitAnswer();">
                 SUBMIT
             </button>
@@ -124,9 +126,9 @@
 @endsection
 
 @push('scripts')
-    {{-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> --}}
-    <script id="MathJax-script" async
-        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    {{--
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> --}}
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <script>
         let selectedOption = null;

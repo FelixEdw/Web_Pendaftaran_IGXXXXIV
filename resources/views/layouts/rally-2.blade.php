@@ -10,7 +10,9 @@
 </head>
 
 <body class="bg-gray-900 text-white">
-    <div class="max-w-md mx-auto bg-yellow-600 min-h-screen overflow-hidden relative">
+    <div class="max-w-md mx-auto min-h-screen overflow-hidden relative"
+        style="background: #14191A;"
+    >
         @yield(section: 'content')
     </div>
 

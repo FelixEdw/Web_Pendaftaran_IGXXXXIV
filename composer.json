@@ -7,7 +7,9 @@
     "require": {
         "php": "^8.2",
         "andreiio/blade-remix-icon": "^3.6",
+        "codeat3/blade-clarity-icons": "^1.10",
         "codeat3/blade-radix-icons": "^1.8",
+        "hasnayeen/blade-eva-icons": "^2.1",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.6",

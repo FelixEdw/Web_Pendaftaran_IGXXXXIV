@@ -3,13 +3,13 @@
 @section('title', 'QR Scanner - Rally 2')
 
 @section('content')
-    <div class="flex justify-between items-center p-4 bg-yellow-600">
-        <a href="{{ route('peserta.rally-2.index') }}" class="text-black text-2xl">
-            <x-ri-arrow-left-s-line class="w-10 h-10 text-black" />
+    <div class="flex justify-between items-center p-4 bg-[#ECE6E2]">
+        <a href="{{ route('peserta.rally-2.index') }}" class="text-[#6B4D28] text-2xl">
+            <x-ri-arrow-left-s-line class="w-10 h-10 text-[#6B4D28]" />
         </a>
-        <div class="text-xl font-bold text-black">QR SCANNER</div>
+        <div class="text-xl font-bold text-[#6B4D28]">QR SCANNER</div>
         <button onclick="toggleSideMenu()">
-            <x-radix-text-align-justify class="w-10 h-10 text-black" />
+            <x-radix-text-align-justify class="w-10 h-10 text-[#6B4D28]" />
         </button>
     </div>
 
@@ -19,9 +19,9 @@
             {{ session('error') }}
         </div>
     @endif
-    
-    <div class="p-4 text-center">
-        <h1 class="text-[50px] font-bold text-black">SCAN QR</h1>
+
+    <div class="flex items-center justify-center p-4 text-center min-h-[calc(100vh-64px)] bg-cover bg-center"
+        style="background-image: url('{{ asset('icons/motif_gear.svg') }}');">
         <div id="qr-reader-container" class="relative overflow-hidden mx-auto"
             style="width:100%; max-width:400px; height: 350px;">
             <div id="qr-reader" class="w-full h-full flex items-center justify-center">

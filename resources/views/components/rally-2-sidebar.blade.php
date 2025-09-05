@@ -1,24 +1,26 @@
 @props(['isOpen' => false])
 
-<div class="fixed top-0 right-0 h-full w-40 bg-gray-200 transform {{ $isOpen ? '' : 'translate-x-full' }} transition-transform duration-300 z-50"
+<div class="fixed top-0 right-0 h-full w-1/2 bg-[#4D2B08] transform {{ $isOpen ? '' : 'translate-x-full' }} transition-transform duration-300 z-50"
     id="sideMenu">
     <div class="flex justify-end p-4">
-        <button onclick="closeSideMenu()" class="text-black text-2xl hover:text-red-500 transition">
+        <button onclick="closeSideMenu()" class="text-[#B28142] text-2xl hover:text-red-500 transition">
             ✕
         </button>
     </div>
 
-    <div class="px-4 space-y-3">
+    <h1 class="text-center font-extrabold text-5xl mb-5">MENU</h1>
+
+    <div class="space-y-3">
         <a href="{{ route('peserta.rally-2.scanner') }}"
-            class="block w-full bg-yellow-400 hover:bg-yellow-500 text-black py-3 px-4 rounded font-bold text-center transition transform hover:scale-105 shadow-md">
+            class="block w-full bg-[#B17445] text-white py-3 px-4 font-bold text-center">
             QR SCANNER
         </a>
         <a href="{{ route('peserta.rally-2.events') }}"
-            class="block w-full bg-yellow-400 hover:bg-yellow-500 text-black py-3 px-4 rounded font-bold text-center transition transform hover:scale-105 shadow-md">
+            class="block w-full bg-[#B17445] text-white py-3 px-4 font-bold text-center">
             EVENT
         </a>
         <a href="{{ route('peserta.rally-2.inventory') }}"
-            class="block w-full bg-yellow-400 hover:bg-yellow-500 text-black py-3 px-4 rounded font-bold text-center transition transform hover:scale-105 shadow-md">
+            class="block w-full bg-[#B17445] text-white py-3 px-4 font-bold text-center">
             INVENTORY
         </a>
     </div>

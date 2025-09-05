@@ -9,7 +9,11 @@ export default {
     "cursor-[url('/images/cursor.png'),_pointer]"
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        unlock: "#A8814F",
+      },
+    },
   },
   plugins: [],
 }
