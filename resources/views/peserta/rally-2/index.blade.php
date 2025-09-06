@@ -17,10 +17,6 @@
                 <span class="font-bold text-xl">DEMAND</span>
                 <span class="font-bold text-xl border-b-2 border-white">{{ $gameData['demand'] }}</span>
             </div>
-            <div class="rounded text-white text-sm flex items-center justify-between w-full">
-                <span class="font-bold text-xl">FULFILLED</span>
-                <span class="font-bold text-xl border-b-2 border-white">0</span>
-            </div>
         </div>
         <div class="text-right">
             <div class="font-bold text-xl text-[#ECE6E2]">CAPITAL</div>
