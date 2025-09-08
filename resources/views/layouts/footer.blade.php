@@ -38,8 +38,8 @@
         <div class="col-span-full mt-12">
             <h3 class="text-xl sm:text-2xl font-bold mb-4">SPONSORED BY :</h3>
             <div class="flex flex-wrap gap-4">
-                {{-- Tambahkan logo sponsor di sini --}}
-                {{-- <img src="{{ asset('sponsors/logo1.png') }}" class="h-10" alt="Sponsor 1"> --}}
+             <img src="{{ asset('images/Logo_Imperial.png') }}" alt="Imperial" class="w-64 h-36 pt-8">
+             <img src="{{ asset('images/Print_n_Print.png') }}" alt="PrintnPrint" class="w-48 h-48 mx-12 ">
             </div>
         </div>
     </div>
