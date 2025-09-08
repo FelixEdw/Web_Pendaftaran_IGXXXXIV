@@ -14,6 +14,7 @@
 <body>
   <h1>Admin Pos - {{ $pos->nama }}</h1>
 
+  {{-- Flash messages --}}
   @if (session('success'))
   <p style="color: green;">{{ session('success') }}</p>
   @endif
@@ -28,6 +29,37 @@
     <button type="submit">⬅️ Kembali ke Halaman Utama Admin</button>
   </form>
 
+  {{-- STEP 1: Waiting list --}}
+  @if ($waitingList->count() > 0)
+  <h3>Waiting List:</h3>
+  <form action="{{ route('admin.pos.pilihTim', $pos->id) }}" method="POST">
+    @csrf
+    <h3>Waiting List</h3>
+
+    @foreach ($waitingList as $tim)
+    <div>
+      <input type="checkbox" name="tim[]" value="{{ $tim->id }}" id="tim-{{ $tim->id }}">
+      <label for="tim-{{ $tim->id }}">{{ $tim->peserta_namaTim }}</label>
+    </div>
+    @endforeach
+
+    <button type="submit" class="btn btn-primary">Pilih Tim</button>
+  </form>
+
+
+  @else
+  <p><em>Tidak ada tim di waiting list.</em></p>
+  @endif
+
+  <form action="{{ route('admin.clearWaitingList', $pos->id) }}" method="POST">
+    @csrf
+    <button type="submit" class="btn btn-danger">Reset Waiting List</button>
+  </form>
+
+
+  <hr>
+
+  {{-- STEP 2: Jika sudah ada tim yang dipilih --}}
   {{-- Pos Battle --}}
   @if ($pos->tipe === 'battle')
   @if ($timHariIni && $timHariIni->count() === 2)
@@ -45,22 +77,15 @@
       @foreach ($timHariIni as $index => $tim)
       <tr>
         <td><strong>{{ $tim->peserta_namaTim }}</strong></td>
-        <td>
-          <input type="radio" name="hasil[{{ $tim->id }}]" value="menang"
-            onclick="syncBattle({{ $index }}, 'menang')">
-        </td>
-        <td>
-          <input type="radio" name="hasil[{{ $tim->id }}]" value="kalah"
-            onclick="syncBattle({{ $index }}, 'kalah')">
-        </td>
-        <td>
-          <input type="radio" name="hasil[{{ $tim->id }}]" value="gagal"
-            onclick="syncBattle({{ $index }}, 'gagal')">
-        </td>
+        <td><input type="radio" name="hasil[{{ $tim->id }}]" value="menang"
+            onclick="syncBattle({{ $index }}, 'menang')"></td>
+        <td><input type="radio" name="hasil[{{ $tim->id }}]" value="kalah"
+            onclick="syncBattle({{ $index }}, 'kalah')"></td>
+        <td><input type="radio" name="hasil[{{ $tim->id }}]" value="gagal"
+            onclick="syncBattle({{ $index }}, 'gagal')"></td>
       </tr>
       @endforeach
     </table>
-
     <br>
     <button type="submit">✅ Simpan Hasil Battle</button>
   </form>
@@ -69,7 +94,6 @@
     function syncBattle(selectedIndex, result) {
       const rows = document.querySelectorAll("table tr");
       const otherIndex = selectedIndex === 0 ? 1 : 0;
-
       if (result === "menang") {
         rows[otherIndex + 1].querySelector("input[value='kalah']").checked = true;
       }
@@ -78,8 +102,6 @@
       }
     }
   </script>
-  @else
-  <p><em>Belum ada tim yang datang hari ini untuk battle.</em></p>
   @endif
 
   {{-- Pos Single --}}
@@ -87,7 +109,6 @@
   @if ($timHariIni)
   <h3>Tim yang sedang di pos:</h3>
   <p><strong>{{ $timHariIni->peserta_namaTim }}</strong></p>
-
   <form method="POST" action="{{ route('admin.aksi', $pos->id) }}">
     @csrf
     <input type="hidden" name="nama_tim" value="{{ $timHariIni->peserta_namaTim }}">
@@ -96,8 +117,6 @@
     <button name="action" value="gagal" type="submit"
       onclick="return confirm('Yakin menyatakan tim gagal dan mengosongkan pos?')">❌ Gagal</button>
   </form>
-  @else
-  <p><em>Belum ada tim yang datang hari ini.</em></p>
   @endif
   @endif
 
