@@ -116,13 +116,90 @@ class R1AdminController extends Controller
     {
         $pos = DB::table('pos')->where('id', $id)->first();
 
-        $timHariIni = DB::table('riwayat_pos')
+        // Ambil waiting list untuk pos ini
+        $waitingList = DB::table('waiting_list_pos')
             ->where('pos_id', $id)
-            ->whereDate('waktu', today())
-            ->get(['id', 'peserta_namaTim']); // ambil id & nama tim
+            ->get();
 
-        return view('admin.rally-1.admin_pos', compact('pos', 'timHariIni'));
+        if ($pos->tipe === 'battle') {
+            $timHariIni = DB::table('riwayat_pos')
+                ->where('pos_id', $id)
+                ->whereDate('waktu', today())
+                ->where('status', 'playing') 
+                ->get(['id', 'peserta_namaTim']); // Collection untuk battle
+        } else {
+            $timHariIni = DB::table('riwayat_pos')
+                ->where('pos_id', $id)
+                ->whereDate('waktu', today())
+                ->where('status', 'playing') 
+                ->first(['id', 'peserta_namaTim']); // Object tunggal untuk single
+        }
+
+        return view('admin.rally-1.admin_pos', compact('pos', 'timHariIni', 'waitingList'));
     }
+
+    public function pilihTim(Request $request, $posId)
+    {
+        $selectedTeams = $request->input('tim', []);
+
+        if (empty($selectedTeams)) {
+            return back()->with('error', 'Pilih minimal 1 tim dari waiting list.');
+        }
+
+        // Ambil data pos
+        $pos = DB::table('pos')->where('id', $posId)->first();
+        if (!$pos) {
+            return back()->with('error', 'Pos tidak ditemukan.');
+        }
+
+        // Validasi jumlah tim sesuai tipe pos
+        if ($pos->tipe === 'single' && count($selectedTeams) !== 1) {
+            return back()->with('error', 'Pos single hanya boleh 1 tim.');
+        }
+        if ($pos->tipe === 'battle' && count($selectedTeams) !== 2) {
+            return back()->with('error', 'Pos battle harus 2 tim.');
+        }
+
+        foreach ($selectedTeams as $waitingId) {
+            $tim = DB::table('waiting_list_pos')->where('id', $waitingId)->first();
+            if (!$tim) continue;
+
+            // Masukkan ke riwayat_pos (mulai bermain)
+            DB::table('riwayat_pos')->insert([
+                'pos_id' => $posId,
+                'peserta_namaTim' => $tim->peserta_namaTim,
+                'waktu' => now(),
+                'status' => 'playing',
+            ]);
+
+            // Potong uang baru disini (ketika dipilih untuk main)
+            DB::table('teams')->where('nama_tim', $tim->peserta_namaTim)->decrement('uang', 3);
+
+            // Hapus dari waiting list
+            DB::table('waiting_list_pos')->where('id', $waitingId)->delete();
+        }
+
+        // Update status pos sesuai kondisi
+        if ($pos->tipe === 'single') {
+            DB::table('pos')->where('id', $posId)->update(['status' => 'terisi']);
+        } elseif ($pos->tipe === 'battle') {
+            DB::table('pos')->where('id', $posId)->update(['status' => 'terisi']);
+        }
+
+        return back()->with('success', 'Tim berhasil dipilih dan mulai bermain.');
+    }
+
+
+
+
+    public function clearWaitingList($posId)
+    {
+        DB::table('waiting_list_pos')->where('pos_id', $posId)->delete();
+        DB::table('pos')->where('id', $posId)->update(['status' => 'kosong']);
+
+        return back()->with('success', "Waiting list untuk Pos $posId sudah direset.");
+    }
+
 
     public function simpanBattle(Request $request, $id)
     {
@@ -148,11 +225,12 @@ class R1AdminController extends Controller
         // setelah diproses, kosongkan pos
         DB::table('pos')->where('id', $id)->update(['status' => 'kosong']);
 
+        DB::table('waiting_list_pos')->where('pos_id', $id)->delete();
+
         DB::table('riwayat_pos')
             ->where('pos_id', $id)
-            ->whereDate('waktu', today())
-            ->delete();
-
+            ->where('peserta_namaTim', $tim)
+            ;
 
         return back()->with('success', 'Hasil battle berhasil diproses!');
     }
@@ -204,7 +282,7 @@ class R1AdminController extends Controller
     public function beriGagal($id)
     {
         DB::table('pos')->where('id', $id)->update(['status' => 'kosong']);
-        return back()->with('success', 'Pos berhasil direset menjadi kosong (tim gagal).');
+        return back()->with('success', "Tim dinyatakan gagal. Status Pos $id direset.");
     }
 
     private function beriKomponenByResult($posId, $tim, $result)
@@ -226,10 +304,19 @@ class R1AdminController extends Controller
             }
         }
 
+        // Kosongkan pos
         DB::table('pos')->where('id', $posId)->update(['status' => 'kosong']);
+
+        DB::table('waiting_list_pos')->where('pos_id', $posId)->delete();
+
+        DB::table('riwayat_pos')
+            ->where('pos_id', $posId)
+            ->where('peserta_namaTim', $tim)
+            ->update(['status' => 'done']);
 
         return back()->with('success', "Tim $tim mendapatkan komponen karena $result.");
     }
+
 
 
 
@@ -292,16 +379,23 @@ class R1AdminController extends Controller
 
         switch ($aksi) {
             case 'menang':
-                return $this->beriMenang($id, $namaTim);
+                $this->beriMenang($id, $namaTim);
+                break;
 
             case 'kalah':
-                return $this->beriKalah($id, $namaTim);
+                $this->beriKalah($id, $namaTim);
+                break;
 
             case 'gagal':
-                return $this->gagal($id); // tidak butuh nama tim
+                $this->gagal($id);
+                break;
 
             default:
                 return back()->with('error', 'Aksi tidak dikenali.');
         }
+
+        // Redirect ke halaman pos supaya data terbaru diambil
+        return redirect()->route('admin.pos', $id)
+            ->with('success', "Hasil aksi '$aksi' untuk tim $namaTim berhasil diproses.");
     }
 }

@@ -11,25 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('riwayat_pos', function (Blueprint $table) {
+        Schema::create('waiting_list_pos', function (Blueprint $table) {
             $table->id();
             $table->string('peserta_namaTim');
-
             $table->foreign('peserta_namaTim')
                 ->references('nama_tim')
                 ->on('teams')
                 ->onDelete('cascade');
             $table->unsignedBigInteger('pos_id');
             $table->foreign('pos_id')->references('id')->on('pos')->onDelete('cascade');
-            $table->string('status')->default('waiting');
-            $table->timestamp('waktu')->useCurrent();
         });
     }
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('riwayat_pos');
+        Schema::dropIfExists('waiting_list_pos');
     }
 };

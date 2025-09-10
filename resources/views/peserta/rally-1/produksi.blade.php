@@ -1,4 +1,5 @@
 <h2>Produksi Sepeda</h2>
+<a href="{{ route("peserta.rally-1.index") }}">⬅ Kembali ke Home</a>
 
 @if (session('success'))
     <div style="color: green;">{{ session('success') }}</div>

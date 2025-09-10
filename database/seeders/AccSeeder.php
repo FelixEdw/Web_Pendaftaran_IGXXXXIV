@@ -27,14 +27,27 @@ class AccSeeder extends Seeder
         ]);
         
         Team::create([
-            'nama_tim' => "tes",
-            'password' => "tes123",
-            'asal_sekolah' => "Sekolah Tes",
+            'nama_tim' => "b",
+            'password' => "123",
+            'asal_sekolah' => "kelaz",
             'foto_bukti_pembayaran' => ""
         ]);
 
         User::create([
-            'name' => "tes",
+            'name' => "b",
+            'role' => 'peserta',
+            'password' => bcrypt(123), 
+        ]);
+
+               Team::create([
+            'nama_tim' => "c",
+            'password' => "123",
+            'asal_sekolah' => "mahal",
+            'foto_bukti_pembayaran' => ""
+        ]);
+
+        User::create([
+            'name' => "c",
             'role' => 'peserta',
             'password' => bcrypt(123), 
         ]);
@@ -42,7 +55,139 @@ class AccSeeder extends Seeder
         User::create([
             'name' => "admin",
             'role' => 'admin',
-            'password' => bcrypt("admin123"),
+            'password' => bcrypt("123"),
+        ]);
+
+         User::create([
+            'name' => "steven",
+            'role' => 'admin',
+            'password' => bcrypt("steven"),
+        ]);
+        
+         User::create([
+            'name' => "federico",
+            'role' => 'admin',
+            'password' => bcrypt("federico"),
+        ]);
+        
+         User::create([
+            'name' => "philander",
+            'role' => 'admin',
+            'password' => bcrypt("philander"),
+        ]);
+        
+         User::create([
+            'name' => "evan",
+            'role' => 'admin',
+            'password' => bcrypt("evan"),
+        ]);
+        
+         User::create([
+            'name' => "rakel",
+            'role' => 'admin',
+            'password' => bcrypt("rakel"),
+        ]);
+        
+         User::create([
+            'name' => "nico",
+            'role' => 'admin',
+            'password' => bcrypt("nico"),
+        ]);
+        
+         User::create([
+            'name' => "gaby",
+            'role' => 'admin',
+            'password' => bcrypt("gaby"),
+        ]);
+        
+         User::create([
+            'name' => "wahyu",
+            'role' => 'admin',
+            'password' => bcrypt("wahyu"),
+        ]);
+        
+         User::create([
+            'name' => "lady",
+            'role' => 'admin',
+            'password' => bcrypt("lady"),
+        ]);
+        
+         User::create([
+            'name' => "armando",
+            'role' => 'admin',
+            'password' => bcrypt("armando"),
+        ]);
+        
+         User::create([
+            'name' => "jason",
+            'role' => 'admin',
+            'password' => bcrypt("jason"),
+        ]);
+        
+         User::create([
+            'name' => "yuriko",
+            'role' => 'admin',
+            'password' => bcrypt("yuriko"),
+        ]);
+        
+         User::create([
+            'name' => "albert",
+            'role' => 'admin',
+            'password' => bcrypt("albert"),
+        ]);
+        
+         User::create([
+            'name' => "frederico",
+            'role' => 'admin',
+            'password' => bcrypt("frederico"),
+        ]);
+        
+         User::create([
+            'name' => "safira",
+            'role' => 'admin',
+            'password' => bcrypt("safira"),
+        ]);
+        
+         User::create([
+            'name' => "david",
+            'role' => 'admin',
+            'password' => bcrypt("david"),
+        ]);
+        
+         User::create([
+            'name' => "yoven",
+            'role' => 'admin',
+            'password' => bcrypt("yoven"),
+        ]);
+        
+         User::create([
+            'name' => "jeselin",
+            'role' => 'admin',
+            'password' => bcrypt("jeselin"),
+        ]);
+        
+         User::create([
+            'name' => "grace",
+            'role' => 'admin',
+            'password' => bcrypt("grace"),
+        ]);
+        
+         User::create([
+            'name' => "monica",
+            'role' => 'admin',
+            'password' => bcrypt("monica"),
+        ]);
+        
+         User::create([
+            'name' => "joice",
+            'role' => 'admin',
+            'password' => bcrypt("joice"),
+        ]);
+        
+         User::create([
+            'name' => "felice",
+            'role' => 'admin',
+            'password' => bcrypt("felice"),
         ]);
     }
 }

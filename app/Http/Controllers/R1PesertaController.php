@@ -174,6 +174,13 @@ class R1PesertaController extends Controller
     {
         $tim = Auth::user()->name;
 
+        // Cek pos ada atau tidak
+        $pos = DB::table('pos')->where('id', $id)->first();
+        if (!$pos) {
+            return back()->with('error', 'Pos tidak ditemukan.');
+        }
+
+        // Ambil 3 kunjungan terakhir
         $lastVisited = DB::table('riwayat_pos')
             ->where('peserta_namaTim', $tim)
             ->orderByDesc('waktu')
@@ -181,40 +188,47 @@ class R1PesertaController extends Controller
             ->pluck('pos_id')
             ->toArray();
 
+        // Kalau pos target masih ada di 3 kunjungan terakhir → tolak
         if (in_array($id, $lastVisited)) {
             return back()->with('error', 'Tidak boleh mengunjungi pos yang sama sebelum mengunjungi 3 pos lain.');
         }
 
-        $uang = DB::table('teams')->where('nama_tim', $tim)->value('uang');
-        if ($uang < 3) {
-            return back()->with('error', 'Uang tidak cukup.');
-        }
-        DB::table('teams')->where('nama_tim', $tim)->decrement('uang', 3);
 
-        DB::table('riwayat_pos')->insert([
+        // Cek apakah tim sudah ada di waiting list pos manapun
+        $alreadyWaiting = DB::table('waiting_list_pos')
+            ->where('peserta_namaTim', $tim)
+            ->exists();
+
+        if ($alreadyWaiting) {
+            return back()->with('error', 'Kamu sudah berada di waiting list pos lain. Selesaikan dulu sebelum masuk ke pos baru.');
+        }
+
+        // Cek apakah tim sudah ada di waiting list pos ini
+        $alreadyInThisPos = DB::table('waiting_list_pos')
+            ->where('peserta_namaTim', $tim)
+            ->where('pos_id', $id)
+            ->exists();
+
+        if ($alreadyInThisPos) {
+            return back()->with('error', "Tim $tim sudah ada di waiting list Pos $id.");
+        }
+
+        // Cek uang (belum dipotong, hanya validasi)
+        $uang = DB::table('teams')->where('nama_Tim', $tim)->value('uang');
+        if ($uang < 3) {
+            return back()->with('error', 'Uang tidak cukup untuk mengikuti pos.');
+        }
+
+        // Masukkan ke waiting list (tanpa potong uang dulu)
+        DB::table('waiting_list_pos')->insert([
             'peserta_namaTim' => $tim,
-            'pos_id' => $id,
-            'waktu' => now()
+            'pos_id' => $id
         ]);
 
-        $pos = DB::table('pos')->where('id', $id)->first();
-        if ($pos->tipe === 'single') {
-            DB::table('pos')->where('id', $id)->update(['status' => 'terisi']);
-        } else if ($pos->tipe === 'battle') {
-            $existingCount = DB::table('riwayat_pos')
-                ->where('pos_id', $id)
-                ->whereDate('waktu', today())
-                ->count();
-
-            if ($existingCount == 1) {
-                DB::table('pos')->where('id', $id)->update(['status' => 'butuh_grup']);
-            } else if ($existingCount >= 2) {
-                DB::table('pos')->where('id', $id)->update(['status' => 'terisi']);
-            }
-        }
-
-        return back()->with('success', "Berhasil mengunjungi Pos $id");
+        return back()->with('success', "Tim $tim berhasil masuk ke waiting list Pos $id. Tunggu admin memilih tim yang akan bermain.");
     }
+
+
 
     public function jualSepeda(Request $r)
     {

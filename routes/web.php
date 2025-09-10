@@ -84,16 +84,21 @@ Route::group([
     Route::post('/rally1/pos/{id}/kalah/{tim}', [R1AdminController::class, 'beriKalah'])->name('kalah');
     Route::post('/rally1/pos/{id}/gagal', [R1AdminController::class, 'beriGagal'])->name('gagal');
 
-   
+
     Route::post('/pos/{id}/aksi', [R1AdminController::class, 'aksi'])->name('aksi');
 
-    // ✅ ini diperbaiki
     Route::post('/rally1/pos/{id}/battle', [R1AdminController::class, 'simpanBattle'])
         ->name('battle.hasil');
 
     Route::get('/', function () {
         return view('admin.rally-1.index');
     })->name('home');
+
+    Route::post('/admin/pos/{id}/clear-waiting-list', [R1AdminController::class, 'clearWaitingList'])
+        ->name('clearWaitingList');
+    Route::post('/admin/pos/{posId}/pilihTim', [R1AdminController::class, 'pilihTim'])
+        ->name('pos.pilihTim');
+
 
 
 

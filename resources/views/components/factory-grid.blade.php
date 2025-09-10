@@ -7,13 +7,13 @@
 
     <div class="grid grid-cols-4 gap-2" id="factoryGrid">
     @foreach($factories as $index => $factory)
-    
+
         <div class="p-3 aspect-square flex flex-col items-center justify-center relative factory-item {{ $factory['owned'] ? '' : 'locked-initial' }}"
             data-unlocked="{{ $factory['owned'] ? 'true' : 'false' }}" data-index="{{ $index }}"
             onclick="showFactoryInfo({{ $index }}, {{ json_encode($factory) }})">
 
             <div class="aspect-square w-full relative border-2 transition cursor-pointer rounded-[20px]
-                {{ $factory['owned'] ? 'bg-green-100 border-green-400 hover:border-green-600' : 'bg-white border-red-300 hover:border-red-400' }}">
+                {{ $factory['owned'] ? 'bg-green-100 border-gray-600 hover:border-green-600' : 'bg-gradient-to-br from-gray-300 via-gray-500 to-gray-700 border-gray-700' }}">
 
                 @if($factory['owned'])
                     <img
@@ -27,7 +27,7 @@
                     </div>
                 @else
                     <div class="w-full h-full flex items-center justify-center rounded-[20px]">
-                        <x-fas-plus class="w-10 h-10 text-red-500" />
+                        <x-fas-plus class="w-10 h-10 text-white" />
                     </div>
                 @endif
             </div>
@@ -46,7 +46,7 @@
 <div id="factoryInfoModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
     <div class="bg-white rounded-lg p-6 w-full mx-4 relative transform scale-90 opacity-0 transition-all duration-200">
         <div class="text-left mb-4">
-            <h3 id="machineTitle" class="font-bold text-lg text-black mb-2">machine A info :</h3>
+            <h3 id="machineTitle" class="font-bold text-lg text-black mb-2 capitalize">Info Mesin :</h3>
             <div id="machineLevel" class="text-sm text-gray-600 mb-1">level 1</div>
             <div id="machineCapacity" class="text-sm text-gray-600 mb-1">Kapasitas: 5</div>
             <div id="machineTime" class="text-sm text-gray-600 mb-3">waktu : 6 menit</div>
@@ -80,7 +80,7 @@
 <div id="buyConfirmModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
     <div class="bg-white rounded-lg p-6 max-w-sm mx-4 transform scale-90 opacity-0 transition-all duration-200">
         <div class="text-center">
-            <h3 class="text-xl font-bold text-black mb-4">Do you want to buy a machine?</h3>
+            <h3 class="text-xl font-bold text-black mb-4">Apakah Anda ingin membeli mesin?</h3>
 
             <div id="confirmPrice" class="text-green-600 font-bold text-2xl mb-6">$3000</div>
 
@@ -102,7 +102,7 @@
 <div id="upgradeModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
     <div class="bg-white rounded-lg p-6 max-w-sm mx-4 transform scale-90 opacity-0 transition-all duration-200">
         <div class="text-center">
-            <h3 class="text-xl font-bold text-black mb-2">Do you want to upgrade?</h3>
+            <h3 class="text-xl font-bold text-black mb-2">Apakah Anda ingin melakukan upgrade?</h3>
             <div id="upgradeFromTo" class="text-gray-600 mb-4">level 1 → level 2</div>
 
             <div class="text-left mb-4 space-y-1">
@@ -130,7 +130,7 @@
 <div id="workerModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
     <div class="bg-white rounded-lg p-6 w-full mx-4 transform scale-90 opacity-0 transition-all duration-200">
         <div class="text-center">
-            <h3 id="workerTitle" class="text-xl font-bold text-black mb-4">Hire worker</h3>
+            <h3 id="workerTitle" class="text-xl font-bold text-black mb-4">Hire Pekerja</h3>
             <div id="workerPrice" class="text-green-600 font-bold text-2xl mb-6">$ 1000</div>
 
             <div class="flex space-x-3">
@@ -151,7 +151,7 @@
 <div id="layoffConfirmModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
     <div class="bg-white rounded-lg p-6 max-w-sm mx-4 transform scale-90 opacity-0 transition-all duration-200">
         <div class="text-center">
-            <h3 class="text-xl font-bold text-black mb-4">Do you want to layoff the worker?</h3>
+            <h3 class="text-xl font-bold text-black mb-4">Apakah Anda ingin memberhentikan pekerja?</h3>
 
             <div id="layoffCost" class="text-red-600 font-bold text-2xl mb-6">-$500</div>
 
@@ -173,8 +173,8 @@
 <div id="connectModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
     <div class="bg-white rounded-lg p-6 max-w-sm mx-4 transform scale-90 opacity-0 transition-all duration-200">
         <div class="text-center">
-            <h3 class="text-xl font-bold text-black mb-4">Connect to Factory</h3>
-            <p class="text-gray-600 mb-4">Choose factory to connect:</p>
+            <h3 class="text-xl font-bold text-black mb-4">Hubungkan ke Factory</h3>
+            <p class="text-gray-600 mb-4">Pilih factory yang ingin dihubungkan:</p>
 
             <div id="factoryList" class="space-y-2 mb-6 max-h-48 overflow-y-auto">
             </div>
@@ -193,7 +193,7 @@
 <div id="sellModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
     <div class="bg-white rounded-lg p-6 max-w-sm mx-4 transform scale-90 opacity-0 transition-all duration-200">
         <div class="text-center">
-            <h3 class="text-xl font-bold text-black mb-4">Do you want to sell the machine?</h3>
+            <h3 class="text-xl font-bold text-black mb-4">Apakah Anda ingin menjual mesin?</h3>
 
             <div id="sellPrice" class="text-green-600 font-bold text-2xl mb-6">+$2000</div>
 

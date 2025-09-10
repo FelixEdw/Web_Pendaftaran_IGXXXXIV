@@ -4,7 +4,7 @@
     <title>Komponen Tim {{ $tim }}</title>
 </head>
 <body>
-    <h1>Komponen yang Dimiliki - {{ $tim }}</h1>
+    <h2>Inventory - {{ $tim }}</h2>
 
     <a href="{{ route("peserta.rally-1.index") }}">⬅ Kembali ke Home</a>
 

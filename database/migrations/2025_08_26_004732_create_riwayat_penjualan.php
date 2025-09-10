@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('riwayat_pos', function (Blueprint $table) {
+        Schema::create('riwayat_penjualan', function (Blueprint $table) {
             $table->id();
             $table->string('peserta_namaTim');
 
@@ -19,17 +19,16 @@ return new class extends Migration
                 ->references('nama_tim')
                 ->on('teams')
                 ->onDelete('cascade');
-            $table->unsignedBigInteger('pos_id');
-            $table->foreign('pos_id')->references('id')->on('pos')->onDelete('cascade');
-            $table->string('status')->default('waiting');
-            $table->timestamp('waktu')->useCurrent();
+            $table->integer('jumlah')->default(0);
+            $table->string('jenis sepeda');
         });
     }
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('riwayat_pos');
+        Schema::dropIfExists('riwayat_penjualan');
     }
 };
