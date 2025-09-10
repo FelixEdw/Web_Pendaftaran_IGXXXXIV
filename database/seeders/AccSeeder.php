@@ -39,6 +39,19 @@ class AccSeeder extends Seeder
             'password' => bcrypt(123), 
         ]);
 
+               Team::create([
+            'nama_tim' => "c",
+            'password' => "123",
+            'asal_sekolah' => "mahal",
+            'foto_bukti_pembayaran' => ""
+        ]);
+
+        User::create([
+            'name' => "c",
+            'role' => 'peserta',
+            'password' => bcrypt(123), 
+        ]);
+
         User::create([
             'name' => "admin",
             'role' => 'admin',

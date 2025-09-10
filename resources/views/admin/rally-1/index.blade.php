@@ -5,7 +5,7 @@
     <h1 class="text-3xl font-bold text-center text-yellow-400 mb-6">👋 Selamat Datang, Admin</h1>
 
     <div class="bg-gray-800 rounded-lg p-6 shadow-lg text-white">
-        <p class="text-lg mb-4">Silakan pilih POS yang ingin kamu kelola:</p>
+        <p class="text-lg mb-4">Silahkan pilih pos yang ingin kamu kelola:</p>
 
         <ul class="space-y-3">
             <li>
