@@ -11,151 +11,133 @@
             <li>
                 <a href="{{ route('admin.pos', ['id' => 1]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 1
+                    📍 Pos Scrambled 
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 2]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 2
+                    📍 Pos Code 24
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 3]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 3
+                    📍 Pos Line Trap
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 4]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 4
+                    📍 Pos Signal Override 
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 5]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 5
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('admin.pos', ['id' => 6]) }}"
-                   class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 6
+                    📍 Pos Blind Retrieval
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 7]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 7
+                    📍 Pos Tic Tac Think
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 8]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 8
+                    📍 Pos Mission Escape
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 9]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 9
+                    📍 Pos Flag Rush
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 10]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 10
+                    📍 Pos Command Trigger
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 11]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 11
+                    📍 Pos Ball Relay Rush
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 12]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 12
+                    📍 Pos Throw Zone
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 13]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 13
+                    📍 Pos Quiz Blitz
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 14]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 14
+                    📍 Pos Bottle Brain Battle
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 15]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 15
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('admin.pos', ['id' => 16]) }}"
-                   class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 16
+                    📍 Pos Memory Minefield
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 17]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 17
+                    📍 Pos Sketch Relay
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 18]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 18
+                    📍 Pos It's Number Game, Open Up!
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 19]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 19
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('admin.pos', ['id' => 20]) }}"
-                   class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 20
+                    📍 Pos Word Assembly
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 21]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 21
+                    📍 Pos Rubber Pass
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 22]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 22
+                    📍 Pos Knowledge Bid
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 23]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 23
+                    📍 Pos Mystery Match
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 24]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 24
+                    📍 Pos Tower Tangle
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 25]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Admin POS 25
+                    📍 Pos Connected Pipes
                 </a>
             </li>
         </ul>
