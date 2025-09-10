@@ -230,7 +230,7 @@ class R1AdminController extends Controller
         DB::table('riwayat_pos')
             ->where('pos_id', $id)
             ->where('peserta_namaTim', $tim)
-            ->update(['status' => 'done']);
+            ;
 
         return back()->with('success', 'Hasil battle berhasil diproses!');
     }
