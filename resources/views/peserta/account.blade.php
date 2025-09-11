@@ -26,7 +26,7 @@
    
 
     <!-- Account Section -->
-   <section class="relative py-16 px-4 flex flex-col items-center justify-center min-h-screen font-poppins" style="background-image: url('{{ asset('images/Background_Industrial_Games.png') }}'); background-size: cover; background-position: center; background-attachment: fixed;">
+   <section class="relative py-16 px-4 flex flex-col items-center justify-center min-h-screen font-poppins" style="background-image: url('{{ asset('images/Background_Industrial_Games.svg') }}'); background-size: cover; background-position: center; background-attachment: fixed;">
         <div class="absolute inset-0 bg-black bg-opacity-10"></div> <!-- Overlay -->
         
         <div class="relative z-10 w-full max-w-2xl bg-gray-800 p-8 rounded-lg shadow-xl text-center">

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section("content")
 
-<section class="relative min-h-screen bg-cover bg-center font-poppins" style="background-image: url('{{ asset('images/Background_Industrial_Games.png') }}');">
+<section class="relative min-h-screen bg-cover bg-center font-poppins" style="background-image: url('{{ asset('images/Background_Industrial_Games.svg') }}');">
     {{-- Container utama, fleksibel, terpusat, dengan padding responsif --}}
     <div class="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
         {{-- Kontainer card login, max-w lebih kecil di mobile, overflow-hidden --}}
