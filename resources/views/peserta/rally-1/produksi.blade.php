@@ -1,18 +1,19 @@
 @extends('layouts.app')
 @section('content')
 
-<section class="min-h-screen bg-cover bg-center font-poppins relative" style="background-image: url('{{ asset('images/Background_Industrial_Games.png') }}');">
-    <div class="absolute inset-0 bg-[#2D333B] bg-opacity-70 flex flex-col items-center p-4">
+<section class="min-h-screen bg-cover bg-center font-poppins relative" style="background-image: url('{{ asset('images/Background_SingleRegistration.svg') }}');">
+    {{-- Hapus 'absolute inset-0' dari div ini --}}
+    <div class="bg-[#2D333B] bg-opacity-5 flex flex-col items-center p-4 min-h-screen">
 
         {{-- Arrow icon di pojok kiri atas --}}
         <a href="{{ route('peserta.rally-1.index') }}" class="absolute top-8 left-8 text-white z-10">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mt-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
         </a>
 
         {{-- Judul Halaman --}}
-        <h2 class="text-white text-3xl sm:text-4xl font-bold mt-16 mb-8 text-center uppercase tracking-widest">
+        <h2 class="text-white text-3xl sm:text-4xl font-bold mt-24 mb-8 text-center uppercase tracking-widest">
             Produksi Sepeda
         </h2>
 
@@ -29,7 +30,7 @@
         @endif
 
         {{-- Kontainer utama dengan efek glassmorphism --}}
-        <div class="w-full max-w-4xl bg-white/20 backdrop-blur-lg rounded-2xl p-6 sm:p-8 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div class="w-full max-w-4xl bg-white/20 backdrop-blur-lg rounded-2xl p-6 sm:p-8 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-10">
 
             @foreach ($resep as $jenis => $syarat)
                 <div class="bg-white/10 rounded-xl p-6 flex flex-col items-center text-white text-center shadow-lg">
@@ -40,16 +41,16 @@
                         $icon = '';
                         switch($jenis) {
                             case 'city':
-                                $icon = 'City_Bike_Icon.png';
+                                $icon = 'City_Bike.png';
                                 break;
                             case 'folding':
-                                $icon = 'Folding_Bike_Icon.png';
+                                $icon = 'Folding_Bike.png';
                                 break;
                             case 'mountain':
-                                $icon = 'Mountain_Bike_Icon.png';
+                                $icon = 'Mountain_Bike.png';
                                 break;
                             case 'unicycle':
-                                $icon = 'Unicycle_Icon.png';
+                                $icon = 'Unicycle.png';
                                 break;
                             default:
                                 $icon = 'default_bike.png';
