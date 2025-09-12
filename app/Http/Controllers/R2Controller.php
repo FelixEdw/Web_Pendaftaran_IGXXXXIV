@@ -564,7 +564,7 @@ class R2Controller extends Controller
             'harga' => $request->price,
         ]);
 
-        if ($teamMachine->team_id !== $team->id) {
+        if ($teamMachine->team_id != $team->id) {
             Log::warning('❌ [hireWorker] Unauthorized: Mesin bukan milik tim.');
             return response()->json(['error' => 'Unauthorized action.'], 403);
         }
