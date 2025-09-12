@@ -8,25 +8,26 @@
     <div style="color: red;">{{ session('error') }}</div>
 @endif
 
-<form action="{{ route('peserta.jual.sepeda') }}" method="POST">
-    @csrf
-        <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-        @foreach ($harga as $jenis => $h)
-            @php
-                $stokSepeda = $stok->$jenis ?? 0;
-            @endphp
+<div style="display: flex; flex-wrap: wrap; gap: 20px;">
+    @foreach ($harga as $jenis => $h)
+        @php
+            $stokSepeda = $stok->$jenis ?? 0;
+        @endphp
 
-            <div style="border: 1px solid #ccc; border-radius: 10px; padding: 15px; width: 250px;">
-                <h3>{{ ucfirst($jenis) }}</h3>
-                <p><strong>Stok:</strong> {{ $stokSepeda }}</p>
-                <p><strong>Harga:</strong> ${{ $h }}</p>
+        <div style="border: 1px solid #ccc; border-radius: 10px; padding: 15px; width: 250px;">
+            <h3>{{ ucfirst($jenis) }}</h3>
+            <p><strong>Stok:</strong> {{ $stokSepeda }}</p>
+            <p><strong>Harga:</strong> ${{ $h }}</p>
 
-                <label for="{{ $jenis }}">Jumlah Jual:</label><br>
-                <input type="number" name="{{ $jenis }}" value="0" min="0" max="{{ $stokSepeda }}">
-            </div>
-        @endforeach
-    </div>
-
-    <br>
-    <button type="submit" style="padding: 10px 20px;">Jual</button>
-</form>
+            <form action="{{ route('peserta.jual.sepeda') }}" method="POST"
+                  onsubmit="return confirm('Yakin ingin menjual sepeda {{ ucfirst($jenis) }} seharga ${{ $h }} per unit?');">
+                @csrf
+                <label for="jumlah">Jumlah Jual:</label><br>
+                <input type="number" name="jumlah" value="0" min="0" max="{{ $stokSepeda }}">
+                <input type="hidden" name="jenis" value="{{ $jenis }}">
+                <br><br>
+                <button type="submit" style="padding: 5px 15px;">Jual</button>
+            </form>
+        </div>
+    @endforeach
+</div>
