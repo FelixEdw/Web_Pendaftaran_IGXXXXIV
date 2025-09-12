@@ -9,116 +9,114 @@ class PosSeeder extends Seeder
 {
     public function run(): void
     {
-        $singlePos = [3, 15, 17, 19, 21]; // daftar pos yang single
-
         DB::table('pos')->insert([
             [
-            'nama' => 'Scramble',
+            'nama' => 'Scramble', //1
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Code 24',
+            'nama' => 'Code 24', //2
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Line Trap',
+            'nama' => 'Line Trap', //3
             'status' => 'kosong',
             'tipe' => 'single',
             ],
             [
-            'nama' => 'Signal Override',
+            'nama' => 'Signal Override', //4
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Blind Retrieval',
+            'nama' => 'Blind Retrieval', //5
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Tic Tac Think',
+            'nama' => 'Tic Tac Think', //6
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Mission Escape',
+            'nama' => 'Mission Escape', //7
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Flag Rush',
+            'nama' => 'Flag Rush', //8
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Command Trigger',
+            'nama' => 'Command Trigger', //9
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Ball Relay Rush',
+            'nama' => 'Ball Relay Rush', //10
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Throw Zone',
+            'nama' => 'Throw Zone', //11
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Quiz Blits',
+            'nama' => 'Quiz Blits', //12
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Bottle Brain Battle',
+            'nama' => 'Bottle Brain Battle', //13
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Memory Minefield',
+            'nama' => 'Memory Minefield', //14
             'status' => 'kosong',
             'tipe' => 'single',
             ],
             [
-            'nama' => 'Sketch Relay',
+            'nama' => 'Sketch Relay', //15
             'status' => 'kosong',
             'tipe' => 'single',
             ],
             [
-            'nama' => 'Its Number Game, Open Up!',
+            'nama' => 'Its Number Game, Open Up!', //16
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Word Assembly',
+            'nama' => 'Word Assembly', //17
             'status' => 'kosong',
             'tipe' => 'single',
             ],
             [
-            'nama' => 'Rubber Pass',
+            'nama' => 'Rubber Pass', //18
             'status' => 'kosong',
             'tipe' => 'single',
             ],
             [
-            'nama' => 'Knowledge Bid',
+            'nama' => 'Knowledge Bid', //19
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Mystery Match',
+            'nama' => 'Mystery Match', //20
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Tower Tangle',
+            'nama' => 'Tower Tangle', //21
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Connected Pipes',
+            'nama' => 'Connected Pipes', //22
             'status' => 'kosong',
             'tipe' => 'battle',
             ]

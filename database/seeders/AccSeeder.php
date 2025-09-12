@@ -51,11 +51,22 @@ class AccSeeder extends Seeder
             'role' => 'peserta',
             'password' => bcrypt(123), 
         ]);
+        User::create([
+            'name' => "c",
+            'role' => 'peserta',
+            'password' => bcrypt(123), 
+        ]);
 
         User::create([
-            'name' => "admin",
+            'name' => "jolem",
             'role' => 'admin',
-            'password' => bcrypt("123"),
+            'password' => bcrypt("jolem"),
+        ]);
+        
+        User::create([
+            'name' => "angel",
+            'role' => 'admin',
+            'password' => bcrypt("angel"),
         ]);
 
          User::create([
@@ -155,9 +166,9 @@ class AccSeeder extends Seeder
         ]);
         
          User::create([
-            'name' => "yoven",
+            'name' => "yovent",
             'role' => 'admin',
-            'password' => bcrypt("yoven"),
+            'password' => bcrypt("yovent"),
         ]);
         
          User::create([
