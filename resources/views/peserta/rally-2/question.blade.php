@@ -77,7 +77,7 @@
                     <label for="jawaban" class="block text-lg font-semibold mb-2">Masukkan jawaban kamu:</label>
 
                     <input type="text" name="jawaban" id="jawabanInput"
-                        class="w-full p-3 border-2 rounded-lg text-lg" placeholder="Contoh: -3.5 atau +5"
+                        class="w-full p-3 border-2 rounded-lg text-black" placeholder="Contoh: -3.5 atau +5"
                         inputmode="decimal" required oninput="enableSubmitIfValid();">
                 @endif
             </div>
