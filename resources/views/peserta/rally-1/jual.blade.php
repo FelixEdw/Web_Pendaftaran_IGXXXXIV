@@ -29,7 +29,7 @@
         @endif
 
         {{-- Kontainer utama dengan efek glassmorphism --}}
-        <div class="w-full max-w-4xl bg-white/20 backdrop-blur-lg rounded-2xl p-6 sm:p-8 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div class="w-full max-w-4xl bg-white/20 backdrop-blur-lg rounded-2xl p-6 sm:p-8 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-24">
 
             @foreach ($harga as $jenis => $h)
                 @php
