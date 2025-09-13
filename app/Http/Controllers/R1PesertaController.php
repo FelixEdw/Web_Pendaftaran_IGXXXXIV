@@ -231,28 +231,40 @@ class R1PesertaController extends Controller
 
 
     public function jualSepeda(Request $r)
-    {
-        $user = Auth::user();
-        $team = Team::where('nama_tim', $user->name)->firstOrFail();
+{
+    $user = Auth::user();
+    $team = Team::where('nama_tim', $user->name)->firstOrFail();
 
-        $sesi = $this->getSesiAktif();
-        $harga = $this->sesiHarga[$sesi];
+    $sesi = $this->getSesiAktif();
+    $harga = $this->sesiHarga[$sesi];
 
-        $total = 0;
-        foreach ($harga as $jenis => $h) {
-            $jumlah = (int) $r->input($jenis, 0);
+    $jenis = $r->input('jenis');   // hanya satu jenis yg dikirim dari form
+    $jumlah = (int) $r->input('jumlah', 0);
 
-            if ($jumlah > 0) {
-                DB::table('sepeda')
-                    ->where('team_id', $team->id)
-                    ->decrement($jenis, $jumlah);
-
-                $total += $jumlah * $h;
-            }
-        }
-
-        DB::table('teams')->where('id', $team->id)->increment('uang', $total);
-
-        return back()->with('success', "Berhasil menjual. Pemasukan: $$total");
+    if (!isset($harga[$jenis])) {
+        return back()->with('error', 'Jenis sepeda tidak valid.');
     }
+
+    if ($jumlah <= 0) {
+        return back()->with('error', 'Jumlah jual harus lebih dari 0.');
+    }
+
+    // cek stok
+    $stokSepeda = DB::table('sepeda')->where('team_id', $team->id)->value($jenis);
+    if ($stokSepeda < $jumlah) {
+        return back()->with('error', "Stok sepeda $jenis tidak mencukupi.");
+    }
+
+    // hitung pemasukan
+    $pemasukan = $jumlah * $harga[$jenis];
+
+    // update stok
+    DB::table('sepeda')->where('team_id', $team->id)->decrement($jenis, $jumlah);
+
+    // tambah uang tim
+    DB::table('teams')->where('id', $team->id)->increment('uang', $pemasukan);
+
+    return back()->with('success', "✅ Berhasil menjual $jumlah unit sepeda $jenis. Pemasukan: $$pemasukan");
+}
+
 }

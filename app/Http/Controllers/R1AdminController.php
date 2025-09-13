@@ -235,13 +235,6 @@ class R1AdminController extends Controller
         return back()->with('success', 'Hasil battle berhasil diproses!');
     }
 
-
-
-
-
-
-
-
     public function beriReward($id, $namaTim, $tipe)
     {
         $reward = $this->rewardList[$id][$tipe] ?? null;
@@ -316,9 +309,6 @@ class R1AdminController extends Controller
 
         return back()->with('success', "Tim $tim mendapatkan komponen karena $result.");
     }
-
-
-
 
     public function updateStatus(Request $request, $id)
     {
