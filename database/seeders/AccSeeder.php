@@ -44,8 +44,7 @@ class AccSeeder extends Seeder
             'asal_sekolah' => "mahal",
             'foto_bukti_pembayaran' => ""
         ]);
-<<<<<<< Updated upstream
-=======
+
 
         Team::create([
             'nama_tim' => "kelompok1",
@@ -242,7 +241,6 @@ class AccSeeder extends Seeder
             'password' => bcrypt("kelompok15"),
         ]);
 
->>>>>>> Stashed changes
         User::create([
             'name' => "c",
             'role' => 'peserta',
@@ -250,15 +248,15 @@ class AccSeeder extends Seeder
         ]);
 
         User::create([
-<<<<<<< Updated upstream
+
             'name' => "admin",
             'role' => 'admin',
             'password' => bcrypt("admin@ig33"),
-=======
+
             'name' => "c",
             'role' => 'peserta',
             'password' => bcrypt(123),
->>>>>>> Stashed changes
+
         ]);
 
         User::create([
