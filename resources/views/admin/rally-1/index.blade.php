@@ -83,7 +83,7 @@
             <li>
                 <a href="{{ route('admin.pos', ['id' => 13]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Bottle Brain Battle
+                    📍 Flip The Logic
                 </a>
             </li>
             <li>
@@ -101,13 +101,13 @@
             <li>
                 <a href="{{ route('admin.pos', ['id' => 16]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 It Number Game, Open Up!
+                    📍 Number Game, Open Up!
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 17]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Word Assembly
+                    📍 Word Assembly Race
                 </a>
             </li>
             <li>
