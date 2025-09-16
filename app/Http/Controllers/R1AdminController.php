@@ -189,9 +189,6 @@ class R1AdminController extends Controller
         return back()->with('success', 'Tim berhasil dipilih dan mulai bermain.');
     }
 
-
-
-
     public function clearWaitingList($posId)
     {
         DB::table('waiting_list_pos')->where('pos_id', $posId)->delete();
@@ -199,7 +196,6 @@ class R1AdminController extends Controller
 
         return back()->with('success', "Waiting list untuk Pos $posId sudah direset.");
     }
-
 
     public function simpanBattle(Request $request, $id)
     {

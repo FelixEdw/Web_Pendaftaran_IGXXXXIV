@@ -101,7 +101,7 @@
             <li>
                 <a href="{{ route('admin.pos', ['id' => 16]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Its Number Game, Open Up!
+                    📍 It Number Game, Open Up!
                 </a>
             </li>
             <li>

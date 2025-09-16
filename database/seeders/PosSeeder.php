@@ -86,7 +86,7 @@ class PosSeeder extends Seeder
             'tipe' => 'single',
             ],
             [
-            'nama' => 'Its Number Game, Open Up!', //16
+            'nama' => 'It Number Game, Open Up!', //16
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
