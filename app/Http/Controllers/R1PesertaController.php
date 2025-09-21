@@ -180,9 +180,21 @@ class R1PesertaController extends Controller
             return back()->with('error', 'Pos tidak ditemukan.');
         }
 
-        // Ambil 3 kunjungan terakhir
+        // 🚨 Cek apakah tim sedang bermain di pos lain (status = playing hari ini)
+        $sedangMain = DB::table('riwayat_pos')
+            ->where('peserta_namaTim', $tim)
+            ->where('status', 'playing')
+            ->whereDate('waktu', today())
+            ->exists();
+
+        if ($sedangMain) {
+            return back()->with('error', 'Kamu sedang bermain di pos lain. Selesaikan dulu sebelum masuk ke pos baru.');
+        }
+
+        // Ambil 3 kunjungan terakhir (kecuali reset)
         $lastVisited = DB::table('riwayat_pos')
             ->where('peserta_namaTim', $tim)
+            ->whereNotIn('status', ['reset']) // ⬅️ abaikan reset
             ->orderByDesc('waktu')
             ->limit(3)
             ->pluck('pos_id')
@@ -192,7 +204,6 @@ class R1PesertaController extends Controller
         if (in_array($id, $lastVisited)) {
             return back()->with('error', 'Tidak boleh mengunjungi pos yang sama sebelum mengunjungi 3 pos lain.');
         }
-
 
         // Cek apakah tim sudah ada di waiting list pos manapun
         $alreadyWaiting = DB::table('waiting_list_pos')
@@ -230,41 +241,42 @@ class R1PesertaController extends Controller
 
 
 
+
+
     public function jualSepeda(Request $r)
-{
-    $user = Auth::user();
-    $team = Team::where('nama_tim', $user->name)->firstOrFail();
+    {
+        $user = Auth::user();
+        $team = Team::where('nama_tim', $user->name)->firstOrFail();
 
-    $sesi = $this->getSesiAktif();
-    $harga = $this->sesiHarga[$sesi];
+        $sesi = $this->getSesiAktif();
+        $harga = $this->sesiHarga[$sesi];
 
-    $jenis = $r->input('jenis');   // hanya satu jenis yg dikirim dari form
-    $jumlah = (int) $r->input('jumlah', 0);
+        $jenis = $r->input('jenis');   // hanya satu jenis yg dikirim dari form
+        $jumlah = (int) $r->input('jumlah', 0);
 
-    if (!isset($harga[$jenis])) {
-        return back()->with('error', 'Jenis sepeda tidak valid.');
+        if (!isset($harga[$jenis])) {
+            return back()->with('error', 'Jenis sepeda tidak valid.');
+        }
+
+        if ($jumlah <= 0) {
+            return back()->with('error', 'Jumlah jual harus lebih dari 0.');
+        }
+
+        // cek stok
+        $stokSepeda = DB::table('sepeda')->where('team_id', $team->id)->value($jenis);
+        if ($stokSepeda < $jumlah) {
+            return back()->with('error', "Stok sepeda $jenis tidak mencukupi.");
+        }
+
+        // hitung pemasukan
+        $pemasukan = $jumlah * $harga[$jenis];
+
+        // update stok
+        DB::table('sepeda')->where('team_id', $team->id)->decrement($jenis, $jumlah);
+
+        // tambah uang tim
+        DB::table('teams')->where('id', $team->id)->increment('uang', $pemasukan);
+
+        return back()->with('success', "✅ Berhasil menjual $jumlah unit sepeda $jenis. Pemasukan: $$pemasukan");
     }
-
-    if ($jumlah <= 0) {
-        return back()->with('error', 'Jumlah jual harus lebih dari 0.');
-    }
-
-    // cek stok
-    $stokSepeda = DB::table('sepeda')->where('team_id', $team->id)->value($jenis);
-    if ($stokSepeda < $jumlah) {
-        return back()->with('error', "Stok sepeda $jenis tidak mencukupi.");
-    }
-
-    // hitung pemasukan
-    $pemasukan = $jumlah * $harga[$jenis];
-
-    // update stok
-    DB::table('sepeda')->where('team_id', $team->id)->decrement($jenis, $jumlah);
-
-    // tambah uang tim
-    DB::table('teams')->where('id', $team->id)->increment('uang', $pemasukan);
-
-    return back()->with('success', "✅ Berhasil menjual $jumlah unit sepeda $jenis. Pemasukan: $$pemasukan");
-}
-
 }

@@ -31,39 +31,40 @@
 
   {{-- STEP 1: Waiting list --}}
   @if ($waitingList->count() > 0)
-  <h3>Waiting List:</h3>
   <form action="{{ route('admin.pos.pilihTim', $pos->id) }}" method="POST">
     @csrf
     <h3>Waiting List</h3>
-
     @foreach ($waitingList as $tim)
     <div>
       <input type="checkbox" name="tim[]" value="{{ $tim->id }}" id="tim-{{ $tim->id }}">
       <label for="tim-{{ $tim->id }}">{{ $tim->peserta_namaTim }}</label>
     </div>
     @endforeach
-
     <button type="submit" class="btn btn-primary">Pilih Tim</button>
   </form>
 
-
+  <form action="{{ route('admin.clearWaitingList', $pos->id) }}" method="POST" style="margin-top:10px;">
+    @csrf
+    <button type="submit" class="btn btn-danger"
+      onclick="return confirm('Yakin reset waiting list dan refund uang tim?')">
+      Reset Waiting List
+    </button>
+  </form>
   @else
   <p><em>Tidak ada tim di waiting list.</em></p>
   @endif
-
-  <form action="{{ route('admin.clearWaitingList', $pos->id) }}" method="POST">
-    @csrf
-    <button type="submit" class="btn btn-danger">Reset Waiting List</button>
-  </form>
-
 
   <hr>
 
   {{-- STEP 2: Jika sudah ada tim yang dipilih --}}
   {{-- Pos Battle --}}
   @if ($pos->tipe === 'battle')
-  @if ($timHariIni && $timHariIni->count() === 2)
+  @if ($timHariIni && $timHariIni->count() > 0)
   <h3>Battle antara:</h3>
+  @if ($timHariIni->count() < 2)
+  <p style="color:red;"><em>⚠️ Tim belum lengkap (baru {{ $timHariIni->count() }}). Tunggu tim lain.</em></p>
+  @endif
+
   <form action="{{ route('admin.battle.hasil', $pos->id) }}" method="POST">
     @csrf
     <table border="1" cellpadding="8">
@@ -73,7 +74,6 @@
         <th>Kalah</th>
         <th>Gagal</th>
       </tr>
-
       @foreach ($timHariIni as $index => $tim)
       <tr>
         <td><strong>{{ $tim->peserta_namaTim }}</strong></td>
@@ -81,13 +81,25 @@
             onclick="syncBattle({{ $index }}, 'menang')"></td>
         <td><input type="radio" name="hasil[{{ $tim->id }}]" value="kalah"
             onclick="syncBattle({{ $index }}, 'kalah')"></td>
-        <td><input type="radio" name="hasil[{{ $tim->id }}]" value="gagal"
-            onclick="syncBattle({{ $index }}, 'gagal')"></td>
+        <td><input type="radio" name="hasil[{{ $tim->id }}]" value="gagal"></td>
       </tr>
       @endforeach
     </table>
     <br>
-    <button type="submit">✅ Simpan Hasil Battle</button>
+    <button type="submit"
+      @if($timHariIni->count() < 2) disabled @endif
+      onclick="return confirm('Simpan hasil battle ini?')">
+      🥊 Simpan Hasil Battle
+    </button>
+  </form>
+
+  {{-- Tambahan tombol reset --}}
+  <form action="{{ route('admin.clearWaitingList', $pos->id) }}" method="POST" style="margin-top:10px;">
+    @csrf
+    <button type="submit" class="btn btn-danger"
+      onclick="return confirm('Yakin reset pos ini? Uang tim akan dikembalikan.')">
+      🔄 Reset Pos
+    </button>
   </form>
 
   <script>
@@ -116,6 +128,15 @@
     <button name="action" value="kalah" type="submit">😞 Kalah</button>
     <button name="action" value="gagal" type="submit"
       onclick="return confirm('Yakin menyatakan tim gagal dan mengosongkan pos?')">❌ Gagal</button>
+  </form>
+
+  {{-- Tambahan tombol reset --}}
+  <form action="{{ route('admin.clearWaitingList', $pos->id) }}" method="POST" style="margin-top:10px;">
+    @csrf
+    <button type="submit" class="btn btn-danger"
+      onclick="return confirm('Yakin reset pos ini? Uang tim akan dikembalikan.')">
+      🔄 Reset Pos
+    </button>
   </form>
   @endif
   @endif
