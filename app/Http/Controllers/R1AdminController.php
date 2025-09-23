@@ -59,56 +59,44 @@ class R1AdminController extends Controller
             'kalah' => ['chain_and_gear' => 1],
         ],
         13 => [
-            'menang' => ['wheel' => 2, 'brake' => 1, 'pedal' => 1],
-            'kalah' => ['wheel' => 1],
-        ],
-        14 => [
             'menang' => ['city_frame' => 1, 'chain_and_gear' => 1, 'pedal' => 1, 'brake' => 1],
             'kalah' => ['pedal' => 1, 'brake' => 1],
         ],
-        15 => [
+        14 => [
             'menang' => ['unicycle_frame' => 1, 'wheel' => 1, 'pedal' => 1, 'brake' => 1],
             'kalah' => ['pedal' => 1, 'brake' => 1],
         ],
-        16 => [
+        15 => [
             'menang' => ['folding_frame' => 1, 'chain_and_gear' => 1, 'wheel' => 1],
             'kalah' => ['wheel' => 1],
         ],
-        17 => [
+        16 => [
             'menang' => ['chain_and_gear' => 1, 'wheel' => 2],
             'kalah' => ['wheel' => 1],
         ],
-        18 => [
+        17 => [
             'menang' => ['mountain_frame' => 1, 'brake' => 2, 'pedal' => 2],
             'kalah' => ['brake' => 1, 'pedal' => 1],
         ],
-        19 => [
+        18 => [
             'menang' => ['chain_and_gear' => 2, 'wheel' => 1],
             'kalah' => ['chain_and_gear' => 1],
         ],
-        20 => [
+        19 => [
             'menang' => ['unicycle_frame' => 1, 'wheel' => 2],
             'kalah' => ['wheel' => 1],
         ],
-        21 => [
-            'menang' => ['city_frame' => 1, 'wheel' => 1, 'brake' => 1, 'pedal' => 1],
-            'kalah' => ['wheel' => 1],
-        ],
-        22 => [
+        20 => [
             'menang' => ['folding_frame' => 1, 'brake' => 2, 'pedal' => 2],
             'kalah' => ['brake' => 1, 'pedal' => 1],
         ],
-        23 => [
+        21 => [
             'menang' => ['chain_and_gear' => 2, 'brake' => 1, 'pedal' => 1],
             'kalah' => ['chain_and_gear' => 1],
         ],
-        24 => [
+        22 => [
             'menang' => ['mountain_frame' => 1, 'wheel' => 1, 'chain_and_gear' => 1],
             'kalah' => ['wheel' => 1],
-        ],
-        25 => [
-            'menang' => ['mountain_frame' => 1, 'chain_and_gear' => 1, 'wheel' => 1],
-            'kalah' => ['chain_and_gear' => 1],
         ],
     ];
 

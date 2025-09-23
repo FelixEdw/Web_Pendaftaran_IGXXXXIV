@@ -77,13 +77,13 @@
             <li>
                 <a href="{{ route('admin.pos', ['id' => 12]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Quiz Blitz
+                    📍 Quiz Blits
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.pos', ['id' => 13]) }}"
                    class="block px-5 py-3 bg-green-600 hover:bg-green-700 rounded-md shadow text-white font-medium transition">
-                    📍 Flip The Logic
+                    📍 Flip & Think
                 </a>
             </li>
             <li>

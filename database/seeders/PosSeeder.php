@@ -63,15 +63,15 @@ class PosSeeder extends Seeder
             [
             'nama' => 'Throw Zone', //11
             'status' => 'kosong',
-            'tipe' => 'battle',
+            'tipe' => 'single',
             ],
             [
-            'nama' => 'Quiz Blitz', //12
+            'nama' => 'Quiz Blits', //12
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Flip The Logic', //13
+            'nama' => 'Flip & Think', //13
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
@@ -98,7 +98,7 @@ class PosSeeder extends Seeder
             [
             'nama' => 'Rubber Pass', //18
             'status' => 'kosong',
-            'tipe' => 'single',
+            'tipe' => 'battle',
             ],
             [
             'nama' => 'Knowledge Bid', //19
