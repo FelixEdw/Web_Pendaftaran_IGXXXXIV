@@ -153,6 +153,8 @@ Route::group([
 
     //================MAIN RALLY 2=======================
     Route::post('/rally2/buy', [R2Controller::class, 'buyMachine'])->name('rally2.buy');
+    Route::post('/rally2/{team}/upgradeqc', [R2Controller::class, 'upgradeQuality'])
+    ->name('rally2.qcupgrade');
     Route::post('/rally2/upgrade', [R2Controller::class, 'upgradeMachine'])->name('rally2.upgrade');
     Route::post('/rally2/sell', [R2Controller::class, 'sell'])->name('rally2.sell');
     Route::post('/rally2/connect-machine', [R2Controller::class, 'storeConnection'])->name('rally2.connect');;

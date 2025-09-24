@@ -92,7 +92,11 @@ public function gantisesi(Request $request)
             $totalProduk = 0;
             foreach ($productionResult as $result) {
                 if ($result['status'] === true) {
+                    $levelQC = (int) ($team->level_mesin_quality ?? 1);
+                    $penaltyMap = [1 => 0.20, 2 => 0.10, 3 => 0.00];
+                    $penalty = $penaltyMap[$levelQC] ?? 0.20; 
                     $totalProduk += $result['jumlah_produksi'];
+                    $totalProduk = floor($totalProduk * (1 - $penalty));
                 }
             }
         
