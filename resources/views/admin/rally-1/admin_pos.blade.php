@@ -4,9 +4,125 @@
 <head>
   <title>Admin Pos {{ $pos->nama }}</title>
   <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background-color: #f9fafb;
+      color: #1f2937;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
     .status {
-      font-weight: bold;
-      margin-bottom: 10px;
+      font-weight: 600;
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      background-color: #e5e7eb;
+      border-radius: 8px;
+      display: inline-block;
+    }
+
+    form {
+      margin: 1rem 0;
+    }
+
+    button {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      margin-top: 0.3rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+
+    button:hover {
+      background-color: #1d4ed8;
+      transform: scale(1.02);
+    }
+
+    button.btn-danger {
+      background-color: #dc2626;
+    }
+
+    button.btn-danger:hover {
+      background-color: #b91c1c;
+    }
+
+    hr {
+      border: none;
+      border-top: 2px solid #e5e7eb;
+      margin: 1.5rem 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    th {
+      background-color: #f3f4f6;
+      text-align: left;
+      padding: 0.8rem;
+      font-weight: 600;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    td {
+      padding: 0.8rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+      transform: scale(1.3);
+      margin-right: 0.5rem;
+    }
+
+    h3 {
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    p {
+      margin: 0.4rem 0;
+    }
+
+    p em {
+      color: #6b7280;
+    }
+
+    .alert-success {
+      color: #065f46;
+      background-color: #d1fae5;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+
+    .alert-error {
+      color: #991b1b;
+      background-color: #fee2e2;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
     }
   </style>
 </head>
@@ -16,10 +132,10 @@
 
   {{-- Flash messages --}}
   @if (session('success'))
-  <p style="color: green;">{{ session('success') }}</p>
+  <p class="alert-success">✅ {{ session('success') }}</p>
   @endif
   @if (session('error'))
-  <p style="color: red;">{{ session('error') }}</p>
+  <p class="alert-error">❌ {{ session('error') }}</p>
   @endif
 
   <p class="status">Status Pos: {{ ucfirst(str_replace('_', ' ', $pos->status)) }}</p>
@@ -35,7 +151,7 @@
     @csrf
     <h3>Waiting List</h3>
     @foreach ($waitingList as $tim)
-    <div>
+    <div style="margin-bottom: 0.3rem;">
       <input type="checkbox" name="tim[]" value="{{ $tim->id }}" id="tim-{{ $tim->id }}">
       <label for="tim-{{ $tim->id }}">{{ $tim->peserta_namaTim }}</label>
     </div>
@@ -43,11 +159,11 @@
     <button type="submit" class="btn btn-primary">Pilih Tim</button>
   </form>
 
-  <form action="{{ route('admin.clearWaitingList', $pos->id) }}" method="POST" style="margin-top:10px;">
+  <form action="{{ route('admin.clearWaitingList', $pos->id) }}" method="POST">
     @csrf
     <button type="submit" class="btn btn-danger"
       onclick="return confirm('Yakin reset waiting list dan refund uang tim?')">
-      Reset Waiting List
+      🔄 Reset Waiting List
     </button>
   </form>
   @else
@@ -56,8 +172,7 @@
 
   <hr>
 
-  {{-- STEP 2: Jika sudah ada tim yang dipilih --}}
-  {{-- Pos Battle --}}
+  {{-- STEP 2: Battle --}}
   @if ($pos->tipe === 'battle')
   @if ($timHariIni && $timHariIni->count() > 0)
   <h3>Battle antara:</h3>
@@ -67,7 +182,7 @@
 
   <form action="{{ route('admin.battle.hasil', $pos->id) }}" method="POST">
     @csrf
-    <table border="1" cellpadding="8">
+    <table>
       <tr>
         <th>Tim</th>
         <th>Menang</th>
@@ -93,8 +208,7 @@
     </button>
   </form>
 
-  {{-- Tambahan tombol reset --}}
-  <form action="{{ route('admin.clearWaitingList', $pos->id) }}" method="POST" style="margin-top:10px;">
+  <form action="{{ route('admin.clearWaitingList', $pos->id) }}" method="POST">
     @csrf
     <button type="submit" class="btn btn-danger"
       onclick="return confirm('Yakin reset pos ini? Uang tim akan dikembalikan.')">
@@ -130,8 +244,7 @@
       onclick="return confirm('Yakin menyatakan tim gagal dan mengosongkan pos?')">❌ Gagal</button>
   </form>
 
-  {{-- Tambahan tombol reset --}}
-  <form action="{{ route('admin.clearWaitingList', $pos->id) }}" method="POST" style="margin-top:10px;">
+  <form action="{{ route('admin.clearWaitingList', $pos->id) }}" method="POST">
     @csrf
     <button type="submit" class="btn btn-danger"
       onclick="return confirm('Yakin reset pos ini? Uang tim akan dikembalikan.')">
