@@ -41,17 +41,7 @@ class R1PesertaController extends Controller
 
     private function getSesiAktif()
     {
-        $start = Carbon::parse('2025-07-29 10:00:00');
-        $now = Carbon::now();
-
-        if ($now->lessThan($start)) {
-            return 1;
-        }
-
-        $minutes = $start->diffInMinutes($now);
-        $sesi = floor($minutes / 30) + 1;
-
-        return min($sesi, 4);
+        return DB::table('sesi_rally1')->value('sesi_aktif') ?? 1;
     }
 
 
@@ -63,7 +53,10 @@ class R1PesertaController extends Controller
             ->where('jumlah', '>', 0)
             ->get();
 
-        return view('pos_peserta', compact('id', 'komponen'));
+        $sesi = $this->getSesiAktif();
+        $harga = $this->sesiHarga[$sesi] ?? [];
+
+        return view('pos_peserta', compact('id', 'komponen', 'sesi', 'harga'));
     }
 
     public function showAllPos()

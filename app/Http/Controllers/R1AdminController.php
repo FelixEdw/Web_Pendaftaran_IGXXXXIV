@@ -391,4 +391,24 @@ class R1AdminController extends Controller
         return redirect()->route('admin.pos', $id)
             ->with('success', "Hasil aksi '$aksi' untuk tim $namaTim berhasil diproses.");
     }
+
+    //Update Sesi Rally 1
+    public function showSesi()
+    {
+        $sesiAktif = DB::table('sesi_rally1')->value('sesi_aktif');
+        return view('admin.rally-1.admin_sesi', compact('sesiAktif'));
+    }
+
+    public function updateSesi(Request $request)
+    {
+        $request->validate([
+            'sesi_aktif' => 'required|integer|min:1|max:4'
+        ]);
+
+        DB::table('sesi_rally1')->update([
+            'sesi_aktif' => $request->sesi_aktif
+        ]);
+
+        return back()->with('success', 'Sesi berhasil diperbarui ke ' . $request->sesi_aktif);
+    }
 }
