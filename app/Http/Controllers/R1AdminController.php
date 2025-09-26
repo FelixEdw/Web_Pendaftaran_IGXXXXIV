@@ -59,56 +59,44 @@ class R1AdminController extends Controller
             'kalah' => ['chain_and_gear' => 1],
         ],
         13 => [
-            'menang' => ['wheel' => 2, 'brake' => 1, 'pedal' => 1],
-            'kalah' => ['wheel' => 1],
-        ],
-        14 => [
             'menang' => ['city_frame' => 1, 'chain_and_gear' => 1, 'pedal' => 1, 'brake' => 1],
             'kalah' => ['pedal' => 1, 'brake' => 1],
         ],
-        15 => [
+        14 => [
             'menang' => ['unicycle_frame' => 1, 'wheel' => 1, 'pedal' => 1, 'brake' => 1],
             'kalah' => ['pedal' => 1, 'brake' => 1],
         ],
-        16 => [
+        15 => [
             'menang' => ['folding_frame' => 1, 'chain_and_gear' => 1, 'wheel' => 1],
             'kalah' => ['wheel' => 1],
         ],
-        17 => [
+        16 => [
             'menang' => ['chain_and_gear' => 1, 'wheel' => 2],
             'kalah' => ['wheel' => 1],
         ],
-        18 => [
+        17 => [
             'menang' => ['mountain_frame' => 1, 'brake' => 2, 'pedal' => 2],
             'kalah' => ['brake' => 1, 'pedal' => 1],
         ],
-        19 => [
+        18 => [
             'menang' => ['chain_and_gear' => 2, 'wheel' => 1],
             'kalah' => ['chain_and_gear' => 1],
         ],
-        20 => [
+        19 => [
             'menang' => ['unicycle_frame' => 1, 'wheel' => 2],
             'kalah' => ['wheel' => 1],
         ],
-        21 => [
-            'menang' => ['city_frame' => 1, 'wheel' => 1, 'brake' => 1, 'pedal' => 1],
-            'kalah' => ['wheel' => 1],
-        ],
-        22 => [
+        20 => [
             'menang' => ['folding_frame' => 1, 'brake' => 2, 'pedal' => 2],
             'kalah' => ['brake' => 1, 'pedal' => 1],
         ],
-        23 => [
+        21 => [
             'menang' => ['chain_and_gear' => 2, 'brake' => 1, 'pedal' => 1],
             'kalah' => ['chain_and_gear' => 1],
         ],
-        24 => [
+        22 => [
             'menang' => ['mountain_frame' => 1, 'wheel' => 1, 'chain_and_gear' => 1],
             'kalah' => ['wheel' => 1],
-        ],
-        25 => [
-            'menang' => ['mountain_frame' => 1, 'chain_and_gear' => 1, 'wheel' => 1],
-            'kalah' => ['chain_and_gear' => 1],
         ],
     ];
 
@@ -122,21 +110,23 @@ class R1AdminController extends Controller
             ->get();
 
         if ($pos->tipe === 'battle') {
+            // Ambil tim yang masih "playing" hari ini
             $timHariIni = DB::table('riwayat_pos')
                 ->where('pos_id', $id)
                 ->whereDate('waktu', today())
-                ->where('status', 'playing') 
-                ->get(['id', 'peserta_namaTim']); // Collection untuk battle
+                ->where('status', 'playing') // hanya tim yang sedang main
+                ->get(['id', 'peserta_namaTim']);
         } else {
             $timHariIni = DB::table('riwayat_pos')
                 ->where('pos_id', $id)
                 ->whereDate('waktu', today())
-                ->where('status', 'playing') 
-                ->first(['id', 'peserta_namaTim']); // Object tunggal untuk single
+                ->where('status', 'playing')
+                ->first(['id', 'peserta_namaTim']);
         }
 
         return view('admin.rally-1.admin_pos', compact('pos', 'timHariIni', 'waitingList'));
     }
+
 
     public function pilihTim(Request $request, $posId)
     {
@@ -189,16 +179,35 @@ class R1AdminController extends Controller
         return back()->with('success', 'Tim berhasil dipilih dan mulai bermain.');
     }
 
-
-
-
     public function clearWaitingList($posId)
     {
+        // Ambil semua tim yang sedang bermain di pos ini (status = playing)
+        $timSedangBermain = DB::table('riwayat_pos')
+            ->where('pos_id', $posId)
+            ->whereDate('waktu', today())
+            ->where('status', 'playing')
+            ->get();
+
+        foreach ($timSedangBermain as $tim) {
+            // Refund uang 3$
+            DB::table('teams')
+                ->where('nama_tim', $tim->peserta_namaTim)
+                ->increment('uang', 3);
+
+            // Hapus riwayat agar tidak dihitung sebagai kunjungan
+            DB::table('riwayat_pos')->where('id', $tim->id)->delete();
+        }
+
+        // Bersihkan waiting list untuk pos ini
         DB::table('waiting_list_pos')->where('pos_id', $posId)->delete();
+
+        // Kosongkan status pos
         DB::table('pos')->where('id', $posId)->update(['status' => 'kosong']);
 
-        return back()->with('success', "Waiting list untuk Pos $posId sudah direset.");
+        return back()->with('success', "Pos $posId berhasil direset. Uang tim dikembalikan dan riwayat dihapus.");
     }
+
+
 
 
     public function simpanBattle(Request $request, $id)
@@ -222,18 +231,14 @@ class R1AdminController extends Controller
             }
         }
 
-        // setelah diproses, kosongkan pos
+        // Setelah diproses, kosongkan pos + clear waiting list
         DB::table('pos')->where('id', $id)->update(['status' => 'kosong']);
-
         DB::table('waiting_list_pos')->where('pos_id', $id)->delete();
-
-        DB::table('riwayat_pos')
-            ->where('pos_id', $id)
-            ->where('peserta_namaTim', $tim)
-            ;
 
         return back()->with('success', 'Hasil battle berhasil diproses!');
     }
+
+
 
     public function beriReward($id, $namaTim, $tipe)
     {
@@ -262,53 +267,61 @@ class R1AdminController extends Controller
         return view('admin.rally-1.admin_overview', compact('posList'));
     }
 
-    public function beriMenang($id, $tim)
+    public function beriMenang($posId, $tim)
     {
-        return $this->beriKomponenByResult($id, $tim, 'menang');
+        return $this->beriKomponenByResult($posId, $tim, 'menang');
     }
 
-    public function beriKalah($id, $tim)
+    public function beriKalah($posId, $tim)
     {
-        return $this->beriKomponenByResult($id, $tim, 'kalah');
+        return $this->beriKomponenByResult($posId, $tim, 'kalah');
     }
 
-    public function beriGagal($id)
+    public function beriGagal($posId, $tim)
     {
-        DB::table('pos')->where('id', $id)->update(['status' => 'kosong']);
-        return back()->with('success', "Tim dinyatakan gagal. Status Pos $id direset.");
+        return $this->beriKomponenByResult($posId, $tim, 'gagal');
     }
+
 
     private function beriKomponenByResult($posId, $tim, $result)
     {
-        if (!isset($this->rewardList[$posId][$result])) {
-            return back()->with('error', "Tidak ada data komponen untuk Pos $posId saat $result.");
-        }
+        $komponenList = $this->rewardList[$posId][$result] ?? [];
 
-        $komponenList = $this->rewardList[$posId][$result];
-
-        foreach ($komponenList as $komponen => $jumlah) {
+        if (!empty($komponenList)) {
             $teamId = DB::table('teams')->where('nama_tim', $tim)->value('id');
 
-            if (Schema::hasColumn('komponen', $komponen)) {
-                DB::table('komponen')->updateOrInsert(
-                    ['team_id' => $teamId],
-                    [$komponen => DB::raw("$komponen + $jumlah")]
-                );
+            foreach ($komponenList as $komponen => $jumlah) {
+                if (Schema::hasColumn('komponen', $komponen)) {
+                    DB::table('komponen')->updateOrInsert(
+                        ['team_id' => $teamId],
+                        [$komponen => DB::raw("COALESCE($komponen, 0) + $jumlah")]
+                    );
+                }
             }
+            
+            $totalReward = array_sum($komponenList);
+
+            DB::table('production_rally1')->updateOrInsert(
+                ['team_id' => $teamId],
+                [
+                    'total_komponen_diperoleh' => DB::raw("COALESCE(total_komponen_diperoleh, 0) + $totalReward"),
+                    'total_komponen_terpakai' => DB::raw("COALESCE(total_komponen_terpakai, 0)")
+                ]
+            );
+
+            app(\App\Http\Controllers\R1PesertaController::class)->updateProductionRally($teamId);
         }
-
-        // Kosongkan pos
-        DB::table('pos')->where('id', $posId)->update(['status' => 'kosong']);
-
-        DB::table('waiting_list_pos')->where('pos_id', $posId)->delete();
 
         DB::table('riwayat_pos')
             ->where('pos_id', $posId)
             ->where('peserta_namaTim', $tim)
-            ->update(['status' => 'done']);
+            ->where('status', 'playing')
+            ->update(['status' => $result]);
 
-        return back()->with('success', "Tim $tim mendapatkan komponen karena $result.");
+        DB::table('pos')->where('id', $posId)->update(['status' => 'kosong']);
+        DB::table('waiting_list_pos')->where('pos_id', $posId)->delete();
     }
+
 
     public function updateStatus(Request $request, $id)
     {
@@ -377,7 +390,7 @@ class R1AdminController extends Controller
                 break;
 
             case 'gagal':
-                $this->gagal($id);
+                $this->beriGagal($id, $namaTim);
                 break;
 
             default:
@@ -387,5 +400,25 @@ class R1AdminController extends Controller
         // Redirect ke halaman pos supaya data terbaru diambil
         return redirect()->route('admin.pos', $id)
             ->with('success', "Hasil aksi '$aksi' untuk tim $namaTim berhasil diproses.");
+    }
+
+    //Update Sesi Rally 1
+    public function showSesi()
+    {
+        $sesiAktif = DB::table('sesi_rally1')->value('sesi_aktif');
+        return view('admin.rally-1.admin_sesi', compact('sesiAktif'));
+    }
+
+    public function updateSesi(Request $request)
+    {
+        $request->validate([
+            'sesi_aktif' => 'required|integer|min:1|max:4'
+        ]);
+
+        DB::table('sesi_rally1')->update([
+            'sesi_aktif' => $request->sesi_aktif
+        ]);
+
+        return back()->with('success', 'Sesi berhasil diperbarui ke ' . $request->sesi_aktif);
     }
 }

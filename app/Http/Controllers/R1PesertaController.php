@@ -34,24 +34,90 @@ class R1PesertaController extends Controller
         12 => ['chain_and_gear' => 1],
     ];
 
-    // private function getTim()
-    // {
-    //     return session('namaTim') ?? 'TimDemo';
-    //  }
+    public function updateProductionRally($teamId)
+    {
+        // pastikan ada row production
+        $production = DB::table('production_rally1')->where('team_id', $teamId)->first();
+        if (!$production) {
+            DB::table('production_rally1')->insert([
+                'team_id' => $teamId,
+                'total_komponen_diperoleh' => 0,
+                'total_komponen_terpakai' => 0,
+                'output_aktual' => 0,
+                'revenue' => 0,
+                'production_efficiency' => 0,
+                'time_productivity' => 0,
+                'performance' => 0,
+                'poin_total' => 0
+            ]);
+            $production = DB::table('production_rally1')->where('team_id', $teamId)->first();
+        }
+
+        $komponen = DB::table('komponen')->where('team_id', $teamId)->first();
+        $sepeda = DB::table('sepeda')->where('team_id', $teamId)->first();
+
+        $komponenArray = $komponen ? (array) $komponen : [];
+
+        $currentStockSum = array_sum(array_map('intval', $komponenArray));
+
+        $totalTerpakai = (int) ($production->total_komponen_terpakai ?? 0);
+
+        $totalKomponenDiperoleh = $production->total_komponen_diperoleh;
+
+        $outputAktual = (int) ($production->output_aktual ?? 0);
+
+        $revenue = (float) ($production->revenue ?? 0);
+
+        $outputIdeal = 120;
+
+        $production_efficiency = $totalKomponenDiperoleh > 0
+            ? ($totalTerpakai / $totalKomponenDiperoleh) * 100
+            : 0;
+
+        $time_productivity = $outputIdeal > 0
+            ? ($outputAktual / $outputIdeal) * 100
+            : 0;
+
+        $performance = (0.6 * $production_efficiency) + (0.4 * $time_productivity);
+
+        $poin_revenue = $revenue / 5;
+
+        $poin_total = round(($poin_revenue * 0.7) + ($performance * 0.3), 2);
+
+        DB::table('production_rally1')->where('team_id', $teamId)->update([
+            'total_komponen_diperoleh' => $totalKomponenDiperoleh,
+            'total_komponen_terpakai' => $totalTerpakai,
+            'output_aktual' => $outputAktual,
+            'revenue' => $revenue,
+            'production_efficiency' => round($production_efficiency, 4),
+            'time_productivity' => round($time_productivity, 4),
+            'performance' => round($performance, 4),
+            'poin_total' => $poin_total,
+        ]);
+    }
+
+
+
+    public function showPerformance()
+    {
+        $user = Auth::user();
+        $team = Team::where('nama_tim', $user->name)->firstOrFail();
+
+        $data = DB::table('production_rally1')
+            ->where('team_id', $team->id)
+            ->first();
+
+        if (!$data) {
+            return back()->with('error', 'Data produksi belum tersedia.');
+        }
+
+        return view('peserta.rally-1.performance', compact('data'));
+    }
+
 
     private function getSesiAktif()
     {
-        $start = Carbon::parse('2025-07-29 10:00:00');
-        $now = Carbon::now();
-
-        if ($now->lessThan($start)) {
-            return 1;
-        }
-
-        $minutes = $start->diffInMinutes($now);
-        $sesi = floor($minutes / 30) + 1;
-
-        return min($sesi, 4);
+        return DB::table('sesi_rally1')->value('sesi_aktif') ?? 1;
     }
 
 
@@ -63,7 +129,10 @@ class R1PesertaController extends Controller
             ->where('jumlah', '>', 0)
             ->get();
 
-        return view('pos_peserta', compact('id', 'komponen'));
+        $sesi = $this->getSesiAktif();
+        $harga = $this->sesiHarga[$sesi] ?? [];
+
+        return view('pos_peserta', compact('id', 'komponen', 'sesi', 'harga'));
     }
 
     public function showAllPos()
@@ -78,19 +147,28 @@ class R1PesertaController extends Controller
 
         $data = DB::table('komponen')->where('team_id', $team->id)->first();
 
-        $resep = [
-            'city' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'city_frame' => 1],
-            'folding' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'folding_frame' => 1],
-            'mountain' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'mountain_frame' => 1],
-            'unicycle' => ['wheel' => 1, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'unicycle_frame' => 1]
-        ];
+        $sesiSaatIni = $this->getSesiAktif();
+
+        if ($sesiSaatIni >= 3 && $sesiSaatIni < 5) {
+            $resep = [
+                'city' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'city_frame' => 1],
+                'folding' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'folding_frame' => 1],
+                'mountain' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'mountain_frame' => 1],
+                'unicycle' => ['wheel' => 1, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'unicycle_frame' => 1]
+            ];
+        } else {
+            $resep = [
+                'city' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'city_frame' => 1],
+                'folding' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'folding_frame' => 1],
+                'mountain' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'mountain_frame' => 1]
+            ];
+        }
 
         return view('peserta.rally-1.produksi', compact('data', 'resep'));
     }
 
     public function produksiSepeda($jenis)
     {
-
         $user = Auth::user();
         $team = Team::where('nama_tim', $user->name)->firstOrFail();
         $komponen = DB::table('komponen')->where('team_id', $team->id)->first();
@@ -102,11 +180,13 @@ class R1PesertaController extends Controller
             'unicycle' => ['wheel' => 1, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'unicycle_frame' => 1]
         ];
 
-        if (!isset($resep[$jenis])) return back()->with('error', 'Jenis tidak ditemukan');
+        if (!isset($resep[$jenis])) {
+            return back()->with('error', 'Jenis tidak ditemukan');
+        }
 
         foreach ($resep[$jenis] as $key => $jumlah) {
             if (($komponen->$key ?? 0) < $jumlah) {
-                return back()->with('error', 'Komponen tidak cukup untuk merakit ' . $jenis);
+                return back()->with('error', "Komponen tidak cukup untuk merakit $jenis");
             }
         }
 
@@ -119,8 +199,25 @@ class R1PesertaController extends Controller
             [$jenis => DB::raw("$jenis + 1")]
         );
 
-        return back()->with('success', "Berhasil merakit sepeda $jenis");
+        $usedCount = array_sum($resep[$jenis]);
+
+        DB::table('production_rally1')->updateOrInsert(
+            ['team_id' => $team->id],
+            [
+                'total_komponen_terpakai' => DB::raw("COALESCE(total_komponen_terpakai, 0) + $usedCount"),
+                'total_komponen_diperoleh' => DB::raw("COALESCE(total_komponen_diperoleh, 0)") // pastikan kolom ada
+            ]
+        );
+
+        DB::table('production_rally1')
+            ->where('team_id', $team->id)
+            ->update(['output_aktual' => DB::raw('COALESCE(output_aktual, 0) + 1')]);
+
+        $this->updateProductionRally($team->id);
+
+        return back()->with('success', "✅ Berhasil merakit sepeda $jenis");
     }
+
 
     public function showJual()
     {
@@ -180,9 +277,21 @@ class R1PesertaController extends Controller
             return back()->with('error', 'Pos tidak ditemukan.');
         }
 
-        // Ambil 3 kunjungan terakhir
+        // 🚨 Cek apakah tim sedang bermain di pos lain (status = playing hari ini)
+        $sedangMain = DB::table('riwayat_pos')
+            ->where('peserta_namaTim', $tim)
+            ->where('status', 'playing')
+            ->whereDate('waktu', today())
+            ->exists();
+
+        if ($sedangMain) {
+            return back()->with('error', 'Kamu sedang bermain di pos lain. Selesaikan dulu sebelum masuk ke pos baru.');
+        }
+
+        // Ambil 3 kunjungan terakhir (kecuali reset)
         $lastVisited = DB::table('riwayat_pos')
             ->where('peserta_namaTim', $tim)
+            ->whereNotIn('status', ['reset']) // ⬅️ abaikan reset
             ->orderByDesc('waktu')
             ->limit(3)
             ->pluck('pos_id')
@@ -192,7 +301,6 @@ class R1PesertaController extends Controller
         if (in_array($id, $lastVisited)) {
             return back()->with('error', 'Tidak boleh mengunjungi pos yang sama sebelum mengunjungi 3 pos lain.');
         }
-
 
         // Cek apakah tim sudah ada di waiting list pos manapun
         $alreadyWaiting = DB::table('waiting_list_pos')
@@ -230,41 +338,43 @@ class R1PesertaController extends Controller
 
 
 
+
+
     public function jualSepeda(Request $r)
-{
-    $user = Auth::user();
-    $team = Team::where('nama_tim', $user->name)->firstOrFail();
+    {
+        $user = Auth::user();
+        $team = Team::where('nama_tim', $user->name)->firstOrFail();
 
-    $sesi = $this->getSesiAktif();
-    $harga = $this->sesiHarga[$sesi];
+        $sesi = $this->getSesiAktif();
+        $harga = $this->sesiHarga[$sesi];
 
-    $jenis = $r->input('jenis');   // hanya satu jenis yg dikirim dari form
-    $jumlah = (int) $r->input('jumlah', 0);
+        $jenis = $r->input('jenis');   // hanya satu jenis yg dikirim dari form
+        $jumlah = (int) $r->input('jumlah', 0);
 
-    if (!isset($harga[$jenis])) {
-        return back()->with('error', 'Jenis sepeda tidak valid.');
+        if (!isset($harga[$jenis])) {
+            return back()->with('error', 'Jenis sepeda tidak valid.');
+        }
+
+        if ($jumlah <= 0) {
+            return back()->with('error', 'Jumlah jual harus lebih dari 0.');
+        }
+
+        // cek stok
+        $stokSepeda = DB::table('sepeda')->where('team_id', $team->id)->value($jenis);
+        if ($stokSepeda < $jumlah) {
+            return back()->with('error', "Stok sepeda $jenis tidak mencukupi.");
+        }
+
+        $pemasukan = $jumlah * $harga[$jenis];
+
+        DB::table('sepeda')->where('team_id', $team->id)->decrement($jenis, $jumlah);
+
+        DB::table('teams')->where('id', $team->id)->increment('uang', $pemasukan);
+
+        DB::table('production_rally1')->where('team_id', $team->id)->increment('revenue', $pemasukan);
+
+        $this->updateProductionRally($team->id);
+
+        return back()->with('success', "✅ Berhasil menjual $jumlah unit sepeda $jenis. Pemasukan: $$pemasukan");
     }
-
-    if ($jumlah <= 0) {
-        return back()->with('error', 'Jumlah jual harus lebih dari 0.');
-    }
-
-    // cek stok
-    $stokSepeda = DB::table('sepeda')->where('team_id', $team->id)->value($jenis);
-    if ($stokSepeda < $jumlah) {
-        return back()->with('error', "Stok sepeda $jenis tidak mencukupi.");
-    }
-
-    // hitung pemasukan
-    $pemasukan = $jumlah * $harga[$jenis];
-
-    // update stok
-    DB::table('sepeda')->where('team_id', $team->id)->decrement($jenis, $jumlah);
-
-    // tambah uang tim
-    DB::table('teams')->where('id', $team->id)->increment('uang', $pemasukan);
-
-    return back()->with('success', "✅ Berhasil menjual $jumlah unit sepeda $jenis. Pemasukan: $$pemasukan");
-}
-
 }

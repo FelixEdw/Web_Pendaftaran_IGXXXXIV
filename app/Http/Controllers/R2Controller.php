@@ -102,7 +102,7 @@ class R2Controller extends Controller
             
         ];
 
-        return view('peserta.rally-2.index', compact('gameData'));
+        return view('peserta.rally-2.index', compact('gameData',"team"));
     }
 
 
@@ -591,6 +591,64 @@ class R2Controller extends Controller
         ]);
     }
 
+    public function upgradeQuality(Request $request, Team $team)
+    {
+        // Harga & batas level (source of truth di server)
+        $UPGRADE_PRICES = [ // current -> next
+            1 => 4500, // 1->2
+            2 => 6500, // 2->3
+        ];
+        $MAX_LEVEL = 3;
 
+        $validated = $request->validate([
+            'from_level' => 'required|integer|min:1|max:'.$MAX_LEVEL,
+            'to_level'   => 'required|integer|min:1|max:'.$MAX_LEVEL,
+        ]);
+
+        $currentLevel = (int) ($team->level_mesin_quality ?? 1);
+        $fromLevel    = (int) $validated['from_level'];
+        $toLevel      = (int) $validated['to_level'];
+
+        if ($currentLevel !== $fromLevel) {
+            return back()->with('error', 'Level berubah. Muat ulang halaman dan coba lagi.');
+        }
+        if ($currentLevel >= $MAX_LEVEL) {
+            return back()->with('error', 'Level sudah maksimal.');
+        }
+        if ($toLevel !== $currentLevel + 1) {
+            return back()->with('error', 'Target level tidak valid.');
+        }
+
+        $cost = $UPGRADE_PRICES[$currentLevel] ?? null;
+        if (!$cost) {
+            return back()->with('error', 'Biaya upgrade tidak ditemukan.');
+        }
+
+        try {
+            DB::transaction(function () use ($team, $cost, $toLevel) {
+                // kunci baris untuk hindari race condition
+                $fresh = Team::lockForUpdate()->findOrFail($team->id);
+
+                $currLevel = (int) ($fresh->level_mesin_quality ?? 1);
+                if ($toLevel !== $currLevel + 1) {
+                    abort(409, 'State berubah. Coba lagi.');
+                }
+
+                $capital = (int) ($fresh->total_uang_babak2 ?? 0);
+                if ($capital < $cost) {
+                    abort(409, 'Total uang babak 2 tidak mencukupi.');
+                }
+
+                $fresh->total_uang_babak2   = $capital - $cost;
+                $fresh->level_mesin_quality = $toLevel;
+                $fresh->save();
+            });
+        } catch (\Throwable $e) {
+            $msg = $e->getCode() === 409 ? $e->getMessage() : 'Terjadi kesalahan saat upgrade.';
+            return back()->with('error', $msg);
+        }
+
+        return back()->with('success', "Quality Control naik ke level {$toLevel}. Biaya: $" . number_format($cost));
+    }
 
 }

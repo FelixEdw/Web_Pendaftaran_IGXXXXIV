@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             KomponenSeeder::class,
             PosSeeder::class,
             PosStokSeeder::class,
+            SesiRally1Seeder::class,
     ]);
     }
 }

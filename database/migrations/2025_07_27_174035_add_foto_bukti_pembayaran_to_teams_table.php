@@ -18,6 +18,8 @@ return new class extends Migration
             $table->boolean("unlocked_babak2")->default(0); 
             $table->integer('uang')->default(20); 
             $table->integer('inventory_babak_2')->default(0); 
+            $table->integer('level_mesin_quality')->default(1); 
+
         });
     }
 

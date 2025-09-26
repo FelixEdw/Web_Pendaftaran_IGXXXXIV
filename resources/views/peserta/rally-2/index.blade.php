@@ -26,6 +26,84 @@
 
     <div class="px-4 pb-4 pt-4">
         <x-factory-grid :factories="$gameData['factories']" />
+
+
+        <div class="bg-white rounded-xl shadow-md p-6 text-center space-y-4">
+            <h1 class="text-2xl font-bold text-gray-800">Quality Control</h1>
+            <h3 class="text-lg text-gray-600">
+                Level: <span class="font-semibold">{{ $team->level_mesin_quality }}</span>
+            </h3>
+
+            @php
+                // Harga upgrade berdasarkan level saat ini -> next
+                $upgradePrices = [1 => 4500, 2 => 6500];
+                $currentLevel  = (int) ($team->level_mesin_quality ?? 1);
+                $nextLevel     = min($currentLevel + 1, 3);
+                $upgradeCost   = $upgradePrices[$currentLevel] ?? 0;
+            @endphp
+
+            @if ($currentLevel < 3)
+                {{-- Tombol buka modal (bukan submit langsung) --}}
+                <button
+                    type="button"
+                    onclick="openUpgradeConfirm({{ $team->id }}, {{ $currentLevel }}, {{ $nextLevel }}, {{ $upgradeCost }})"
+                    class="px-4 py-2 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 transition">
+                    Upgrade
+                </button>
+
+                {{-- Form POST disubmit saat user confirm di modal --}}
+                <form id="upgradeForm" action="{{ route('peserta.rally2.qcupgrade', $team->id) }}" method="POST" class="hidden">
+                    @csrf
+                    {{-- kalau perlu kirim info tambahan --}}
+                    <input type="hidden" name="from_level" value="{{ $currentLevel }}">
+                    <input type="hidden" name="to_level" value="{{ $nextLevel }}">
+                </form>
+            @endif
+        </div>
+
+        {{-- Modal konfirmasi upgrade --}}
+        <div id="upgradeConfirmModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+            <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4">
+                <div class="text-center space-y-4">
+                    <h3 class="text-2xl font-bold text-gray-900">Confirm Upgrade</h3>
+
+                    <div class="text-gray-700">
+                        <div class="font-medium">Upgrade Quality Control ke <span id="uc-next-level" class="font-semibold"></span>?</div>
+                        <div class="mt-2 text-xl font-bold text-emerald-700" id="uc-cost"></div>
+                    </div>
+
+                    {{-- tabel kecil harga sebagai referensi --}}
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm border border-gray-300 rounded-md">
+                            <thead class="bg-gray-100 text-black">
+                                <tr>
+                                    <th class="border border-gray-300 px-3 py-2 text-left">Level 2</th>
+                                    <th class="border border-gray-300 px-3 py-2 text-left">Level 3</th>
+                                </tr>
+                            </thead>
+                            <tbody class=" text-black">
+                                <tr>
+                                    <td class="border border-gray-300 px-3 py-2">$4500</td>
+                                    <td class="border border-gray-300 px-3 py-2">$6500</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="flex gap-3 pt-2">
+                        <button type="button" onclick="closeUpgradeConfirm()"
+                                class="flex-1 bg-gray-200 text-gray-800 py-2 rounded-md font-semibold hover:bg-gray-300">
+                            Cancel
+                        </button>
+                        <button type="button" onclick="confirmUpgrade()"
+                                class="flex-1 bg-emerald-600 text-white py-2 rounded-md font-semibold hover:bg-emerald-700">
+                            Confirm
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div id="lockedOverlayGroup" class="{{ ($gameData['factories_locked'] ?? true) ? '' : 'hidden' }}">
@@ -162,5 +240,41 @@
         document.addEventListener("DOMContentLoaded", () => {
             updateLockedUI();
         });
+
+         function openUpgradeConfirm(teamId, currentLevel, nextLevel, cost) {
+        // isi teks modal
+        document.getElementById('uc-next-level').textContent = 'Level ' + nextLevel;
+        document.getElementById('uc-cost').textContent = '$' + Number(cost).toLocaleString();
+
+        // simpan state sementara di dataset modal
+        const modal = document.getElementById('upgradeConfirmModal');
+        modal.dataset.teamId = teamId;
+        modal.dataset.currentLevel = currentLevel;
+        modal.dataset.nextLevel = nextLevel;
+        modal.dataset.cost = cost;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeUpgradeConfirm() {
+        const modal = document.getElementById('upgradeConfirmModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    function confirmUpgrade() {
+        // Submit form POST standar biar proses tetap di server
+        const form = document.getElementById('upgradeForm');
+        if (!form) return;
+        // Optional: update hidden fields dari dataset modal (kalau level bisa berubah dinamis)
+        const modal = document.getElementById('upgradeConfirmModal');
+        const toLevel = modal.dataset.nextLevel;
+        const fromLevel = modal.dataset.currentLevel;
+        form.querySelector('input[name="from_level"]').value = fromLevel;
+        form.querySelector('input[name="to_level"]').value = toLevel;
+
+        form.submit();
+    }
     </script>
 @endpush

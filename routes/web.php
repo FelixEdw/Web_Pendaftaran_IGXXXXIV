@@ -83,16 +83,14 @@ Route::group([
     Route::post('/rally1/pos/{id}/menang/{tim}', [R1AdminController::class, 'beriMenang'])->name('menang');
     Route::post('/rally1/pos/{id}/kalah/{tim}', [R1AdminController::class, 'beriKalah'])->name('kalah');
     Route::post('/rally1/pos/{id}/gagal', [R1AdminController::class, 'beriGagal'])->name('gagal');
-
-
     Route::post('/pos/{id}/aksi', [R1AdminController::class, 'aksi'])->name('aksi');
-
     Route::post('/rally1/pos/{id}/battle', [R1AdminController::class, 'simpanBattle'])
         ->name('battle.hasil');
-
     Route::get('/', function () {
         return view('admin.rally-1.index');
     })->name('home');
+    Route::get('/sesi', [R1AdminController::class, 'showSesi'])->name('sesi');
+    Route::post('/sesi', [R1AdminController::class, 'updateSesi'])->name('sesi.update');
 
     Route::post('/admin/pos/{id}/clear-waiting-list', [R1AdminController::class, 'clearWaitingList'])
         ->name('clearWaitingList');
@@ -153,6 +151,8 @@ Route::group([
 
     //================MAIN RALLY 2=======================
     Route::post('/rally2/buy', [R2Controller::class, 'buyMachine'])->name('rally2.buy');
+    Route::post('/rally2/{team}/upgradeqc', [R2Controller::class, 'upgradeQuality'])
+        ->name('rally2.qcupgrade');
     Route::post('/rally2/upgrade', [R2Controller::class, 'upgradeMachine'])->name('rally2.upgrade');
     Route::post('/rally2/sell', [R2Controller::class, 'sell'])->name('rally2.sell');
     Route::post('/rally2/connect-machine', [R2Controller::class, 'storeConnection'])->name('rally2.connect');;
@@ -160,9 +160,7 @@ Route::group([
 
     // =================== RALLY 1===================
     Route::get('/rally1', [R1Controller::class, 'index'])->name('rally-1.index');
-
     Route::get('/rally1/komponen', [R1PesertaController::class, 'lihatKomponen'])->name('komponen');
-
 
     Route::get('/rally1/pos/{id}', [R1PesertaController::class, 'showPos'])->name('pos.show');
     Route::get('/rally1/peserta/pos', [R1PesertaController::class, 'daftarPos'])->name('pos');
@@ -173,6 +171,8 @@ Route::group([
 
     Route::get('/rally1/jual', [R1PesertaController::class, 'showJual'])->name('jual');
     Route::post('/rally1/jual', [R1PesertaController::class, 'jualSepeda'])->name('jual.sepeda');
+
+    Route::get('/rally1/performance', [R1PesertaController::class, 'showPerformance'])->name('peserta.performance');
 });
 
 

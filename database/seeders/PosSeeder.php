@@ -63,7 +63,7 @@ class PosSeeder extends Seeder
             [
             'nama' => 'Throw Zone', //11
             'status' => 'kosong',
-            'tipe' => 'battle',
+            'tipe' => 'single',
             ],
             [
             'nama' => 'Quiz Blits', //12
@@ -71,7 +71,7 @@ class PosSeeder extends Seeder
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Bottle Brain Battle', //13
+            'nama' => 'Flip & Think', //13
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
@@ -86,19 +86,19 @@ class PosSeeder extends Seeder
             'tipe' => 'single',
             ],
             [
-            'nama' => 'Its Number Game, Open Up!', //16
+            'nama' => 'Number Game, Open Up!', //16
             'status' => 'kosong',
             'tipe' => 'battle',
             ],
             [
-            'nama' => 'Word Assembly', //17
+            'nama' => 'Word Assembly Race', //17
             'status' => 'kosong',
             'tipe' => 'single',
             ],
             [
             'nama' => 'Rubber Pass', //18
             'status' => 'kosong',
-            'tipe' => 'single',
+            'tipe' => 'battle',
             ],
             [
             'nama' => 'Knowledge Bid', //19
