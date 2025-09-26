@@ -1,4 +1,3 @@
-
 @extends('layouts.rally-1')
 <script src="//unpkg.com/alpinejs" defer></script>
 
@@ -59,6 +58,13 @@
                         📦 Inventory
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('peserta.peserta.performance') }}"
+                        class="block px-4 py-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-xl shadow-md transition">
+                        📊 Performance
+                    </a>
+                </li>
+
             </ul>
         </div>
     </div>

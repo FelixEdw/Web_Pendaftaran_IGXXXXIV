@@ -15,7 +15,7 @@ class KomponenSeeder extends Seeder
      */
     public function run()
     {
-        $teams = Team::all();
+        /*$teams = Team::all();
 
         foreach ($teams as $team) {
             Komponen::create([
@@ -39,6 +39,6 @@ class KomponenSeeder extends Seeder
             'sesi' => 1
         ]);
         
-        }
+        }*/
     }
 }

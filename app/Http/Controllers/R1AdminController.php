@@ -294,10 +294,22 @@ class R1AdminController extends Controller
                 if (Schema::hasColumn('komponen', $komponen)) {
                     DB::table('komponen')->updateOrInsert(
                         ['team_id' => $teamId],
-                        [$komponen => DB::raw("$komponen + $jumlah")]
+                        [$komponen => DB::raw("COALESCE($komponen, 0) + $jumlah")]
                     );
                 }
             }
+            
+            $totalReward = array_sum($komponenList);
+
+            DB::table('production_rally1')->updateOrInsert(
+                ['team_id' => $teamId],
+                [
+                    'total_komponen_diperoleh' => DB::raw("COALESCE(total_komponen_diperoleh, 0) + $totalReward"),
+                    'total_komponen_terpakai' => DB::raw("COALESCE(total_komponen_terpakai, 0)")
+                ]
+            );
+
+            app(\App\Http\Controllers\R1PesertaController::class)->updateProductionRally($teamId);
         }
 
         DB::table('riwayat_pos')
@@ -309,8 +321,6 @@ class R1AdminController extends Controller
         DB::table('pos')->where('id', $posId)->update(['status' => 'kosong']);
         DB::table('waiting_list_pos')->where('pos_id', $posId)->delete();
     }
-
-
 
 
     public function updateStatus(Request $request, $id)

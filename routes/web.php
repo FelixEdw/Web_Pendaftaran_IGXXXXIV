@@ -86,8 +86,6 @@ Route::group([
     Route::post('/pos/{id}/aksi', [R1AdminController::class, 'aksi'])->name('aksi');
     Route::post('/rally1/pos/{id}/battle', [R1AdminController::class, 'simpanBattle'])
         ->name('battle.hasil');
-
-    //======================RALLY 1 (ADMIN)====================//
     Route::get('/', function () {
         return view('admin.rally-1.index');
     })->name('home');
@@ -162,9 +160,7 @@ Route::group([
 
     // =================== RALLY 1===================
     Route::get('/rally1', [R1Controller::class, 'index'])->name('rally-1.index');
-
     Route::get('/rally1/komponen', [R1PesertaController::class, 'lihatKomponen'])->name('komponen');
-
 
     Route::get('/rally1/pos/{id}', [R1PesertaController::class, 'showPos'])->name('pos.show');
     Route::get('/rally1/peserta/pos', [R1PesertaController::class, 'daftarPos'])->name('pos');
@@ -175,6 +171,8 @@ Route::group([
 
     Route::get('/rally1/jual', [R1PesertaController::class, 'showJual'])->name('jual');
     Route::post('/rally1/jual', [R1PesertaController::class, 'jualSepeda'])->name('jual.sepeda');
+
+    Route::get('/rally1/performance', [R1PesertaController::class, 'showPerformance'])->name('peserta.performance');
 });
 
 
