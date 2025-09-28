@@ -4,14 +4,14 @@
 
 @section('content')
 
-    <div class="flex justify-between items-center p-2" style="background: #ECE6E2;">
+    <div class="absolute flex justify-between items-center p-2 z-50 w-full" style="background: #ECE6E2;">
         <div class="text-2xl font-bold text-[#6B4D28]">RALLY 2</div>
         <button onclick="toggleSideMenu()">
             <x-radix-text-align-justify class="w-10 h-10 text-[#6B4D28]" />
         </button>
     </div>
 
-    <div class="flex justify-between items-center px-4 pb-4 mt-5 border-b border-white">
+    <div class="flex justify-between items-center px-4 pb-4 mt-20 border-b border-white">
         <div class="flex flex-col bg-[#779AAE80] w-2/3 rounded-[20px] py-4 px-3 gap-2">
             <div class="rounded text-white text-sm flex items-center justify-between w-full">
                 <span class="font-bold text-xl">DEMAND</span>
@@ -116,7 +116,7 @@
                 class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 -rotate-90 w-[150%] h-auto object-cover opacity-70">
         </div>
 
-        <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 z-50 pointer-events-auto">
+        <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 z-40 pointer-events-auto">
             @if ($gameData['status_maintenance'] ?? false)
                 <img src="{{ asset('icons/icon_maintenance.svg') }}" alt="icon maintenance">
                 <button disabled class="bg-gray-400 text-white px-6 text-3xl py-2 rounded-md font-bold cursor-not-allowed">
