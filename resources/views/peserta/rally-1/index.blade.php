@@ -5,14 +5,76 @@
 <!-- Alpine.js buat handle drawer -->
 @endpush
 
+<style>
+    /* 1. Latar Belakang Body Disesuaikan dengan Tema Gelap IG */
+    body {
+        background-color: #14191A !important; 
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* 2. Custom Class untuk Tombol Utama & Aksen Bronze/Emas Tua */
+    .btn-bronze {
+        background-color: #956238; /* Bronze */
+        color: #FFFFFF;
+        transition: background-color 0.2s, transform 0.1s;
+    }
+    .btn-bronze:hover {
+        background-color: #A57248;
+        transform: translateY(-1px);
+    }
+    .btn-bronze:disabled {
+        background-color: #5A402D; /* Darker bronze for disabled state */
+        cursor: not-allowed;
+    }
+
+    /* 3. Custom Class untuk Pos Status agar tetap gelap */
+    /* Pos Kosong: Dark Green/Bronze Tint */
+    .status-kosong {
+        background-color: #602c00; 
+        color: #FFDA89;
+        border-color: #602c10;
+    }
+    /* Pos Butuh Grup: Dark Yellow/Olive Tint */
+    .status-butuh-grup {
+        background-color: #4C4C2D; 
+        color: #FFDA89;
+        border-color: #73734C;
+    }
+    /* Pos Terisi: Dark Red/Maroon Tint */
+    .status-terisi {
+        background-color: #5C2D2D; 
+        color: #FFB8B8;
+        border-color: #854D4D;
+    }
+    /* Pos Default */
+    .status-default {
+        background-color: #2C2C3A; 
+        color: #CFCFCF;
+        border-color: #4A4A63;
+    }
+
+    /* 4. Notifikasi Toast Disesuaikan */
+    .toast-success {
+        background-color: #1E3929;
+        color: #B8E6B8;
+        border-color: #4C734C;
+    }
+    .toast-error {
+        background-color: #391E1E;
+        color: #FFB8B8;
+        border-color: #734C4C;
+    }
+</style>
+
+{{-- Pesan Sesi: Menggunakan custom class toast-success/error --}}
 @if (session('success'))
-<div class="max-w-2xl mx-auto p-3 rounded-xl bg-green-100 border border-green-300 text-green-800 font-semibold flex items-center gap-2 mb-4 shadow-sm">
+<div class="max-w-2xl mx-auto p-3 rounded-xl toast-success font-semibold flex items-center gap-2 mb-4 shadow-md mt-4 border">
     ✅ {{ session('success') }}
 </div>
 @endif
 
 @if (session('error'))
-<div class="max-w-2xl mx-auto p-3 rounded-xl bg-red-100 border border-red-300 text-red-800 font-semibold flex items-center gap-2 mb-4 shadow-sm">
+<div class="max-w-2xl mx-auto p-3 rounded-xl toast-error font-semibold flex items-center gap-2 mb-4 shadow-md mt-4 border">
     ❌ {{ session('error') }}
 </div>
 @endif
@@ -20,51 +82,58 @@
 @section("content")
 <div x-data="{ open: false }" class="p-6 max-w-4xl mx-auto space-y-6 relative">
 
+    {{-- Floating Action Button (FAB) --}}
     <button
         @click="open = true"
         style="position: fixed; bottom: 1.5rem; left: 1.5rem; z-index: 9999;"
-        class="text-white text-lg bg-gray-700 hover:bg-gray-800 p-3 rounded-full shadow-lg transition transform hover:scale-110 focus:outline-none">
-        🔧
+        class="text-white text-xl btn-bronze p-4 rounded-full shadow-xl transition transform hover:scale-110 focus:outline-none">
+        ⚙️
     </button>
 
 
     <!-- Drawer Menu -->
-    <div x-show="open" x-transition class="fixed inset-0 bg-black bg-opacity-50 flex justify-end z-40">
+    <div x-show="open" x-transition class="fixed inset-0 bg-black bg-opacity-70 flex justify-end z-40">
+        {{-- Drawer Background: Dark IG Navy/Charcoal --}}
         <div @click.away="open = false"
-            class="w-72 h-full bg-gray-900 p-6 shadow-2xl transform transition-all duration-300"
+            style="background-color: #602c00;"
+            class="w-72 h-full p-6 shadow-2xl transform transition-all duration-300 border-l border-[#956238]"
             x-transition:enter="translate-x-full"
             x-transition:enter-end="translate-x-0"
             x-transition:leave="translate-x-0"
             x-transition:leave-end="translate-x-full">
 
-            <div class="flex justify-between items-center mb-4">
-                <h4 class="text-lg font-semibold text-white">Menu</h4>
-                <button @click="open = false" class="text-white hover:text-red-400 text-2xl">&times;</button>
+            <div class="flex justify-between items-center mb-6 border-b border-gray-700 pb-3">
+                {{-- Judul Menu: Bright Gold --}}
+                <h4 class="text-xl font-bold text-[#FBC02D]">Menu Utama</h4>
+                <button @click="open = false" class="text-gray-400 hover:text-red-500 text-3xl transition">&times;</button>
             </div>
 
-            <ul class="space-y-3">
+            <ul class="space-y-4">
+                {{-- Rakit Sepeda: Bronze Button --}}
                 <li>
-                    <a href="{{ route("peserta.produksi") }}" class="block px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-md transition">
+                    <a href="{{ route("peserta.produksi") }}" class="block px-4 py-3 btn-bronze rounded-lg shadow-lg hover:shadow-xl transition font-medium">
                         🔧 Rakit Sepeda
                     </a>
                 </li>
+                {{-- Jual Sepeda: Dark Gold Button --}}
                 <li>
-                    <a href="{{ route("peserta.jual") }}" class="block px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-md transition">
+                    <a href="{{ route("peserta.jual") }}" class="block px-4 py-3 bg-[#FBC02D] hover:bg-[#FFC74B] text-[#14191A] rounded-lg shadow-lg hover:shadow-xl transition font-bold">
                         💵 Jual Sepeda
                     </a>
                 </li>
+                {{-- Inventory: Darker Accent Color --}}
                 <li>
-                    <a href="{{ route('peserta.komponen') }}" class="block px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl shadow-md transition">
+                    <a href="{{ route('peserta.komponen') }}" style="background-color: #3A4A6A;" class="block px-4 py-3 hover:bg-[#4C5C7A] text-white rounded-lg shadow-lg hover:shadow-xl transition font-medium">
                         📦 Inventory
                     </a>
                 </li>
+                {{-- Performance: Bronze Button --}}
                 <li>
                     <a href="{{ route('peserta.peserta.performance') }}"
-                        class="block px-4 py-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-xl shadow-md transition">
+                        class="block px-4 py-3 btn-bronze text-white rounded-lg shadow-lg hover:shadow-xl transition font-medium">
                         📊 Performance
                     </a>
                 </li>
-
             </ul>
         </div>
     </div>
@@ -93,75 +162,101 @@
     $harga = $sesiHarga[$sesi] ?? [];
     @endphp
 
-    <h1 class="text-4xl font-extrabold mb-6 text-white text-center drop-shadow-lg">
-        Selamat Datang di <span class="text-yellow-400">IGBike</span>
+    {{-- Judul Halaman --}}
+    <h1 class="text-4xl font-extrabold mb-6 text-white text-center drop-shadow-md">
+        Selamat Datang di <span style="color: #FBC02D;" class="drop-shadow-lg">IGBike</span>
     </h1>
 
-    <div class="bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-700">
-        <h3 class="text-xl font-semibold mb-2 text-white">Halo, {{ $tim }} 👋</h3>
+    {{-- Card Status Uang --}}
+    {{-- Background: Dark IG Navy/Charcoal, Border: Bronze --}}
+    <div style="background-color: #602c00; border-color: #956238;" class="rounded-2xl p-6 shadow-2xl border-2">
+        <h3 class="text-xl font-bold mb-2 text-white">Halo, {{ $tim }} 👋</h3>
         <p class="text-lg text-gray-300">
-            💰 <span class="font-medium">Uang saat ini:</span>
-            <span class="text-green-400 font-bold">${{ $uang }}</span>
+            <span class="font-medium">💰 Uang saat ini:</span>
+            {{-- Text: Bright Gold --}}
+            <span style="color: #FBC02D;" class="font-extrabold text-2xl drop-shadow-md">${{ $uang }}</span>
         </p>
     </div>
 
-    <div class="bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-700">
-        <div class="flex items-center justify-between">
-            <div class="text-gray-200 font-semibold">
-                <strong>Sesi saat ini:</strong> <span class="text-blue-400">{{ $sesi }}</span>
+    {{-- Card Status Sesi & Harga --}}
+    {{-- Background: Dark IG Navy/Charcoal, Border: Bronze --}}
+    <div style="background-color: #602c00; border-color: #956238;" class="rounded-2xl p-6 shadow-2xl border-2">
+        <div class="flex items-center justify-between border-b border-gray-700 pb-3 mb-3">
+            <div class="text-gray-200 font-bold">
+                <span class="text-lg">Sesi saat ini:</span> 
+                {{-- Text: Bright Gold --}}
+                <span style="color: #FBC02D;" class="text-2xl font-extrabold">{{ $sesi }}</span>
             </div>
             <div class="text-sm text-yellow-400 italic">⚡ Tren berubah setiap sesi</div>
         </div>
 
         <div class="mt-4">
-            <strong class="text-gray-100">Sepeda tersedia & harga:</strong>
+            <strong class="text-gray-100 block mb-3">Sepeda tersedia & harga:</strong>
             <div class="mt-3 flex flex-wrap gap-2">
                 @foreach(($harga ?? []) as $jenis => $h)
-                <span class="px-3 py-1 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 text-sm shadow hover:scale-105 transition">
-                    {{ ucfirst($jenis) }} — ${{ $h }}
+                {{-- Background: Dark Navy, Border: Bronze, Text: Bright Gold --}}
+                <span style="background-color: #391E1E; border-color: #956238;" class="px-4 py-2 border rounded-xl text-gray-100 text-sm font-semibold shadow hover:scale-[1.02] transition duration-200 ease-in-out">
+                    {{ ucfirst($jenis) }} — <span style="color: #FBC02D;" class="font-bold">${{ $h }}</span>
                 </span>
                 @endforeach
             </div>
         </div>
 
         @if(isset($sesi) && $sesi >= 3)
-        <p class="mt-3 text-green-400 italic">✅ Unicycle siap untuk diproduksi!</p>
+        <p style="color: #FBC02D;" class="mt-3 italic">✅ Unicycle siap untuk diproduksi!</p>
         @else
-        <p class="mt-3 text-orange-400 italic">⏳ Unicycle akan muncul di Sesi 3.</p>
+        <p class="mt-3 text-yellow-400 italic">⏳ Unicycle akan muncul di Sesi 3.</p>
         @endif
     </div>
 
-    <hr class="border-gray-600">
+    <hr class="border-brown-700 mt-8 mb-6">
 
-    <h3 class="text-xl font-semibold mb-4 text-gray-200">📍 Status Seluruh Pos</h3>
+    {{-- Subjudul: Bright Gold --}}
+    <h3 class="text-2xl font-bold mb-4" style="color: #FBC02D;">📍 Status Seluruh Pos</h3>
 
+    {{-- Daftar Status Pos --}}
     <div class="space-y-4">
         @foreach ($posList as $pos)
         @php
         $sudahDikunjungiBaruBaruIni = in_array($pos->id, $riwayat);
-        $statusColor = match($pos->status) {
-        'kosong' => 'bg-green-100 text-green-900 border-green-300',
-        'butuh_grup' => 'bg-yellow-100 text-yellow-900 border-yellow-300',
-        'terisi' => 'bg-red-100 text-red-900 border-red-300',
-        default => 'bg-gray-100 text-gray-800 border-gray-300'
+        
+        $statusClass = match($pos->status) {
+            'kosong' => 'status-kosong',
+            'butuh_grup' => 'status-butuh-grup',
+            'terisi' => 'status-terisi',
+            default => 'status-default'
+        };
+        $statusText = match($pos->status) {
+            'kosong' => 'POS KOSONG',
+            'butuh_grup' => 'MENUNGGU REKAN',
+            'terisi' => 'SEDANG DIGUNAKAN',
+            default => 'STATUS TIDAK DIKETAHUI'
         };
         @endphp
-        <div class="rounded-xl shadow-md p-4 border {{ $statusColor }} transition hover:shadow-lg hover:-translate-y-1">
-            <div class="flex items-center justify-between mb-2">
-                <div>
-                    <h4 class="text-lg font-bold">{{ $pos->nama }}</h4>
-                    <p class="text-sm">{{ ucfirst(str_replace('_', ' ', $pos->status)) }}</p>
+        
+        {{-- Menggunakan Custom Class untuk Card Status Pos --}}
+        <div class="rounded-xl shadow-lg p-5 border-2 {{ $statusClass }} transition hover:shadow-xl hover:-translate-y-1 duration-200 ease-in-out">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between">
+                <div class="mb-3 sm:mb-0">
+                    <h4 class="text-xl font-extrabold mb-1">{{ $pos->nama }}</h4>
+                    <p class="text-sm font-semibold italic">{{ $statusText }}</p>
                 </div>
+                
                 <form action="{{ route('peserta.pos.pergi', $pos->id) }}" method="POST">
                     @csrf
-                    <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition"
+                    {{-- Tombol "Pergi ke Pos": Bronze Button --}}
+                    <button type="submit" class="px-5 py-2 btn-bronze rounded-lg font-bold text-white transition shadow-md"
                         {{ $sudahDikunjungiBaruBaruIni ? 'disabled' : '' }}>
                         Pergi ke Pos
                     </button>
                 </form>
             </div>
+            
+            {{-- Pesan Peringatan --}}
             @if ($sudahDikunjungiBaruBaruIni)
-            <p class="text-sm italic text-gray-600">⚠️ Sudah dikunjungi baru-baru ini. Kunjungi 3 pos lain terlebih dahulu.</p>
+            <p class="text-sm italic mt-2 opacity-80">
+                ⚠️ Sudah dikunjungi baru-baru ini. Kunjungi 3 pos lain terlebih dahulu.
+            </p>
             @endif
         </div>
         @endforeach
