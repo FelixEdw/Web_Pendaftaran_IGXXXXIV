@@ -96,15 +96,15 @@
         {{-- Drawer Background: Dark IG Navy/Charcoal --}}
         <div @click.away="open = false"
             style="background-color: #602c00;"
-            class="w-72 h-full p-6 shadow-2xl transform transition-all duration-300 border-l border-[#956238]"
+            class="w-72 h-full p-6 shadow-2xl transform transition-all duration-300x"
             x-transition:enter="translate-x-full"
             x-transition:enter-end="translate-x-0"
             x-transition:leave="translate-x-0"
             x-transition:leave-end="translate-x-full">
 
-            <div class="flex justify-between items-center mb-6 border-b border-gray-700 pb-3">
+            <div class="flex justify-between items-center mb-6 pb-3">
                 {{-- Judul Menu: Bright Gold --}}
-                <h4 class="text-xl font-bold text-[#FBC02D]">Menu Utama</h4>
+                <h4 class="text-xl font-bold text-white">Menu Utama</h4>
                 <button @click="open = false" class="text-gray-400 hover:text-red-500 text-3xl transition">&times;</button>
             </div>
 
@@ -117,13 +117,13 @@
                 </li>
                 {{-- Jual Sepeda: Dark Gold Button --}}
                 <li>
-                    <a href="{{ route("peserta.jual") }}" class="block px-4 py-3 bg-[#FBC02D] hover:bg-[#FFC74B] text-[#14191A] rounded-lg shadow-lg hover:shadow-xl transition font-bold">
+                    <a href="{{ route("peserta.jual") }}" class="block px-4 py-3 btn-bronze text-white rounded-lg shadow-lg hover:shadow-xl transition font-medium">
                         💵 Jual Sepeda
                     </a>
                 </li>
                 {{-- Inventory: Darker Accent Color --}}
                 <li>
-                    <a href="{{ route('peserta.komponen') }}" style="background-color: #3A4A6A;" class="block px-4 py-3 hover:bg-[#4C5C7A] text-white rounded-lg shadow-lg hover:shadow-xl transition font-medium">
+                    <a href="{{ route('peserta.komponen') }}" class ="block px-4 py-3 btn-bronze text-white rounded-lg shadow-lg hover:shadow-xl transition font-medium">
                         📦 Inventory
                     </a>
                 </li>
@@ -181,7 +181,7 @@
     {{-- Card Status Sesi & Harga --}}
     {{-- Background: Dark IG Navy/Charcoal, Border: Bronze --}}
     <div style="background-color: #602c00; border-color: #956238;" class="rounded-2xl p-6 shadow-2xl border-2">
-        <div class="flex items-center justify-between border-b border-gray-700 pb-3 mb-3">
+        <div class="flex items-center justify-between pb-3 mb-3">
             <div class="text-gray-200 font-bold">
                 <span class="text-lg">Sesi saat ini:</span> 
                 {{-- Text: Bright Gold --}}
@@ -212,7 +212,7 @@
     <hr class="border-brown-700 mt-8 mb-6">
 
     {{-- Subjudul: Bright Gold --}}
-    <h3 class="text-2xl font-bold mb-4" style="color: #FBC02D;">📍 Status Seluruh Pos</h3>
+    <h3 class="text-2xl font-bold mb-4" style="color: #FFFFFF;">📍 Status Seluruh Pos</h3>
 
     {{-- Daftar Status Pos --}}
     <div class="space-y-4">
