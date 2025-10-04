@@ -16,7 +16,7 @@ class SessionSeeder extends Seeder
 
         Session::create([
             'id' => 1,
-            "jenis_sesi" => 1,
+            "jenis_sesi" => 0,
             'durasi' => 35,
             'demand' => 30,
             'event' => "",
@@ -45,5 +45,13 @@ class SessionSeeder extends Seeder
             'demand' => 70,
             'event' => "",
         ]);
+        Session::create([
+            'id' => 5,
+            "jenis_sesi" => 1,
+            'durasi' => 35,
+            'demand' => 70,
+            'event' => "",
+        ]);
+
     }
 }

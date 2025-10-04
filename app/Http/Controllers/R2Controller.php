@@ -111,7 +111,7 @@ class R2Controller extends Controller
         $user = Auth::user();
         $team = Team::where('nama_tim', $user->name)->firstOrFail();
 
-        $unlockCost = 100000;
+        $unlockCost = 103000;
 
         if ($team->unlocked_babak2) {
             return response()->json(['message' => 'Factory already unlocked.'], 400);

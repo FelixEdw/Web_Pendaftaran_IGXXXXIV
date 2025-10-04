@@ -116,10 +116,13 @@ Route::group([
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/accountdetail', [HomeController::class, 'account'])->name('account-detail');
-    Route::get('/rally', [RallyGames::class, 'index'])->name('rally');
+    Route::get('/rally', [RallyGames::class, 'index'])->name(name: 'rally');
+    
 
     // =================== RALLY 2 ===================
     Route::get('/rally2', [R2Controller::class, 'index'])->name('rally-2.index');
+    Route::get('/rally2/stopped', [RallyGames::class, 'stopped'])->name(name: 'rally-2.stopped');
+
     Route::post('/rally2/unlock', [R2Controller::class, 'unlockFactory'])->name('rally2.unlock');
 
     //==================SIDEBAR======================
