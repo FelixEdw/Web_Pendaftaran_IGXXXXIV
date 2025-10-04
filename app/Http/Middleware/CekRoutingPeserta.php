@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Session;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,11 +34,31 @@ class CekRoutingPeserta
                      break;
 
                 case 'rally-2':
-                    if (!str_starts_with($path, 'peserta/rally2')) {
-                        return redirect()->route('peserta.rally-2.index')->with('error', 'Anda hanya bisa mengakses Ubaya saat ini.');
+                    // Cek sesi aktif
+                    $active = Session::where('jenis_sesi', 1)->first();
+
+                    // Jika sesi berhenti (id=5) → hanya boleh akses halaman stopped
+                    if ($active && (int) $active->id == 5) {
+                        if (!$request->is('peserta/rally2/stopped')) {
+                            return redirect()
+                                ->route('peserta.rally-2.stopped')
+                                ->with('error', 'Sesi sedang berhenti.');
+                        }
+                        break;
+                    }
+
+                    // Jika TIDAK berhenti → wajib berada di namespace rally2
+                    if (!$request->is('peserta/rally2*')) {
+                        return redirect()
+                            ->route('peserta.rally-2.index')
+                            ->with('error', 'Anda hanya bisa mengakses Ubaya saat ini.');
+                    }
+
+                    // Blok akses ke /stopped ketika sesi tidak berhenti
+                    if ($request->is('peserta/rally2/stopped')) {
+                        return redirect()->route('peserta.rally-2.index');
                     }
                     break;
-
                 default:
                     return abort(403, 'Fase permainan tidak dikenali.');
             }
