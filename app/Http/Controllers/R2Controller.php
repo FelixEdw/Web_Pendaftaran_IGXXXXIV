@@ -294,6 +294,12 @@ class R2Controller extends Controller
             abort(403, "Akses soal hanya bisa dilakukan melalui QR Scan.");
         }
 
+         // CEK BARU: Jika soal sudah diselesaikan, redirect
+        if (session()->get("soal_selesai_$id")) {
+            return redirect()->route('peserta.rally-2.scanner')
+                ->with('error', 'Soal ini sudah diselesaikan sebelumnya.');
+        }
+
         $soal = SoalQR::findOrFail($id);
 
         // Cek apakah peserta sudah pernah membuka soal ini sebelumnya
@@ -309,6 +315,14 @@ class R2Controller extends Controller
     {
         $user = Auth::user();
         $team = Team::where('nama_tim', $user->name)->firstOrFail();
+
+        // CEK BARU: Jika soal sudah diselesaikan, tolak submission
+        if (session()->get("soal_selesai_$id")) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Soal ini sudah diselesaikan sebelumnya.'
+            ], 403);
+        }
 
         Log::info("ID Soal : " . $id);
         $soal = SoalQR::findOrFail($id);
@@ -337,6 +351,9 @@ class R2Controller extends Controller
         if ($status === 'benar') {
             $team->total_uang_babak2 += $soal->reward_amount;
             $team->save();
+
+            // TANDAI SOAL SUDAH SELESAI - HANYA JIKA BENAR
+            session()->put("soal_selesai_$id", true);
         }
 
         return response()->json([

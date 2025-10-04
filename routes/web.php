@@ -129,18 +129,20 @@ Route::group([
     Route::post('/rally2/sellsepeda', [R2Controller::class, 'sellItem'])->name('rally-2.sellsepeda');
 
 
-    //==================SCANNER==========================
+    //==================SCANNER - DENGAN MIDDLEWARE CEK_AKSES_SOAL ==========================
     Route::get('/rally2/question/{id}', [R2Controller::class, 'showQR'])
         ->middleware('cek.soal.qr')->name('rally-2.question');
-
+    
     Route::post('/rally2/question/{id}/submit', [R2Controller::class, 'submitQR'])
-        ->name('question.submit');
+        ->middleware('cek.soal.qr')->name('question.submit');
 
     Route::get('/rally2/claim-envelope/{id}', [R2Controller::class, 'claim'])
         ->middleware('cek.claim.envelope')->name('rally-2.claim-envelope');
 
     Route::get('/rally2/qr-redirect/{id}', function ($id) {
         session()->put("akses_soal_$id", true);
+        // Hapus flag soal selesai jika ada (untuk kasus scan ulang)
+        session()->forget("soal_selesai_$id");
         return redirect()->route('peserta.rally-2.question', $id);
     });
 
