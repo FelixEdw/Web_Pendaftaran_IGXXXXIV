@@ -23,6 +23,9 @@
             class="block w-full bg-[#B17445] text-white py-3 px-4 font-bold text-center">
             INVENTORY
         </a>
+        <a class="block w-full bg-[#B17445] text-white py-3 px-4 font-bold text-center">
+            DEMAND TERCAPAI
+        </a>
     </div>
 </div>
 
