@@ -82,7 +82,7 @@ public function gantisesi(Request $request)
         } else {
             $team->harga_unlock = $totalHargaMaintenance;
         }
-
+         $team->save();
         // Ambil koneksi mesin sesuai tim (bukan hardcode 1)
         $connmachine = DB::table('tconnectmachine as cm')
             ->join('tteammachine as src', 'cm.source_team_machine_id', '=', 'src.id')
