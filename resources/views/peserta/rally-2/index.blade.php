@@ -223,13 +223,15 @@
                     areFactoriesLocked = false;
                     updateLockedUI();
 
+                    
                     // Update capital
                     const capitalElement = document.querySelector('div.text-right > .text-green-800');
                     if (capitalElement && data.capital !== undefined) {
                         capitalElement.textContent = '$' + Number(data.capital).toLocaleString();
                     }
-
+                    
                     alert(data.message);
+                    location.reload();
                 })
                 .catch(err => {
                     console.error("Unlock error:", err);

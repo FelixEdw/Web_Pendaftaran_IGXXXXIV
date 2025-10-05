@@ -35,107 +35,127 @@ class AdminController extends Controller
     }
 public function gantisesi(Request $request)
 {
-    $request->validate([
-        'session_id' => 'required|exists:tsession,id'
+    $validated = $request->validate([
+        'session_id' => 'required|exists:tsession,id',
     ]);
+    $newId = (int) $validated['session_id'];
 
-    $sesi = Session::where('jenis_sesi', 1)->first();
+    // Sesi aktif sebelum diubah
+    $prevActive = Session::where('jenis_sesi', 1)->first();
 
-    // 1. Nonaktifkan semua sesi
-    Session::where('jenis_sesi', 1)->update(['jenis_sesi' => 0]);
+    // Update status sesi dalam transaksi
+    DB::transaction(function () use ($newId) {
+        Session::where('jenis_sesi', 1)->update(['jenis_sesi' => 0]);
+        Session::where('id', $newId)->update(['jenis_sesi' => 1]);
+    });
 
-    // 2. Aktifkan sesi yang dipilih
-    Session::where('id', $request->session_id)->update(['jenis_sesi' => 1]);
+    // Jika berpindah DARI 5 ke sesi lain → SKIP perhitungan poin
+    if ($prevActive && (int) $prevActive->id == 5 && $newId != 5) {
+        return redirect()
+            ->route('admin.rally-2.index')
+            ->with('success', "Sesi diubah dari BERHENTI ke sesi {$newId}. Perhitungan poin dilewati.");
+    }
 
-    // 3. Ambil durasi sesi yang dipilih (dalam menit)
-    Log::info(" sesi = " . $sesi);
-    $durasiSesi = $sesi->durasi ?? 35;
-    $demand = $sesi->demand ?? 30;
+    // --- Perhitungan poin normal (untuk kasus selain di atas) ---
+    $sesiBaru = Session::find($newId);
+    if (!$sesiBaru) {
+        return redirect()
+            ->route('admin.rally-2.index')
+            ->with('error', 'Sesi baru tidak ditemukan.');
+    }
 
-    // 4. Proses semua tim
+    Log::info("Ganti ke sesi {$sesiBaru->id} | durasi={$sesiBaru->durasi} | demand={$sesiBaru->demand}");
+
+    $durasiSesi = $sesiBaru->durasi ?? 35;
+    $demand     = $sesiBaru->demand ?? 30;
+
     $teams = Team::all();
     foreach ($teams as $team) {
-        // Reset unlock dan hitung harga maintenance
+        // Reset unlock + hitung maintenance
         $teamMachines = TeamMachine::where('team_id', $team->id)->get();
-        $maintenanceCost = 2500;
-        $totalHargaMaintenance = count($teamMachines) * $maintenanceCost;
+        $maintenanceCost        = 2500;
+        $totalHargaMaintenance  = $teamMachines->count() * $maintenanceCost;
 
         $team->unlocked_babak2 = 0;
-        if( $sesi->id == "3"){
+        if ((int) $sesiBaru->id == 3) {
             $team->harga_unlock = $totalHargaMaintenance * 1.5;
-        }
-        else{
+        } else {
             $team->harga_unlock = $totalHargaMaintenance;
         }
-        
-        
-
-        // Ambil koneksi mesin dan data mesin
+         $team->save();
+        // Ambil koneksi mesin sesuai tim (bukan hardcode 1)
         $connmachine = DB::table('tconnectmachine as cm')
             ->join('tteammachine as src', 'cm.source_team_machine_id', '=', 'src.id')
-            ->join('tteammachine as src2', 'cm.target_team_machine_id', '=', 'src2.id')
-            ->join('tmachine as tm_tgt', 'src.tmachine_id', '=', 'tm_tgt.id')
-            ->join('tmachine as tm_tgt2', 'src2.tmachine_id', '=', 'tm_tgt2.id')
-            ->where('cm.team_id', 1)
+            ->join('tteammachine as tgt', 'cm.target_team_machine_id', '=', 'tgt.id')
+            ->join('tmachine as tm_src', 'src.tmachine_id', '=', 'tm_src.id')
+            ->join('tmachine as tm_tgt', 'tgt.tmachine_id', '=', 'tm_tgt.id')
+            ->where('cm.team_id', $team->id)
             ->select([
                 'cm.id',
                 'src.tmachine_id as source_tmachine_id',
-                'tm_tgt.jenis as source_jenis',
-                'src2.tmachine_id as target_tmachine_id',
-                'tm_tgt2.jenis as target_jenis',
+                'tm_src.jenis as source_jenis',
+                'tgt.tmachine_id as target_tmachine_id',
+                'tm_tgt.jenis as target_jenis',
             ])
             ->orderBy('cm.id')
             ->get();
 
         if ($connmachine->isNotEmpty() && $teamMachines->isNotEmpty()) {
             $productionResult = $this->calculateProductionFlow($connmachine, $teamMachines, $durasiSesi);
+
+            // Akumulasi produksi valid
             $totalProduk = 0;
             foreach ($productionResult as $result) {
-                if ($result['status'] === true) {
-                    $levelQC = (int) ($team->level_mesin_quality ?? 1);
-                    $penaltyMap = [1 => 0.20, 2 => 0.10, 3 => 0.00];
-                    $penalty = $penaltyMap[$levelQC] ?? 0.20; 
-                    $totalProduk += $result['jumlah_produksi'];
-                    $totalProduk = floor($totalProduk * (1 - $penalty));
+                if (!empty($result['status'])) {
+                    $totalProduk += (int) ($result['jumlah_produksi'] ?? 0);
                 }
             }
-        
 
-            if($totalProduk > $demand){
-                $totalProduk -= $demand;
-                $team->inventory_babak_2 = $totalProduk;
-                $uang = $team->total_uang_babak2;
-                $poin = floor($uang / 10000);
-                if($sesi->id == "2"){
-                    $team->poin_total_babak2 += ($demand + $poin) * 1.5;
+            // Terapkan penalti kualitas SEKALI (bukan di dalam loop)
+            $levelQC   = (int) ($team->level_mesin_quality ?? 1);
+            $penaltyMap = [1 => 0.20, 2 => 0.10, 3 => 0.00];
+            $penalty    = $penaltyMap[$levelQC] ?? 0.20;
+            $totalProduk = (int) floor($totalProduk * (1 - $penalty));
+
+            $sepedaCol = match ((int) $prevActive->id) {
+                    1 => 'sepeda_sesi1',
+                    2 => 'sepeda_sesi2',
+                    3 => 'sepeda_sesi3',
+                    4 => 'sepeda_sesi4',
+                    default => null,
+                };
+
+                if ($sepedaCol) {
+                    // Opsi A (overwrite hasil sesi ini):
+                    $team->$sepedaCol = $totalProduk;
+
                 }
-                else{
-                    $team->poin_total_babak2 += $demand + $poin;
-                }
-                
+            $uang = (int) ($team->total_uang_babak2 ?? 0);
+            $poin = (int) floor($uang / 10000);
+
+            if ($totalProduk > $demand) {
+                $sisa = $totalProduk - $demand;
+                $team->inventory_babak_2 = $sisa;
+                $base = $demand + $poin;
+            } else {
+                $team->inventory_babak_2 = 0;
+                $base = $totalProduk + $poin;
             }
-            else{
-                $uang = $team->total_uang_babak2;
-                $poin = floor($uang / 10000);
-                
-                if( $sesi->id == "2"){
-                    $team->poin_total_babak2 += ($totalProduk + $poin) * 1.5;
-                    Log::info($poin . "   ". $uang .  "   "    . $sesi . "  "  .  $totalProduk );
-                }
-                else{
-                   $team->poin_total_babak2 += $totalProduk + $poin;
-                }
-                
+
+            // Bonus khusus sesi id=2
+            if ((int) $sesiBaru->id == 2) {
+                $team->poin_total_babak2 += $base * 1.5;
+            } else {
+                $team->poin_total_babak2 += $base;
             }
+
             $team->save();
-
         }
     }
 
-    return redirect()->route('admin.rally-2.index') // Ganti dengan route tujuan
+    return redirect()->route('admin.rally-2.index')
         ->with('success', 'Sesi berhasil diperbarui dan poin dihitung ulang!');
 }
-
 private function calculateProductionFlow($connmachine, $teamMachines, $durasiSesi)
 {
     $hasilProduksi = [];

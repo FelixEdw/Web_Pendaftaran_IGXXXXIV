@@ -40,4 +40,8 @@ class RallyGames extends Controller
         // Jika bukan peserta
         return abort(403, 'Akses ditolak.');
     }
+
+    public function stopped(){
+        return view("peserta.rally-2.stopped");
+    }
 }

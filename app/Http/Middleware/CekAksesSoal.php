@@ -20,6 +20,12 @@ class CekAksesSoal
             abort(403, 'Akses soal hanya bisa dilakukan melalui QR Scan.');
         }
 
+         // Cek apakah sudah pernah diakses dan selesaikan
+        if (session()->get("soal_selesai_$id")) {
+            return redirect()->route('peserta.rally-2.scanner')
+                ->with('error', 'Soal ini sudah diselesaikan sebelumnya.');
+        }
+
         return $next($request);
     }
 }

@@ -7,9 +7,14 @@
         style="background-image: url('{{ asset('icons/motif_gear.svg') }}');">
         <div class="bg-gradient-to-br from-gray-400 via-gray-500 to-gray-700 rounded-2xl p-8 w-full max-w-md mx-auto shadow-2xl">
             @if ($pernahAkses)
-                <div
-                    class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded-lg text-center font-semibold">
-                    ⚠️ Kamu sudah pernah mengakses soal ini sebelumnya.
+                <div class="flex items-center gap-2">
+                    <a href="{{ route('peserta.rally-2.index') }}" class="text-[#6B4D28] text-2xl">
+                        <x-ri-arrow-left-s-line class="w-10 h-10 text-[#6B4D28]" />
+                    </a>
+                    <div
+                        class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded-lg text-center font-semibold">
+                        ⚠️ Kamu sudah pernah mengakses soal ini sebelumnya.
+                    </div>
                 </div>
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {

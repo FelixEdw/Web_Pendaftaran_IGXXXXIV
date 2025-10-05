@@ -116,10 +116,13 @@ Route::group([
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/accountdetail', [HomeController::class, 'account'])->name('account-detail');
-    Route::get('/rally', [RallyGames::class, 'index'])->name('rally');
+    Route::get('/rally', [RallyGames::class, 'index'])->name(name: 'rally');
+    
 
     // =================== RALLY 2 ===================
     Route::get('/rally2', [R2Controller::class, 'index'])->name('rally-2.index');
+    Route::get('/rally2/stopped', [RallyGames::class, 'stopped'])->name(name: 'rally-2.stopped');
+
     Route::post('/rally2/unlock', [R2Controller::class, 'unlockFactory'])->name('rally2.unlock');
 
     //==================SIDEBAR======================
@@ -127,20 +130,23 @@ Route::group([
     Route::get('/rally2/events', [R2Controller::class, 'events'])->name('rally-2.events');
     Route::get('/rally2/inventory', [R2Controller::class, 'inventory'])->name('rally-2.inventory');
     Route::post('/rally2/sellsepeda', [R2Controller::class, 'sellItem'])->name('rally-2.sellsepeda');
+    Route::get('/rally2/infodemand', [R2Controller::class, 'infoDemand'])->name('rally-2.infodemand');
 
 
-    //==================SCANNER==========================
+    //==================SCANNER - DENGAN MIDDLEWARE CEK_AKSES_SOAL ==========================
     Route::get('/rally2/question/{id}', [R2Controller::class, 'showQR'])
         ->middleware('cek.soal.qr')->name('rally-2.question');
-
+    
     Route::post('/rally2/question/{id}/submit', [R2Controller::class, 'submitQR'])
-        ->name('question.submit');
+        ->middleware('cek.soal.qr')->name('question.submit');
 
     Route::get('/rally2/claim-envelope/{id}', [R2Controller::class, 'claim'])
         ->middleware('cek.claim.envelope')->name('rally-2.claim-envelope');
 
     Route::get('/rally2/qr-redirect/{id}', function ($id) {
         session()->put("akses_soal_$id", true);
+        // Hapus flag soal selesai jika ada (untuk kasus scan ulang)
+        session()->forget("soal_selesai_$id");
         return redirect()->route('peserta.rally-2.question', $id);
     });
 

@@ -14,13 +14,20 @@
             </h2>
 
             {{-- Tampilkan sesi aktif --}}
+            {{-- Tampilkan sesi aktif --}}
             @if($activeSession)
-                <p class="mb-2 text-sm text-gray-700">
-                    <strong class="text-indigo-700">Sesi Aktif:</strong> Sesi {{ $activeSession->id }} — 
-                    Durasi: {{ $activeSession->durasi }} menit — 
-                    Demand: {{ $activeSession->demand }} —
-                    Event: {{ $activeSession->event ?? 'Tidak ada event' }}
-                </p>
+                @if((int) $activeSession->id === 5)
+                    <p class="mb-2 text-sm text-gray-700">
+                        <strong class="text-indigo-700">Sesi Aktif:</strong> SESI BERHENTI
+                    </p>
+                @else
+                    <p class="mb-2 text-sm text-gray-700">
+                        <strong class="text-indigo-700">Sesi Aktif:</strong> Sesi {{ $activeSession->id }} — 
+                        Durasi: {{ $activeSession->durasi }} menit — 
+                        Demand: {{ $activeSession->demand }} —
+                        Event: {{ $activeSession->event ?? 'Tidak ada event' }}
+                    </p>
+                @endif
             @endif
 
             {{-- Form Ganti Sesi --}}
@@ -30,8 +37,14 @@
                     class="flex-1 px-4 py-2 border border-indigo-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-500 bg-white text-gray-700">
                     <option value="">-- Pilih Sesi --</option>
                     @foreach ($allSessions as $session)
+                        @php $isStop = (int) $session->id === 5; @endphp
                         <option value="{{ $session->id }}">
-                            Sesi {{ $session->id }} — Durasi: {{ $session->durasi }} — Demand: {{ $session->demand }}
+                            @if($isStop)
+                                SESI BERHENTI
+                            @else
+                                Sesi {{ $session->id }} — Durasi: {{ $session->durasi }} — Demand: {{ $session->demand }}
+                                @if(!empty($session->event)) — Event: {{ $session->event }} @endif
+                            @endif
                         </option>
                     @endforeach
                 </select>

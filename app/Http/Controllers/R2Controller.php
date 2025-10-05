@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Machine;
+use App\Models\Session;
 use App\Models\TeamMachine;
 use Carbon\Carbon;
 // use DB;
@@ -111,7 +112,7 @@ class R2Controller extends Controller
         $user = Auth::user();
         $team = Team::where('nama_tim', $user->name)->firstOrFail();
 
-        $unlockCost = 100000;
+        $unlockCost = $team->harga_unlock;
 
         if ($team->unlocked_babak2) {
             return response()->json(['message' => 'Factory already unlocked.'], 400);
@@ -280,7 +281,26 @@ class R2Controller extends Controller
         ], 500);
     }
 }
+    public function infoDemand()
+{
+    
+        $user = Auth::user();
+        $team = Team::where('nama_tim', $user->name)->firstOrFail();
+    $sessions =Session::whereIn('id', [1,2,3,4])->orderBy('id')->get(['id','demand']);
 
+    $map = $sessions->map(fn($s) => [
+        'id'       => $s->id,
+        'demand'   => (int)($s->demand ?? 0),
+        'produced' => match ($s->id) {
+            1 => (int)($team->sepeda_sesi1 ?? 0),
+            2 => (int)($team->sepeda_sesi2 ?? 0),
+            3 => (int)($team->sepeda_sesi3 ?? 0),
+            4 => (int)($team->sepeda_sesi4 ?? 0),
+        },
+    ])->all();
+
+    return view('peserta.rally-2.infodemand', ['sessions' => $map]);
+}
     public function question()
     {
         return view('peserta.rally-2.question');
@@ -292,6 +312,12 @@ class R2Controller extends Controller
         // Cegah akses tanpa QR
         if (!session()->get("akses_soal_$id")) {
             abort(403, "Akses soal hanya bisa dilakukan melalui QR Scan.");
+        }
+
+         // CEK BARU: Jika soal sudah diselesaikan, redirect
+        if (session()->get("soal_selesai_$id")) {
+            return redirect()->route('peserta.rally-2.scanner')
+                ->with('error', 'Soal ini sudah diselesaikan sebelumnya.');
         }
 
         $soal = SoalQR::findOrFail($id);
@@ -309,6 +335,14 @@ class R2Controller extends Controller
     {
         $user = Auth::user();
         $team = Team::where('nama_tim', $user->name)->firstOrFail();
+
+        // CEK BARU: Jika soal sudah diselesaikan, tolak submission
+        if (session()->get("soal_selesai_$id")) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Soal ini sudah diselesaikan sebelumnya.'
+            ], 403);
+        }
 
         Log::info("ID Soal : " . $id);
         $soal = SoalQR::findOrFail($id);
@@ -337,6 +371,9 @@ class R2Controller extends Controller
         if ($status === 'benar') {
             $team->total_uang_babak2 += $soal->reward_amount;
             $team->save();
+
+            // TANDAI SOAL SUDAH SELESAI - HANYA JIKA BENAR
+            session()->put("soal_selesai_$id", true);
         }
 
         return response()->json([
