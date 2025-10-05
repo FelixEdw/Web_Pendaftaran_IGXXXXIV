@@ -117,6 +117,19 @@ public function gantisesi(Request $request)
             $penalty    = $penaltyMap[$levelQC] ?? 0.20;
             $totalProduk = (int) floor($totalProduk * (1 - $penalty));
 
+            $sepedaCol = match ((int) $prevActive->id) {
+                    1 => 'sepeda_sesi1',
+                    2 => 'sepeda_sesi2',
+                    3 => 'sepeda_sesi3',
+                    4 => 'sepeda_sesi4',
+                    default => null,
+                };
+
+                if ($sepedaCol) {
+                    // Opsi A (overwrite hasil sesi ini):
+                    $team->$sepedaCol = $totalProduk;
+
+                }
             $uang = (int) ($team->total_uang_babak2 ?? 0);
             $poin = (int) floor($uang / 10000);
 

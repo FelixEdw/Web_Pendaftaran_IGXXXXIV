@@ -1,10 +1,7 @@
 @props(['factories'])
 
 <div class="relative">
-    <!-- SVG Container for Arrows -->
-    <svg id="connectionArrows" class="absolute inset-0 pointer-events-none z-10" style="width: 100%; height: 100%;">
-    </svg>
-
+    
     <div class="grid grid-cols-4 gap-2" id="factoryGrid">
         @foreach($factories as $index => $factory)
 
@@ -192,9 +189,7 @@
         </div>
     </div>
 
-    <!-- SVG Container for Arrows -->
-    <svg id="connectionArrows" class="absolute inset-0 pointer-events-none z-10" style="width: 100%; height: 100%;">
-    </svg>
+    
     <div id="sellModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
         <div class="bg-white rounded-lg p-6 max-w-sm mx-4 transform scale-90 opacity-0 transition-all duration-200">
             <div class="text-center">
@@ -574,7 +569,71 @@
             console.log("factoriesData:", factoriesData);
         }
 
+// === [INSERT] helpers penanda "butuh connect" (UI-only) ===
+const maxJenis = Math.max(...factoriesData.map(f => parseInt(f.jenis) || 0));
 
+function hasNextOwned(factory) {
+  const nextJenis = (parseInt(factory.jenis) || 0) + 1;
+  return factoriesData.some(f => f.owned && parseInt(f.jenis) === nextJenis);
+}
+
+function hasOutgoing(factory) {
+  const fromOwnedId = factory.owned_id;
+  return Array.isArray(factory.connections) && factory.connections.some(c => c.from === fromOwnedId);
+}
+
+function needsConnection(factory) {
+  return !!factory.owned
+    && (parseInt(factory.jenis) || 0) < maxJenis
+    && hasNextOwned(factory)
+    && !hasOutgoing(factory);
+}
+
+// Tandai tile yang butuh koneksi (badge + ring kuning)
+function annotateUnconnectedOnGrid() {
+  const grid = document.getElementById('factoryGrid');
+  if (!grid) return;
+
+  Array.from(grid.children).forEach((tileEl, idx) => {
+    const f = factoriesData[idx];
+    if (!f) return;
+
+    // bersihkan badge lama
+    tileEl.querySelectorAll('.badge-needs-conn').forEach(el => el.remove());
+
+    // ambil kotak mesin (inner), tempel ikon ke sini agar nempel di fotonya
+    const inner = tileEl.querySelector('.aspect-square.w-full');
+    if (!inner) return;
+
+    if (needsConnection(f)) {
+      const cross = document.createElement('div');
+      cross.className = `
+        badge-needs-conn
+        pointer-events-none
+        absolute top-1 left-1 z-20
+        bg-rose-600 text-white
+        w-5 h-5 rounded-full
+        flex items-center justify-center
+        text-[10px] leading-none shadow
+      `.trim();
+      cross.textContent = '✕';
+      inner.appendChild(cross); // <<< tempel ke inner, bukan tileEl
+    }
+  });
+}
+
+// Konversi connections berbasis owned_id → indeks grid (buat drawConnections)
+function buildConnectionsIndexBased() {
+  function idxByOwnedId(id) {
+    return factoriesData.findIndex(ff => ff.owned_id === id);
+  }
+  connections = factoriesData
+    .flatMap(f => (f.connections || []).map(c => ({
+      from: idxByOwnedId(c.from),
+      to:   idxByOwnedId(c.to),
+    })))
+    .filter(c => c.from !== -1 && c.to !== -1);
+}
 
 
 
@@ -668,8 +727,9 @@
                 svg.appendChild(defs);
             }
         }
-
-        window.addEventListener('resize', drawConnections);
+window.addEventListener('load', () => {
+  annotateUnconnectedOnGrid();
+});
 
         function showWorkerModal(index, factory) {
             selectedWorkerFactoryIndex = index;

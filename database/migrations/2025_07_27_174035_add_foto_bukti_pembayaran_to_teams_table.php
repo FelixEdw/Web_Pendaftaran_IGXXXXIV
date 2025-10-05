@@ -19,6 +19,10 @@ return new class extends Migration
             $table->integer('uang')->default(20); 
             $table->integer('inventory_babak_2')->default(0); 
             $table->integer('level_mesin_quality')->default(1); 
+            $table->integer('sepeda_sesi1')->default(0); 
+            $table->integer('sepeda_sesi2')->default(0); 
+            $table->integer('sepeda_sesi3')->default(0); 
+            $table->integer('sepeda_sesi4')->default(0); 
 
         });
     }

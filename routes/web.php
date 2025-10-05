@@ -130,6 +130,7 @@ Route::group([
     Route::get('/rally2/events', [R2Controller::class, 'events'])->name('rally-2.events');
     Route::get('/rally2/inventory', [R2Controller::class, 'inventory'])->name('rally-2.inventory');
     Route::post('/rally2/sellsepeda', [R2Controller::class, 'sellItem'])->name('rally-2.sellsepeda');
+    Route::get('/rally2/infodemand', [R2Controller::class, 'infoDemand'])->name('rally-2.infodemand');
 
 
     //==================SCANNER - DENGAN MIDDLEWARE CEK_AKSES_SOAL ==========================
