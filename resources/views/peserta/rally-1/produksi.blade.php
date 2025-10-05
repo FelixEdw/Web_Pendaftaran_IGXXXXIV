@@ -7,13 +7,13 @@
 
         {{-- Arrow icon di pojok kiri atas --}}
         <a href="{{ route('peserta.rally-1.index') }}" class="absolute top-8 left-8 text-white z-10">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mt-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mt-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
         </a>
 
         {{-- Judul Halaman --}}
-        <h2 class="text-white text-3xl sm:text-4xl font-bold mt-24 mb-8 text-center uppercase tracking-widest">
+        <h2 class="text-white text-3xl sm:text-4xl font-bold mt-32 mb-8 text-center uppercase tracking-widest">
             Produksi Sepeda
         </h2>
 
@@ -30,13 +30,13 @@
         @endif
 
         {{-- Kontainer utama dengan efek glassmorphism --}}
-        <div class="w-full max-w-4xl bg-white/20 backdrop-blur-lg rounded-2xl p-6 sm:p-8 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-10">
+        <div>
 
             @foreach ($resep as $jenis => $syarat)
-                <div class="bg-white/10 rounded-xl p-6 flex flex-col items-center text-white text-center shadow-lg">
+                <div class="bg-white/40 rounded-xl p-6 flex flex-col items-center text-white text-center shadow-lg p-6 sm:p-8 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-10">
                     <h3 class="text-xl font-semibold mb-4">{{ ucfirst($jenis) }} Bike</h3>
-                    
                     {{-- Ikon Sepeda --}}
+                    <div class = "w-full flex justify-center mb-4">
                     @php
                         $icon = '';
                         switch($jenis) {
@@ -56,8 +56,8 @@
                                 $icon = 'default_bike.png';
                         }
                     @endphp
-                    <img src="{{ asset('images/' . $icon) }}" alt="{{ ucfirst($jenis) }} Bike Icon" class="w-24 h-24 mb-4">
-
+                    <img src="{{ asset('images/' . $icon) }}" alt="{{ ucfirst($jenis) }} Bike Icon" class="w-24 h-24 mb-4 items-center">
+                </div>
                     <p class="text-sm text-gray-200 mb-2 font-semibold">Bahan yang dibutuhkan:</p>
                     <ul class="text-left w-full space-y-2 mb-6">
                         @php $cukup = true; @endphp
@@ -80,7 +80,7 @@
                         @csrf
                         <button type="submit" 
                             class="w-full py-3 px-6 rounded-full font-bold transition-all duration-300
-                            {{ $cukup ? 'bg-[#D6B05B] text-black hover:bg-[#b99743] shadow-md' : 'bg-gray-500 text-gray-300 cursor-not-allowed' }}"
+                            {{ $cukup ? 'bg-[#602c10] text-black hover:bg-[#b99743] shadow-md' : 'bg-gray-500 text-gray-300 cursor-not-allowed' }}"
                             {{ $cukup ? '' : 'disabled' }}>
                             🚲 Rakit {{ ucfirst($jenis) }}
                         </button>
