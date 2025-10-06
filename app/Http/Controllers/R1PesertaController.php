@@ -252,7 +252,8 @@ class R1PesertaController extends Controller
     public function lihatKomponen()
     {
         $user = Auth::user();
-        $timId = $user->id;
+        $team = Team::where('nama_tim', $user->name)->first();
+        $timId = $team->id;
 
         $komponen = DB::table('komponen')
             ->where('team_id', $timId)

@@ -162,6 +162,9 @@
 
         <a href="{{ route('home') }}" class="back-link">← Kembali ke Dashboard</a>
     </div>
+    <div class="container-2">
+        <h3>Leaderboard Peserta</h3>
+    </div>
 </body>
 
 </html>
