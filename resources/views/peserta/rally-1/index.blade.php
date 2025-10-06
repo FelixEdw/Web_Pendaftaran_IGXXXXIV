@@ -85,7 +85,7 @@
     {{-- Floating Action Button (FAB) --}}
     <button
         @click="open = true"
-        style="position: fixed; bottom: 1.5rem; left: 1.5rem; z-index: 9999;"
+        style="position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999;"
         class="text-white text-xl btn-bronze p-4 rounded-full shadow-xl transition transform hover:scale-110 focus:outline-none">
         ⚙️
     </button>
@@ -102,17 +102,17 @@
             x-transition:leave="translate-x-0"
             x-transition:leave-end="translate-x-full">
 
-            <div class="flex justify-between items-center mb-6 pb-3">
+            <div class="flex justify-between items-center mb-4 pb-3">
                 {{-- Judul Menu: Bright Gold --}}
-                <h4 class="text-xl font-bold text-white">Menu Utama</h4>
-                <button @click="open = false" class="text-gray-400 hover:text-red-500 text-3xl transition">&times;</button>
+                <h4 class="text-xl font-bold text-white mb-10">Menu Utama</h4>
+                <button @click="open = false" class="text-gray-400 hover:text-red-500 text-3xl transition mb-10">&times;</button>
             </div>
 
             <ul class="space-y-4">
                 {{-- Rakit Sepeda: Bronze Button --}}
                 <li>
                     <a href="{{ route("peserta.produksi") }}" class="block px-4 py-3 btn-bronze rounded-lg shadow-lg hover:shadow-xl transition font-medium">
-                        🔧 Rakit Sepeda
+                        🔧 Produksi Sepeda
                     </a>
                 </li>
                 {{-- Jual Sepeda: Dark Gold Button --}}

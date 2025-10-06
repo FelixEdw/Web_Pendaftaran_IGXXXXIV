@@ -79,11 +79,8 @@
         </div>
     </section>
 
-    <!-- Footer (Konsisten dengan halaman lain) -->
-<footer class="bg-[#120803] pt-8">
-        <!-- PERUBAHAN DI SINI: Mengubah grid-cols-1 md:grid-cols-3 menjadi grid-cols-1 md:grid-cols-2 dan menambahkan grid-rows-2 -->
+<!-- <footer class="bg-[#120803] pt-8">
         <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
-            <!-- Social Media -->
             <div>
                 <h3 class="text-3xl font-bold mb-4 mt-12">OUR SOCIAL MEDIA</h3>
                 <ul>
@@ -92,7 +89,6 @@
                 </ul>
             </div>
 
-            <!-- Contact Us -->
             <div>
                 <h3 class="text-3xl font-bold mb-4 mt-12">CONTACT US</h3>
                 <ul>
@@ -103,16 +99,14 @@
                 </ul>
             </div>
 
-            <!-- Sponsored By -->
-            <!-- PERUBAHAN DI SINI: Menambahkan col-span-full untuk menempati lebar penuh di baris baru -->
-            <div class="col-span-full mt-8"> <!-- Menambahkan margin-top untuk jeda dari bagian atas -->
+            <div class="col-span-full mt-8"> 
                 <h3 class="text-3xl font-bold mb-[200px]">SPONSORED BY:</h3>
                 <div class="flex flex-wrap gap-4">
-                    <!-- Placeholder for sponsor logos if any -->
+                    
                 </div>
             </div>
         </div>
-    </footer>
+    </footer> -->
 
 </body>
 @endsection

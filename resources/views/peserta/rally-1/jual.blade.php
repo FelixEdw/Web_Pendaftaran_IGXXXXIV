@@ -6,7 +6,7 @@
 
         {{-- Arrow icon di pojok kiri atas --}}
         <a href="{{ route('peserta.rally-1.index') }}" class="absolute top-8 left-8 text-white z-10">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mt-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mt-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
         </a>
@@ -29,9 +29,8 @@
         @endif
 
         {{-- Kontainer utama dengan efek glassmorphism --}}
-        <div class="w-full max-w-4xl bg-white/20 backdrop-blur-lg rounded-2xl p-6 sm:p-8 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-24">
-
-            @foreach ($harga as $jenis => $h)
+        <
+ @foreach ($harga as $jenis => $h)
                 @php
                     $stokSepeda = $stok->$jenis ?? 0;
                     $icon = '';
@@ -53,11 +52,13 @@
                     }
                 @endphp
 
-                <div class="bg-white/10 rounded-xl p-6 flex flex-col items-center text-white text-center shadow-lg">
+                <div class="bg-white/40 rounded-xl p-20 flex flex-col items-center text-white text-center shadow-lg mb-10">
                     <h3 class="text-xl font-semibold mb-4">{{ ucwords(str_replace('_', ' ', $jenis)) }}</h3>
                     
                     {{-- Ikon Sepeda --}}
                     <img src="{{ asset('images/' . $icon) }}" alt="{{ ucwords(str_replace('_', ' ', $jenis)) }} Icon" class="w-24 h-24 mb-4">
+
+           
                     
                     <p class="font-medium">Stock: <span class="text-2xl font-bold">{{ $stokSepeda }}</span></p>
                     <p class="font-bold text-lg mb-4">Price: <span class="text-green-400">${{ number_format($h, 0, ',', '.') }}</span></p>
