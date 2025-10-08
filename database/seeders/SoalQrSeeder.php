@@ -383,7 +383,7 @@ class SoalQrSeeder extends Seeder
                 'option_2' => '\\( 784\\pi\\ \\mathrm{cm^3} \\)',
                 'option_3' => '\\( 882\\pi\\ \\mathrm{cm^3} \\)',
                 'option_4' => '\\( 960\\pi\\ \\mathrm{cm^3} \\)',
-                'jawaban_benar' => '882π cm3',
+                'jawaban_benar' => '882π cm3',
                 'gambar_soal' => null
             ],
             [
@@ -1451,7 +1451,7 @@ class SoalQrSeeder extends Seeder
                 'option_2' => 'Gram',
                 'option_3' => 'Kilogram',
                 'option_4' => 'Newton',
-                'jawaban_benar' => 'Kilogram',
+                'jawaban_benar' => 'Newton',
                 'gambar_soal' => null
             ],
             [
@@ -1583,7 +1583,7 @@ class SoalQrSeeder extends Seeder
                 'option_2' => 'Infrasonik',
                 'option_3' => 'Ultrasonik',
                 'option_4' => 'Supersonik',
-                'jawaban_benar' => 'Ultrasonik',
+                'jawaban_benar' => 'Infrasonik',
                 'gambar_soal' => null
             ],
             [
@@ -2099,7 +2099,7 @@ class SoalQrSeeder extends Seeder
                 'option_2' => 'Ginjal',
                 'option_3' => 'Paru-paru',
                 'option_4' => 'Kandung kemih',
-                'jawaban_benar' => 'Paru-paru',
+                'jawaban_benar' => 'Ginjal',
                 'gambar_soal' => null
             ],
             [
@@ -2549,13 +2549,13 @@ class SoalQrSeeder extends Seeder
             [
                 'id' => 212,
                 'level' => '2',
-                'pertanyaan' => 'Sebuah balok dengan berat 20\,\mathrm{N} meluncur pada bidang miring dengan panjang 3\,\mathrm{m}. Gerak dimulai pada ujung bidang miring dan bidang miring membentuk sudut 30^\circ terhadap horizontal. Gaya gesek antara balok dengan bidang miring adalah 6\,\mathrm{N}. Berapa energi kinetik balok ketika sampai di dasar bidang miring?',
+                'pertanyaan' => 'Sebuah balok dengan berat \( 20 \, \mathrm{N} \) meluncur pada bidang miring dengan panjang \( 3 \, \mathrm{m} \). Gerak dimulai pada ujung bidang miring dan bidang miring membentuk sudut \( 30^\circ \) terhadap horizontal. Gaya gesek antara balok dengan bidang miring adalah \( 6 \, \mathrm{N} \). Berapa energi kinetik balok ketika sampai di dasar bidang miring?',
                 'reward_amount'=> 2000,
                 'option_1' => '\( 0\,\mathrm{J} \)',
                 'option_2' => '\( 4\,\mathrm{J} \)',
                 'option_3' => '\( 12\,\mathrm{J} \)',
                 'option_4' => '\( 32\,\mathrm{J} \)',
-                'jawaban_benar' => '12 j',
+                'jawaban_benar' => '12j',
                 'gambar_soal' => null
             ],
             [
@@ -2621,13 +2621,13 @@ class SoalQrSeeder extends Seeder
             [
                 'id' => 218,
                 'level' => '3',
-                'pertanyaan' => 'Sebuah ambulans bergerak dengan kecepatan 144\,\text{km/jam} sambil membunyikan sirine dengan frekuensi 2000\,\text{Hz}. Pengendara sepeda motor bergerak dengan kecepatan 40\,\text{m/s}^2 berlawanan arah dengan ambulans. Jika cepat rambat bunyi di udara 320\,\text{m/s}^2 maka perbandingan frekuensi yang didengar oleh pengendara sepeda motor saat mendekat dan menjauhi ambulans adalah…',
+                'pertanyaan' => 'Sebuah ambulans bergerak dengan kecepatan \( 144 \, \text{km/jam} \) sambil membunyikan sirine dengan frekuensi \( 2000 \, \text{Hz} \). Pengendara sepeda motor bergerak dengan kecepatan \( 40 \, \text{m/s} \) berlawanan arah dengan ambulans. Jika cepat rambat bunyi di udara \( 320 \, \text{m/s} \), maka perbandingan frekuensi yang didengar oleh pengendara sepeda motor saat mendekat dan menjauhi ambulans adalah …',
                 'reward_amount'=> 3000,
                 'option_1' => '\( \frac{81}{49}\,\text{Hz} \)',
                 'option_2' => '\( \frac{81}{50}\,\text{Hz} \)',
                 'option_3' => '\( \frac{5}{3}\,\text{Hz} \)',
                 'option_4' => '\( \frac{3}{5}\,\text{Hz} \)',
-                'jawaban_benar' => '8149 hz',
+                'jawaban_benar' => '8149hz',
                 'gambar_soal' => null
             ],
             [
