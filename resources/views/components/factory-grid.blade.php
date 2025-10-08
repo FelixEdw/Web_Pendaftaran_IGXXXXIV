@@ -1,7 +1,7 @@
 @props(['factories'])
 
 <div class="relative">
-    
+
     <div class="grid grid-cols-4 gap-2" id="factoryGrid">
         @foreach($factories as $index => $factory)
 
@@ -14,7 +14,7 @@
                 </span>
                 <div
                     class="aspect-square w-full relative border-2 transition cursor-pointer rounded-[20px]
-                    {{ $factory['owned'] ? 'bg-green-100 border-gray-600 hover:border-green-600' : 'bg-gradient-to-br from-gray-300 via-gray-500 to-gray-700 border-gray-700' }}">
+                                                                    {{ $factory['owned'] ? 'bg-green-100 border-gray-600 hover:border-green-600' : 'bg-gradient-to-br from-gray-300 via-gray-500 to-gray-700 border-gray-700' }}">
 
                     @if($factory['owned'])
                         <img src="{{ asset('storage/rally-2/mesin' . $factory['jenis'] . '.png') }}"
@@ -67,6 +67,10 @@
                 <button onclick="showSellModal()"
                     class="w-full bg-red-500 text-white py-3 rounded-lg font-bold hover:bg-red-600 transition">
                     SELL
+                </button>
+                <button id="layoffButton" onclick="showLayoffConfirm()"
+                    class="w-full bg-red-500 text-white py-3 rounded-lg font-bold hover:bg-red-600 transition">
+                    LAYOFF WORKER
                 </button>
             </div>
 
@@ -139,10 +143,6 @@
                         class="flex-1 bg-green-500 text-white py-3 rounded-lg font-bold hover:bg-green-600 transition">
                         HIRE
                     </button>
-                    <button id="layoffButton" onclick="showLayoffConfirm()"
-                        class="flex-1 bg-red-500 text-white py-3 rounded-lg font-bold hover:bg-red-600 transition">
-                        LAYOFF
-                    </button>
                 </div>
             </div>
         </div>
@@ -189,7 +189,7 @@
         </div>
     </div>
 
-    
+
     <div id="sellModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
         <div class="bg-white rounded-lg p-6 max-w-sm mx-4 transform scale-90 opacity-0 transition-all duration-200">
             <div class="text-center">
@@ -240,6 +240,7 @@
             const isOwned = factory.owned === true || factory.owned === "true";
 
             const connectButton = document.getElementById('connectButton');
+            const layoffButton = document.getElementById('layoffButton');
 
             if (factory.owned) {
                 buyButton.classList.add('hidden');
@@ -252,10 +253,14 @@
                 else if ((factory.operator_hired === 0 || !factory.operator_hired) && connectButton) {
                     connectButton.disabled = true;
                     connectButton.classList.add('opacity-50', 'cursor-not-allowed');
+                    layoffButton.disabled = true;
+                    layoffButton.classList.add('opacity-50', 'cursor-not-allowed');
                 }
                 else if (connectButton) {
                     connectButton.disabled = false;
                     connectButton.classList.remove('hidden', 'opacity-50', 'cursor-not-allowed');
+                    layoffButton.disabled = false;
+                    layoffButton.classList.remove('opacity-50', 'cursor-not-allowed');
                 }
 
             } else {
@@ -569,45 +574,45 @@
             console.log("factoriesData:", factoriesData);
         }
 
-// === [INSERT] helpers penanda "butuh connect" (UI-only) ===
-const maxJenis = Math.max(...factoriesData.map(f => parseInt(f.jenis) || 0));
+        // === [INSERT] helpers penanda "butuh connect" (UI-only) ===
+        const maxJenis = Math.max(...factoriesData.map(f => parseInt(f.jenis) || 0));
 
-function hasNextOwned(factory) {
-  const nextJenis = (parseInt(factory.jenis) || 0) + 1;
-  return factoriesData.some(f => f.owned && parseInt(f.jenis) === nextJenis);
-}
+        function hasNextOwned(factory) {
+            const nextJenis = (parseInt(factory.jenis) || 0) + 1;
+            return factoriesData.some(f => f.owned && parseInt(f.jenis) === nextJenis);
+        }
 
-function hasOutgoing(factory) {
-  const fromOwnedId = factory.owned_id;
-  return Array.isArray(factory.connections) && factory.connections.some(c => c.from === fromOwnedId);
-}
+        function hasOutgoing(factory) {
+            const fromOwnedId = factory.owned_id;
+            return Array.isArray(factory.connections) && factory.connections.some(c => c.from === fromOwnedId);
+        }
 
-function needsConnection(factory) {
-  return !!factory.owned
-    && (parseInt(factory.jenis) || 0) < maxJenis
-    && hasNextOwned(factory)
-    && !hasOutgoing(factory);
-}
+        function needsConnection(factory) {
+            return !!factory.owned
+                && (parseInt(factory.jenis) || 0) < maxJenis
+                && hasNextOwned(factory)
+                && !hasOutgoing(factory);
+        }
 
-// Tandai tile yang butuh koneksi (badge + ring kuning)
-function annotateUnconnectedOnGrid() {
-  const grid = document.getElementById('factoryGrid');
-  if (!grid) return;
+        // Tandai tile yang butuh koneksi (badge + ring kuning)
+        function annotateUnconnectedOnGrid() {
+            const grid = document.getElementById('factoryGrid');
+            if (!grid) return;
 
-  Array.from(grid.children).forEach((tileEl, idx) => {
-    const f = factoriesData[idx];
-    if (!f) return;
+            Array.from(grid.children).forEach((tileEl, idx) => {
+                const f = factoriesData[idx];
+                if (!f) return;
 
-    // bersihkan badge lama
-    tileEl.querySelectorAll('.badge-needs-conn').forEach(el => el.remove());
+                // bersihkan badge lama
+                tileEl.querySelectorAll('.badge-needs-conn').forEach(el => el.remove());
 
-    // ambil kotak mesin (inner), tempel ikon ke sini agar nempel di fotonya
-    const inner = tileEl.querySelector('.aspect-square.w-full');
-    if (!inner) return;
+                // ambil kotak mesin (inner), tempel ikon ke sini agar nempel di fotonya
+                const inner = tileEl.querySelector('.aspect-square.w-full');
+                if (!inner) return;
 
-    if (needsConnection(f)) {
-      const cross = document.createElement('div');
-      cross.className = `
+                if (needsConnection(f)) {
+                    const cross = document.createElement('div');
+                    cross.className = `
         badge-needs-conn
         pointer-events-none
         absolute top-1 left-1 z-20
@@ -616,24 +621,24 @@ function annotateUnconnectedOnGrid() {
         flex items-center justify-center
         text-[10px] leading-none shadow
       `.trim();
-      cross.textContent = '✕';
-      inner.appendChild(cross); // <<< tempel ke inner, bukan tileEl
-    }
-  });
-}
+                    cross.textContent = '✕';
+                    inner.appendChild(cross); // <<< tempel ke inner, bukan tileEl
+                }
+            });
+        }
 
-// Konversi connections berbasis owned_id → indeks grid (buat drawConnections)
-function buildConnectionsIndexBased() {
-  function idxByOwnedId(id) {
-    return factoriesData.findIndex(ff => ff.owned_id === id);
-  }
-  connections = factoriesData
-    .flatMap(f => (f.connections || []).map(c => ({
-      from: idxByOwnedId(c.from),
-      to:   idxByOwnedId(c.to),
-    })))
-    .filter(c => c.from !== -1 && c.to !== -1);
-}
+        // Konversi connections berbasis owned_id → indeks grid (buat drawConnections)
+        function buildConnectionsIndexBased() {
+            function idxByOwnedId(id) {
+                return factoriesData.findIndex(ff => ff.owned_id === id);
+            }
+            connections = factoriesData
+                .flatMap(f => (f.connections || []).map(c => ({
+                    from: idxByOwnedId(c.from),
+                    to: idxByOwnedId(c.to),
+                })))
+                .filter(c => c.from !== -1 && c.to !== -1);
+        }
 
 
 
@@ -727,9 +732,9 @@ function buildConnectionsIndexBased() {
                 svg.appendChild(defs);
             }
         }
-window.addEventListener('load', () => {
-  annotateUnconnectedOnGrid();
-});
+        window.addEventListener('load', () => {
+            annotateUnconnectedOnGrid();
+        });
 
         function showWorkerModal(index, factory) {
             selectedWorkerFactoryIndex = index;
@@ -813,9 +818,9 @@ window.addEventListener('load', () => {
 
 
         function showLayoffConfirm() {
-            document.getElementById('layoffCost').textContent = '-$500';
+            document.getElementById('layoffCost').textContent = '-$1000';
 
-            hideWorkerModal();
+            hideFactoryInfo();
             showModal('layoffConfirmModal');
         }
 
@@ -823,9 +828,48 @@ window.addEventListener('load', () => {
             hideModal('layoffConfirmModal');
         }
 
+        //LAYOFF
         function confirmLayoff() {
-            alert('Worker laid off!');
-            hideLayoffConfirm();
+            const ownedId = selectedFactory.owned_id; 
+            if (!ownedId) {
+                alert("Gagal: Mesin tidak valid.");
+                hideLayoffConfirm();
+                return;
+            }
+
+            const layoffCost = 1000;
+
+            $.ajax({
+                url: "{{ route('peserta.rally2.layoff') }}",
+                type: "POST",
+                dataType: 'json',
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': window.Laravel.csrfToken
+                },
+                data: JSON.stringify({
+                    owned_id: ownedId,
+                    price: layoffCost
+                }),
+                success: function (data) {
+                    if (data.error) {
+                        alert("Gagal: " + data.error);
+                        return;
+                    }
+
+                    window.capital = data.capital;
+                    updateCapitalDisplay();
+
+                    alert(data.message || "Pekerja berhasil di-PHK!");
+                    hideLayoffConfirm();
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX Error:", xhr.responseText);
+                    const errorMessage = xhr.responseJSON ? xhr.responseJSON.error || xhr.responseJSON.message : "Terjadi kesalahan saat PHK pekerja.";
+                    alert("Gagal: " + errorMessage);
+                }
+            });
         }
 
         function showModal(modalId) {

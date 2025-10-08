@@ -32,7 +32,7 @@ class R2Controller extends Controller
         // Ambil mesin yang dimiliki tim
         $ownedMachines = TeamMachine::where('team_id', $team->id)->get()->keyBy('tmachine_id');
 
-        
+
 
         $factories = $allMachines->map(function ($machine) use ($ownedMachines) {
             $owned = $ownedMachines->has($machine->id);
@@ -40,22 +40,22 @@ class R2Controller extends Controller
 
             $level = $owned ? $ownedData->level : 1;
             $upgradeConfig = config("machine_upgrade.{$machine->jenis}", [
-                    'upgrade_prices' => [],
-                    'capacity_per_level' => [],
-                    'time_per_level' => [],
-                    'sell_prices' => [],
-                ]);
+                'upgrade_prices' => [],
+                'capacity_per_level' => [],
+                'time_per_level' => [],
+                'sell_prices' => [],
+            ]);
 
-           $connections = [];
+            $connections = [];
 
             if ($owned) {
                 $myId = $ownedData->id;
 
-                
+
                 $connections = DB::table('tconnectmachine')
                     ->where(function ($q) use ($myId) {
                         $q->where('source_team_machine_id', $myId)
-                        ->orWhere('target_team_machine_id', $myId);
+                            ->orWhere('target_team_machine_id', $myId);
                     })
                     ->get()
                     ->map(function ($conn) {
@@ -84,8 +84,8 @@ class R2Controller extends Controller
                 'capacity_per_level' => $upgradeConfig['capacity_per_level'],
                 'time_per_level' => $upgradeConfig['time_per_level'],
                 'sell_prices' => $upgradeConfig['sell_prices'],
-                 'connections' => $connections,
-            
+                'connections' => $connections,
+
             ];
         });
 
@@ -93,17 +93,17 @@ class R2Controller extends Controller
         $gameData = [
             'timer' => '00:00',
             'elapsed_seconds' => session('rally2_timer', 0),
-            'demand' =>  $currentDemand  ,
+            'demand' => $currentDemand,
             'capital' => $team->total_uang_babak2,
             'factories_locked' => !$team->unlocked_babak2,
             'unlock_cost' => $team->harga_unlock,
-            "machine"=> $allMachines,
+            "machine" => $allMachines,
             'factories' => $factories,
-            "owned"=>$ownedMachines,
-            
+            "owned" => $ownedMachines,
+
         ];
 
-        return view('peserta.rally-2.index', compact('gameData',"team"));
+        return view('peserta.rally-2.index', compact('gameData', "team"));
     }
 
 
@@ -134,7 +134,7 @@ class R2Controller extends Controller
             'capital' => $team->total_uang_babak2
         ]);
     }
-   
+
     public function scanner()
     {
         return view('peserta.rally-2.scanner');
@@ -142,7 +142,7 @@ class R2Controller extends Controller
 
     public function events()
     {
-            // Ambil sesi aktif
+        // Ambil sesi aktif
         $activeSession = DB::table('tsession')->where('jenis_sesi', 1)->first();
 
         // Ambil event jika ada
@@ -156,151 +156,151 @@ class R2Controller extends Controller
         $user = Auth::user();
         $team = Team::where('nama_tim', $user->name)->firstOrFail();
         $inventory = $team->inventory_babak_2;
-        return view('peserta.rally-2.inventory',compact("inventory"));
+        return view('peserta.rally-2.inventory', compact("inventory"));
     }
     public function sellItem(Request $request)
-{
-    // Debug 1: Log semua data yang diterima
-    \Log::info('Sell Item Request:', [
-        'all_data' => $request->all(),
-        'quantity' => $request->quantity,
-        'total_price' => $request->total_price,
-        'user_id' => Auth::id(),
-        'user_name' => Auth::user()->name ?? 'No user'
-    ]);
-
-    try {
-        $user = Auth::user();
-        
-        // Debug 2: Cek user
-        if (!$user) {
-            \Log::error('No authenticated user found');
-            return response()->json(['message' => 'User tidak terautentikasi'], 401);
-        }
-
-        \Log::info('User found:', ['user_name' => $user->name]);
-
-        // Debug 3: Cek team
-        $team = Team::where('nama_tim', $user->name)->first();
-        
-        if (!$team) {
-            \Log::error('Team not found for user:', ['user_name' => $user->name]);
-            return response()->json(['message' => 'Tim tidak ditemukan'], 404);
-        }
-
-        \Log::info('Team found:', [
-            'team_id' => $team->id,
-            'team_name' => $team->nama_tim,
-            'current_inventory' => $team->inventory_babak_2,
-            'current_money' => $team->total_uang_babak2
+    {
+        // Debug 1: Log semua data yang diterima
+        \Log::info('Sell Item Request:', [
+            'all_data' => $request->all(),
+            'quantity' => $request->quantity,
+            'total_price' => $request->total_price,
+            'user_id' => Auth::id(),
+            'user_name' => Auth::user()->name ?? 'No user'
         ]);
 
-        // Debug 4: Validasi input
-        $quantity = (int) $request->quantity;
-        $totalPrice = (int) $request->total_price;
+        try {
+            $user = Auth::user();
 
-        if ($quantity <= 0) {
-            return response()->json(['message' => 'Quantity harus lebih dari 0'], 422);
-        }
+            // Debug 2: Cek user
+            if (!$user) {
+                \Log::error('No authenticated user found');
+                return response()->json(['message' => 'User tidak terautentikasi'], 401);
+            }
 
-        if ($totalPrice <= 0) {
-            return response()->json(['message' => 'Total price harus lebih dari 0'], 422);
-        }
+            \Log::info('User found:', ['user_name' => $user->name]);
 
-        // Debug 5: Validasi stok
-        if ($quantity > $team->inventory_babak_2) {
-            \Log::warning('Insufficient stock:', [
-                'requested' => $quantity,
-                'available' => $team->inventory_babak_2
+            // Debug 3: Cek team
+            $team = Team::where('nama_tim', $user->name)->first();
+
+            if (!$team) {
+                \Log::error('Team not found for user:', ['user_name' => $user->name]);
+                return response()->json(['message' => 'Tim tidak ditemukan'], 404);
+            }
+
+            \Log::info('Team found:', [
+                'team_id' => $team->id,
+                'team_name' => $team->nama_tim,
+                'current_inventory' => $team->inventory_babak_2,
+                'current_money' => $team->total_uang_babak2
             ]);
-            return response()->json(['message' => 'Jumlah melebihi stok yang tersedia!'], 422);
-        }
 
-        // Debug 6: Data sebelum update
-        $oldInventory = $team->inventory_babak_2;
-        $oldMoney = $team->total_uang_babak2;
+            // Debug 4: Validasi input
+            $quantity = (int) $request->quantity;
+            $totalPrice = (int) $request->total_price;
 
-        \Log::info('Before update:', [
-            'old_inventory' => $oldInventory,
-            'old_money' => $oldMoney
-        ]);
+            if ($quantity <= 0) {
+                return response()->json(['message' => 'Quantity harus lebih dari 0'], 422);
+            }
 
-        // Update dengan tracking perubahan
-        $team->inventory_babak_2 = $oldInventory - $quantity;
-        $team->total_uang_babak2 = $oldMoney + $totalPrice;
+            if ($totalPrice <= 0) {
+                return response()->json(['message' => 'Total price harus lebih dari 0'], 422);
+            }
 
-        // Debug 7: Cek apakah model dirty (ada perubahan)
-        \Log::info('Model changes:', [
-            'is_dirty' => $team->isDirty(),
-            'dirty_attributes' => $team->getDirty(),
-            'new_inventory' => $team->inventory_babak_2,
-            'new_money' => $team->total_uang_babak2
-        ]);
+            // Debug 5: Validasi stok
+            if ($quantity > $team->inventory_babak_2) {
+                \Log::warning('Insufficient stock:', [
+                    'requested' => $quantity,
+                    'available' => $team->inventory_babak_2
+                ]);
+                return response()->json(['message' => 'Jumlah melebihi stok yang tersedia!'], 422);
+            }
 
-        // Save dengan error handling
-        $saved = $team->save();
+            // Debug 6: Data sebelum update
+            $oldInventory = $team->inventory_babak_2;
+            $oldMoney = $team->total_uang_babak2;
 
-        \Log::info('Save result:', [
-            'saved' => $saved,
-            'final_inventory' => $team->fresh()->inventory_babak_2,
-            'final_money' => $team->fresh()->total_uang_babak2
-        ]);
-
-        if (!$saved) {
-            \Log::error('Failed to save team data');
-            return response()->json(['message' => 'Gagal menyimpan data'], 500);
-        }
-
-        // Refresh data dari database
-        $team->refresh();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Berhasil menjual item!',
-            'inventory' => $team->inventory_babak_2,
-            'uang' => $team->total_uang_babak2,
-            'debug' => [
-                'quantity_sold' => $quantity,
-                'price_earned' => $totalPrice,
+            \Log::info('Before update:', [
                 'old_inventory' => $oldInventory,
                 'old_money' => $oldMoney
-            ]
-        ], 200);
+            ]);
 
-    } catch (\Exception $e) {
-        \Log::error('Exception in sellItem:', [
-            'message' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-            'trace' => $e->getTraceAsString()
-        ]);
+            // Update dengan tracking perubahan
+            $team->inventory_babak_2 = $oldInventory - $quantity;
+            $team->total_uang_babak2 = $oldMoney + $totalPrice;
 
-        return response()->json([
-            'message' => 'Terjadi kesalahan sistem',
-            'error' => $e->getMessage()
-        ], 500);
+            // Debug 7: Cek apakah model dirty (ada perubahan)
+            \Log::info('Model changes:', [
+                'is_dirty' => $team->isDirty(),
+                'dirty_attributes' => $team->getDirty(),
+                'new_inventory' => $team->inventory_babak_2,
+                'new_money' => $team->total_uang_babak2
+            ]);
+
+            // Save dengan error handling
+            $saved = $team->save();
+
+            \Log::info('Save result:', [
+                'saved' => $saved,
+                'final_inventory' => $team->fresh()->inventory_babak_2,
+                'final_money' => $team->fresh()->total_uang_babak2
+            ]);
+
+            if (!$saved) {
+                \Log::error('Failed to save team data');
+                return response()->json(['message' => 'Gagal menyimpan data'], 500);
+            }
+
+            // Refresh data dari database
+            $team->refresh();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil menjual item!',
+                'inventory' => $team->inventory_babak_2,
+                'uang' => $team->total_uang_babak2,
+                'debug' => [
+                    'quantity_sold' => $quantity,
+                    'price_earned' => $totalPrice,
+                    'old_inventory' => $oldInventory,
+                    'old_money' => $oldMoney
+                ]
+            ], 200);
+
+        } catch (\Exception $e) {
+            \Log::error('Exception in sellItem:', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'message' => 'Terjadi kesalahan sistem',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
-}
     public function infoDemand()
-{
-    
+    {
+
         $user = Auth::user();
         $team = Team::where('nama_tim', $user->name)->firstOrFail();
-    $sessions =Session::whereIn('id', [1,2,3,4])->orderBy('id')->get(['id','demand']);
+        $sessions = Session::whereIn('id', [1, 2, 3, 4])->orderBy('id')->get(['id', 'demand']);
 
-    $map = $sessions->map(fn($s) => [
-        'id'       => $s->id,
-        'demand'   => (int)($s->demand ?? 0),
-        'produced' => match ($s->id) {
-            1 => (int)($team->sepeda_sesi1 ?? 0),
-            2 => (int)($team->sepeda_sesi2 ?? 0),
-            3 => (int)($team->sepeda_sesi3 ?? 0),
-            4 => (int)($team->sepeda_sesi4 ?? 0),
-        },
-    ])->all();
+        $map = $sessions->map(fn($s) => [
+            'id' => $s->id,
+            'demand' => (int) ($s->demand ?? 0),
+            'produced' => match ($s->id) {
+                1 => (int) ($team->sepeda_sesi1 ?? 0),
+                2 => (int) ($team->sepeda_sesi2 ?? 0),
+                3 => (int) ($team->sepeda_sesi3 ?? 0),
+                4 => (int) ($team->sepeda_sesi4 ?? 0),
+            },
+        ])->all();
 
-    return view('peserta.rally-2.infodemand', ['sessions' => $map]);
-}
+        return view('peserta.rally-2.infodemand', ['sessions' => $map]);
+    }
     public function question()
     {
         return view('peserta.rally-2.question');
@@ -314,7 +314,7 @@ class R2Controller extends Controller
             abort(403, "Akses soal hanya bisa dilakukan melalui QR Scan.");
         }
 
-         // CEK BARU: Jika soal sudah diselesaikan, redirect
+        // CEK BARU: Jika soal sudah diselesaikan, redirect
         if (session()->get("soal_selesai_$id")) {
             return redirect()->route('peserta.rally-2.scanner')
                 ->with('error', 'Soal ini sudah diselesaikan sebelumnya.');
@@ -353,7 +353,7 @@ class R2Controller extends Controller
             $str = preg_replace('/^\$+|\$+$/', '', $str); // hilangkan tanda $
             $str = str_replace(['\mathrm{', '\mathrm', '{', '}', '_'], '', $str); // hilangkan LaTeX formatting
             $str = preg_replace('/\^\{(.+?)\}/', '$1', $str); // ubah ^{3-} jadi 3-
-            $str = str_replace(['^', '−', '–'], ['','-','-'], $str); // hilangkan ^, ubah minus unicode ke ASCII
+            $str = str_replace(['^', '−', '–'], ['', '-', '-'], $str); // hilangkan ^, ubah minus unicode ke ASCII
             return $str;
         };
 
@@ -364,7 +364,7 @@ class R2Controller extends Controller
         // Logging untuk debug
         Log::info("JAWABAN USER: " . $jawabanUser);
         Log::info("JAWABAN BENAR: " . $jawabanBenar);
-        
+
         // Perbandingan
         $status = $jawabanUser === $jawabanBenar ? 'benar' : 'salah';
 
@@ -428,8 +428,8 @@ class R2Controller extends Controller
         $machine = Machine::findOrFail($machineId);
 
         $alreadyOwned = TeamMachine::where('team_id', $team->id)
-        ->where('tmachine_id', $machineId)
-        ->exists();
+            ->where('tmachine_id', $machineId)
+            ->exists();
 
         if ($alreadyOwned) {
             return response()->json(['error' => 'Mesin sudah dimiliki.'], 400);
@@ -450,9 +450,9 @@ class R2Controller extends Controller
                 'tmachine_id' => $machineId,
                 'level' => 1,
                 'operator_hired' => false,
-                "base_time"=>$machine->base_time,
-                "biaya_jual"=> $machine->biaya_jual,
-                "kapasitas_dasar"=>$machine->kapasitas_dasar,
+                "base_time" => $machine->base_time,
+                "biaya_jual" => $machine->biaya_jual,
+                "kapasitas_dasar" => $machine->kapasitas_dasar,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
@@ -506,9 +506,9 @@ class R2Controller extends Controller
         $teamMachine->level = $nextLevel;
 
         // (Opsional) simpan kapasitas dan waktu baru jika ada kolomnya
-        $teamMachine->kapasitas_dasar = $newCapacity ;
-        $teamMachine->base_time = $newTime ;
-        $teamMachine->biaya_jual = $newSell ;
+        $teamMachine->kapasitas_dasar = $newCapacity;
+        $teamMachine->base_time = $newTime;
+        $teamMachine->biaya_jual = $newSell;
 
         $teamMachine->save();
 
@@ -638,13 +638,13 @@ class R2Controller extends Controller
         $MAX_LEVEL = 3;
 
         $validated = $request->validate([
-            'from_level' => 'required|integer|min:1|max:'.$MAX_LEVEL,
-            'to_level'   => 'required|integer|min:1|max:'.$MAX_LEVEL,
+            'from_level' => 'required|integer|min:1|max:' . $MAX_LEVEL,
+            'to_level' => 'required|integer|min:1|max:' . $MAX_LEVEL,
         ]);
 
         $currentLevel = (int) ($team->level_mesin_quality ?? 1);
-        $fromLevel    = (int) $validated['from_level'];
-        $toLevel      = (int) $validated['to_level'];
+        $fromLevel = (int) $validated['from_level'];
+        $toLevel = (int) $validated['to_level'];
 
         if ($currentLevel !== $fromLevel) {
             return back()->with('error', 'Level berubah. Muat ulang halaman dan coba lagi.');
@@ -676,7 +676,7 @@ class R2Controller extends Controller
                     abort(409, 'Total uang babak 2 tidak mencukupi.');
                 }
 
-                $fresh->total_uang_babak2   = $capital - $cost;
+                $fresh->total_uang_babak2 = $capital - $cost;
                 $fresh->level_mesin_quality = $toLevel;
                 $fresh->save();
             });
@@ -686,6 +686,38 @@ class R2Controller extends Controller
         }
 
         return back()->with('success', "Quality Control naik ke level {$toLevel}. Biaya: $" . number_format($cost));
+    }
+
+    public function layoffWorker(Request $request)
+    {
+        $request->validate([
+            'owned_id' => 'required|exists:tteammachine,id',
+        ]);
+
+        $teamMachine = TeamMachine::findOrFail($request->owned_id);
+        $user = Auth::user();
+        $team = Team::where('nama_tim', $user->name)->firstOrFail();
+
+        if ($teamMachine->team_id !== $team->id) {
+            return response()->json(['error' => 'Unauthorized action.'], 403);
+        }
+
+        $layoffCost = 1000;
+
+        if ($team->total_uang_babak2 < $layoffCost) {
+            return response()->json(['error' => 'Uang tidak cukup untuk biaya kompensasi'], 400);
+        }
+
+        $team->total_uang_babak2 -= $layoffCost;
+        $team->save();
+
+        $teamMachine->operator_hired = false;
+        $teamMachine->save();
+
+        return response()->json([
+            'message' => 'Berhasil memecat pekerja. Dikenakan biaya kompensasi!',
+            'capital' => $team->total_uang_babak2
+        ]);
     }
 
 }
