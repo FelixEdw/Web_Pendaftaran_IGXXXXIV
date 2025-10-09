@@ -24,8 +24,8 @@
                     {{-- Pedal --}}
                     <div class="bg-white/20 rounded-xl p-4 flex flex-col items-center text-white text-center">
                         <img src="{{ asset('images/Gambar_Pedal.png') }}" alt="Pedal Icon" class="w-16 h-16 mb-2">
-                        <span class="font-medium">Pedal</span>
-                        <span class="mt-2 text-3xl font-bold">{{ $komponen->pedal }}</span>
+                        <span class="font-medium">Brake and Pedal</span>
+                        <span class="mt-2 text-3xl font-bold">{{ $komponen->brake_and_pedal }}</span>
                     </div>
 
                     {{-- Chain & Gear --}}
@@ -35,13 +35,9 @@
                         <span class="mt-2 text-3xl font-bold">{{ $komponen->chain_and_gear }}</span>
                     </div>
                     
-                    {{-- Brake --}}
-                    <div class="bg-white/20 rounded-xl p-4 flex flex-col items-center text-white text-center">
-                        <img src="{{ asset('images/Gambar_Kosong.png') }}" alt="Brake Icon" class="w-16 h-16 mb-2">
-                        <span class="font-medium">Brake</span>
-                        <span class="mt-2 text-3xl font-bold">{{ $komponen->brake }}</span>
-                    </div>
-                    
+                    {{-- Brake --}
+
+
                     {{-- Wheel --}}
                     <div class="bg-white/20 rounded-xl p-4 flex flex-col items-center text-white text-center">
                         <img src="{{ asset('images/Gambar_Roda_27.png') }}" alt="Wheel Icon" class="w-16 h-16 mb-2">

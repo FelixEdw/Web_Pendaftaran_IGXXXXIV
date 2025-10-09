@@ -12,7 +12,7 @@ class Komponen extends Model
     protected $table = 'komponen';
 
     protected $fillable = [
-        'wheel', 'brake', 'pedal', 'chain_and_gear',
+        'wheel', 'brake_and_pedal', 'chain_and_gear',
         'city_frame', 'folding_frame', 'mountain_frame', 'unicycle_frame',
         'team_id'
     ];

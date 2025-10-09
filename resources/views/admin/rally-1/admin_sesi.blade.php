@@ -1,144 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ubah Sesi Game</title>
     <style>
-        /* Palet Warna Industrial Games (IG) */
-        :root {
-            --color-bg-dark: #602c10; /* Cokelat Gelap / Base */
-            --color-card-dark: #391E1E; /* Dark Reddish Brown untuk Card/Input */
-            --color-bronze: #956238; /* Bronze Border */
-            --color-gold-accent: #FBC02D; /* Bright Gold Accent */
-            --color-text-light: #FFDA89; /* Light Gold/Yellow Text */
-            --color-text-white: #FFFFFF;
-            --color-text-dark: #14191A;
-            --color-button-secondary: #774320; /* Warna Cokelat Gelap untuk Link/Tombol Sekunder */
-        }
-
-        /* 1. Latar Belakang & Font */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--color-bg-dark); 
-            color: var(--color-text-light);
+            background-color: #602c10;
+            color: #FFDA89;
             margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
         }
 
-        /* 2. Kontainer Card */
         .container {
-            max-width: 600px;
-            background: var(--color-card-dark); /* Menggunakan warna card dark IG */
-            margin: 20px; /* Adjust margin for mobile */
-            padding: 30px;
+            background: #391E1E;
+            border: 2px solid #956238;
             border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-            border: 2px solid var(--color-bronze);
+            padding: 30px;
             width: 90%;
+            max-width: 600px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
         }
 
-        /* Judul dan Teks */
         h3 {
             text-align: center;
-            color: var(--color-gold-accent);
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 0 5px rgba(251, 192, 45, 0.2);
+            color: #FBC02D;
         }
 
-        p {
-            text-align: center;
-            font-size: 1rem;
-            color: var(--color-text-light); /* Mengubah teks sesi aktif menjadi light gold */
-            margin-bottom: 2rem;
-        }
-        p strong {
-            color: var(--color-gold-accent);
-            font-weight: 700;
-        }
-
-        /* Label */
-        label {
-            font-weight: 600;
-            margin-top: 15px;
-            /* Penambahan jarak di bawah label untuk memisahkannya dari select box */
-            margin-bottom: 8px; 
-            display: block;
-            color: var(--color-text-light);
-        }
-
-        /* Select Input */
-        select {
+        select,
+        input[type=password] {
             width: 100%;
             padding: 12px;
+            margin-top: 10px;
             border-radius: 8px;
-            border: 1px solid var(--color-bronze);
+            border: 1px solid #956238;
+            background: #2e1818;
+            color: #fff;
             font-size: 1rem;
-            background-color: #2e1818; /* Sedikit lebih terang dari card dark untuk kontras */
-            color: var(--color-text-white);
-            appearance: none; /* Hide default arrow */
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23FFDA89%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 12px;
         }
 
-        select option {
-            background-color: var(--color-card-dark); 
-            color: var(--color-text-white);
-        }
-        
-        /* Button Update - Menggunakan Gold Accent */
-        .primary-button {
-            background-color: var(--color-gold-accent);
-            color: var(--color-text-dark);
+        button {
+            background-color: #FBC02D;
+            color: #14191A;
             border: none;
-            padding: 12px 20px;
+            padding: 12px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-top: 25px;
-            display: block;
+            font-weight: bold;
             width: 100%;
-            transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
         }
 
-        .primary-button:hover {
+        button:hover {
             background-color: #FFC74B;
-            transform: translateY(-1px);
         }
 
-        /* Link Kembali - Menggunakan Bronze/Secondary Button Style untuk kontras */
+        .hidden {
+            display: none;
+        }
+
         .back-link {
             display: block;
             text-align: center;
-            margin-top: 25px;
+            margin-top: 20px;
+            color: #FFDA89;
             text-decoration: none;
-            color: var(--color-text-light); /* Warna teks kembali diubah */
-            font-weight: 600;
-            font-size: 1rem;
         }
 
         .back-link:hover {
-            color: var(--color-gold-accent);
-            text-decoration: underline;
-        }
-        
-        /* Responsive adjustments */
-        @media (min-width: 600px) {
-            .container {
-                width: auto;
-            }
+            color: #FBC02D;
         }
 
+        /* 🎨 CSS untuk tabel leaderboard */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background-color: #2e1818;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table th,
+        table td {
+            padding: 10px 12px;
+            text-align: center;
+            border-bottom: 1px solid #956238;
+        }
+
+        table th {
+            background-color: #FBC02D;
+            color: #14191A;
+            font-weight: bold;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #3E2020;
+        }
+
+        table tr:nth-child(odd) {
+            background-color: #2e1818;
+        }
+
+        table tr:hover {
+            background-color: #5a2d2d;
+            transition: 0.2s ease;
+        }
+
+        table td {
+            color: #FFDA89;
+        }
+
+        h2 {
+            text-align: center;
+            color: #FBC02D;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -147,7 +130,16 @@
         <h3>⚙️ Ubah Sesi Game</h3>
         <p>Sesi aktif sekarang: <strong>{{ $sesiAktif }}</strong></p>
 
-        <form method="POST" action="{{ route('admin.sesi.update') }}">
+        {{-- Form Input PIN --}}
+        <div id="pinSection">
+            <label for="pin">Masukkan PIN Admin</label>
+            <input type="password" id="pin" placeholder="Masukkan PIN">
+            <button type="button" id="verifyPin">Verifikasi PIN</button>
+            <p id="pinError" style="color:#ff9999; display:none; text-align:center;">PIN salah, coba lagi!</p>
+        </div>
+
+        {{-- Form Ubah Sesi --}}
+        <form method="POST" action="{{ route('admin.sesi.update') }}" id="sesiForm" class="hidden">
             @csrf
             <label for="sesi_aktif">Pilih Sesi</label>
             <select name="sesi_aktif" id="sesi_aktif">
@@ -157,14 +149,54 @@
                 <option value="4" {{ $sesiAktif == 4 ? 'selected' : '' }}>Sesi 4</option>
             </select>
 
-            <button type="submit" class="primary-button">Update Sesi</button>
+            {{-- Hidden input untuk kirim PIN ke backend --}}
+            <input type="hidden" name="pin_real" id="pin_real">
+
+            <button type="submit">Update Sesi</button>
         </form>
+
+        <br>
+
+        <div>
+            <h2>Leaderboard</h2>
+            <table border="1" cellpadding="6">
+                <tr>
+                    <th>Peringkat</th>
+                    <th>Nama Tim</th>
+                    <th>Poin Total</th>
+                </tr>
+                @foreach($leaderboard as $index => $item)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $item->nama_tim }}</td>
+                    <td>{{ $item->poin_total }}</td>
+                </tr>
+                @endforeach
+            </table>
+        </div>
 
         <a href="{{ route('home') }}" class="back-link">← Kembali ke Dashboard</a>
     </div>
-    <div class="container-2">
-        <h3>Leaderboard Peserta</h3>
-    </div>
+
+    <script>
+        const correctPin = "yangsisiaja";
+        const pinInput = document.getElementById('pin');
+        const verifyBtn = document.getElementById('verifyPin');
+        const pinError = document.getElementById('pinError');
+        const sesiForm = document.getElementById('sesiForm');
+        const pinSection = document.getElementById('pinSection');
+        const pinReal = document.getElementById('pin_real');
+
+        verifyBtn.addEventListener('click', () => {
+            if (pinInput.value === correctPin) {
+                pinSection.classList.add('hidden');
+                sesiForm.classList.remove('hidden');
+                pinReal.value = pinInput.value;
+            } else {
+                pinError.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 
 </html>

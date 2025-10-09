@@ -117,7 +117,7 @@ Route::group([
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/accountdetail', [HomeController::class, 'account'])->name('account-detail');
     Route::get('/rally', [RallyGames::class, 'index'])->name(name: 'rally');
-    
+
 
     // =================== RALLY 2 ===================
     Route::get('/rally2', [R2Controller::class, 'index'])->name('rally-2.index');
@@ -136,9 +136,11 @@ Route::group([
     //==================SCANNER - DENGAN MIDDLEWARE CEK_AKSES_SOAL ==========================
     Route::get('/rally2/question/{id}', [R2Controller::class, 'showQR'])
         ->middleware('cek.soal.qr')->name('rally-2.question');
-    
+
     Route::post('/rally2/question/{id}/submit', [R2Controller::class, 'submitQR'])
         ->middleware('cek.soal.qr')->name('question.submit');
+
+    Route::post('/rally2/layoff', [R2Controller::class, 'layoffWorker'])->name('rally2.layoff');
 
     Route::get('/rally2/claim-envelope/{id}', [R2Controller::class, 'claim'])
         ->middleware('cek.claim.envelope')->name('rally-2.claim-envelope');
@@ -161,7 +163,8 @@ Route::group([
         ->name('rally2.qcupgrade');
     Route::post('/rally2/upgrade', [R2Controller::class, 'upgradeMachine'])->name('rally2.upgrade');
     Route::post('/rally2/sell', [R2Controller::class, 'sell'])->name('rally2.sell');
-    Route::post('/rally2/connect-machine', [R2Controller::class, 'storeConnection'])->name('rally2.connect');;
+    Route::post('/rally2/connect-machine', [R2Controller::class, 'storeConnection'])->name('rally2.connect');
+    ;
     Route::post('/rally2/hire-worker', [R2Controller::class, 'hireWorker'])->name('rally2.hire');
 
     // =================== RALLY 1===================

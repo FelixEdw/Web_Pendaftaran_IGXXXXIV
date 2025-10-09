@@ -136,7 +136,7 @@
     <x-rally-2-sidebar />
 
     <div id="unlockModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md fmx-4">
             <div class="text-center">
                 <h3 class="text-2xl font-bold text-black mb-4">UNLOCK FACTORY</h3>
                 <div class="flex justify-center">

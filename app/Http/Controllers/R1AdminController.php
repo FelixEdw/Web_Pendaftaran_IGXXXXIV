@@ -11,92 +11,92 @@ class R1AdminController extends Controller
 {
     private $rewardList = [
         1 => [
-            'menang' => ['unicycle_frame' => 1, 'wheel' => 2],
-            'kalah' => ['wheel' => 1],
+            'menang' => ['city' => 1, 'wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2],
+            'kalah' => ['wheel' => 1, 'brake_and_pedal' => 1, 'chain_and_gear' => 1],
         ],
         2 => [
-            'menang' => ['folding_frame' => 1, 'chain_and_gear' => 2],
-            'kalah' => ['chain_and_gear' => 1],
+            'menang' => ['chain_and_gear' => 2, 'wheel' => 3, 'brake_and_pedal' => 2],
+            'kalah' => ['chain_and_gear' => 2, 'wheel' => 1],
         ],
         3 => [
-            'menang' => ['city_frame' => 1, 'wheel' => 1, 'brake' => 1, 'pedal' => 1],
-            'kalah' => ['brake' => 1, 'pedal' => 1],
+            'menang' => ['folding_frame' => 1, 'wheel' => 1, 'brake_and_pedal' => 2, 'chain_and_gear' => 3],
+            'kalah' => ['brake_and_pedal' => 1, 'wheel' => 2, 'chain_and_gear' => 1],
         ],
         4 => [
-            'menang' => ['mountain_frame' => 1, 'chain_and_gear' => 1, 'brake' => 1, 'pedal' => 1],
-            'kalah' => ['chain_and_gear' => 1],
+            'menang' => ['mountain_frame' => 1, 'chain_and_gear' => 1, 'brake_and_pedal' => 2, 'wheel' => 3],
+            'kalah' => ['chain_and_gear' => 1, 'wheel' => 1, 'brake_and_pedal' => 1],
         ],
         5 => [
-            'menang' => ['wheel' => 2, 'brake' => 1, 'pedal' => 1],
-            'kalah' => ['wheel' => 1],
+            'menang' => ['unicycle_frame' => 1, 'wheel' => 1, 'chain_and_gear' => 1, 'brake_and_pedal' => 2],
+            'kalah' => ['wheel' => 1, 'chain_and_gear' => 1],
         ],
         6 => [
-            'menang' => ['folding_frame' => 1, 'wheel' => 1, 'brake' => 1, 'pedal' => 1],
-            'kalah' => ['brake' => 1, 'pedal' => 1],
+            'menang' => ['city_frame' => 1, 'wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2],
+            'kalah' => ['wheel' => 1, 'brake_and_pedal' => 1, 'chain_and_gear' => 2],
         ],
         7 => [
-            'menang' => ['unicycle_frame' => 1, 'chain_and_gear' => 1, 'wheel' => 1],
-            'kalah' => ['chain_and_gear' => 1],
+            'menang' => ['mountain_frame' => 1, 'chain_and_gear' => 2, 'wheel' => 1, 'brake_and_pedal' => 2],
+            'kalah' => ['wheel' => 1, 'brake_and_pedal' => 1, 'chain_and_gear' => 1],
         ],
         8 => [
-            'menang' => ['mountain_frame' => 1, 'wheel' => 2],
-            'kalah' => ['wheel' => 1],
+            'menang' => ['folding_frame' => 1, 'wheel' => 3, 'brake_and_pedal' => 2, 'chain_and_gear' => 3],
+            'kalah' => ['wheel' => 2, 'chain_and_gear' => 2],
         ],
         9 => [
-            'menang' => ['city_frame' => 1, 'chain_and_gear' => 2],
-            'kalah' => ['chain_and_gear' => 1],
+            'menang' => ['city_frame' => 1, 'chain_and_gear' => 2, 'wheel' => 2, 'brake_and_pedal' => 2],
+            'kalah' => ['chain_and_gear' => 1, 'wheel' => 1, 'brake_and_pedal' => 1],
         ],
         10 => [
-            'menang' => ['folding_frame' => 1, 'wheel' => 2],
-            'kalah' => ['wheel' => 1],
+            'menang' => ['unicycle_frame' => 1, 'wheel' => 1, 'brake_and_pedal' => 2, 'chain_and_gear' => 4],
+            'kalah' => ['wheel' => 1, 'chain_and_gear' => 2],
         ],
         11 => [
-            'menang' => ['brake' => 2, 'pedal' => 2, 'chain_and_gear' => 1],
-            'kalah' => ['brake' => 1, 'pedal' => 1],
+            'menang' => ['brake_and_pedal' => 2, 'chain_and_gear' => 1, 'wheel' => 2, 'mountain_frame' => 1],
+            'kalah' => ['brake_and_pedal' => 1, 'wheel' => 2],
         ],
         12 => [
-            'menang' => ['mountain_frame' => 1, 'chain_and_gear' => 2],
-            'kalah' => ['chain_and_gear' => 1],
+            'menang' => ['city_frame' => 1, 'chain_and_gear' => 2, 'wheel' => 1, 'brake_and_pedal' => 2],
+            'kalah' => ['chain_and_gear' => 2, 'wheel' => 1],
         ],
         13 => [
-            'menang' => ['city_frame' => 1, 'chain_and_gear' => 1, 'pedal' => 1, 'brake' => 1],
-            'kalah' => ['pedal' => 1, 'brake' => 1],
+            'menang' => ['folding_frame' => 1, 'wheel' => 3, 'chain_and_gear' => 3, 'brake_and_pedal' => 2],
+            'kalah' => ['brake_and_pedal' => 1, 'wheel' => 1, 'chain_and_gear' => 1],
         ],
         14 => [
-            'menang' => ['unicycle_frame' => 1, 'wheel' => 1, 'pedal' => 1, 'brake' => 1],
-            'kalah' => ['pedal' => 1, 'brake' => 1],
+            'menang' => ['mountain_frame' => 1, 'wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2],
+            'kalah' => ['wheel' => 1, 'chain_and_gear' => 1],
         ],
         15 => [
-            'menang' => ['folding_frame' => 1, 'chain_and_gear' => 1, 'wheel' => 1],
-            'kalah' => ['wheel' => 1],
+            'menang' => ['city_frame' => 1, 'chain_and_gear' => 2, 'wheel' => 2, 'brake_and_pedal' => 2],
+            'kalah' => ['wheel' => 2, 'brake_and_pedal' => 1, 'chain_and_gear' => 1],
         ],
         16 => [
-            'menang' => ['chain_and_gear' => 1, 'wheel' => 2],
-            'kalah' => ['wheel' => 1],
+            'menang' => ['unicycle_frame' => 1, 'chain_and_gear' => 4, 'wheel' => 1, 'brake_and_pedal' => 2],
+            'kalah' => ['wheel' => 1, 'chain_and_gear' => 2],
         ],
         17 => [
-            'menang' => ['mountain_frame' => 1, 'brake' => 2, 'pedal' => 2],
-            'kalah' => ['brake' => 1, 'pedal' => 1],
+            'menang' => ['mountain_frame' => 1, 'brake_and_pedal' => 2, 'wheel' => 3, 'chain_and_gear' => 2],
+            'kalah' => ['brake_and_pedal' => 1, 'wheel' => 1, 'chain_and_gear' => 1],
         ],
         18 => [
-            'menang' => ['chain_and_gear' => 2, 'wheel' => 1],
-            'kalah' => ['chain_and_gear' => 1],
+            'menang' => ['folding_frame' => 1, 'chain_and_gear' => 3, 'wheel' => 2, 'brake_and_pedal' => 2],
+            'kalah' => ['chain_and_gear' => 2, 'wheel' => 2, 'brake_and_pedal' => 1],
         ],
         19 => [
-            'menang' => ['unicycle_frame' => 1, 'wheel' => 2],
-            'kalah' => ['wheel' => 1],
+            'menang' => ['unicycle_frame' => 1, 'wheel' => 1, 'brake_and_pedal' => 2, 'chain_and_gear' => 2],
+            'kalah' => ['wheel' => 1, 'chain_and_gear' => 1],
         ],
         20 => [
-            'menang' => ['folding_frame' => 1, 'brake' => 2, 'pedal' => 2],
-            'kalah' => ['brake' => 1, 'pedal' => 1],
+            'menang' => ['city_frame' => 1, 'brake_and_pedal' => 2, 'wheel' => 2, 'chain_and_gear' => 2],
+            'kalah' => ['brake_and_pedal' => 1, 'wheel' => 2, 'chain_and_gear' => 1],
         ],
         21 => [
-            'menang' => ['chain_and_gear' => 2, 'brake' => 1, 'pedal' => 1],
-            'kalah' => ['chain_and_gear' => 1],
+            'menang' => ['unicycle_frame' => 1, 'chain_and_gear' => 4, 'brake_and_pedal' => 2, 'wheel' => 1],
+            'kalah' => ['chain_and_gear' => 2, 'wheel' => 1],
         ],
         22 => [
-            'menang' => ['mountain_frame' => 1, 'wheel' => 1, 'chain_and_gear' => 1],
-            'kalah' => ['wheel' => 1],
+            'menang' => ['mountain_frame' => 1, 'wheel' => 2, 'chain_and_gear' => 2, 'brake_and_pedal' => 2],
+            'kalah' => ['wheel' => 1, 'brake_and_pedal' => 1, 'chain_and_gear' => 1],
         ],
     ];
 
@@ -298,7 +298,7 @@ class R1AdminController extends Controller
                     );
                 }
             }
-            
+
             $totalReward = array_sum($komponenList);
 
             DB::table('production_rally1')->updateOrInsert(
@@ -406,8 +406,16 @@ class R1AdminController extends Controller
     public function showSesi()
     {
         $sesiAktif = DB::table('sesi_rally1')->value('sesi_aktif');
-        return view('admin.rally-1.admin_sesi', compact('sesiAktif'));
+
+        $leaderboard = DB::table('production_rally1')
+            ->join('teams', 'production_rally1.team_id', '=', 'teams.id')
+            ->select('teams.nama_tim', 'production_rally1.poin_total')
+            ->orderByDesc('production_rally1.poin_total')
+            ->get();
+
+        return view('admin.rally-1.admin_sesi', compact('sesiAktif', 'leaderboard'));
     }
+
 
     public function updateSesi(Request $request)
     {
@@ -420,5 +428,23 @@ class R1AdminController extends Controller
         ]);
 
         return back()->with('success', 'Sesi berhasil diperbarui ke ' . $request->sesi_aktif);
+    }
+
+    public function showUbahSesi()
+    {
+        // Ambil sesi aktif dari tabel konfigurasi / pengaturan
+        $sesiAktif = DB::table('settings')->where('key', 'sesi_aktif')->value('value');
+
+        // Ambil leaderboard dari tabel poin_rally1
+        $leaderboard = DB::table('poin_rally1')
+            ->join('teams', 'poin_rally1.team_id', '=', 'teams.id')
+            ->select('teams.nama_tim', 'poin_rally1.total_poin')
+            ->orderByDesc('poin_rally1.total_poin')
+            ->get();
+
+        return view('admin.ubah_sesi', [
+            'sesiAktif' => $sesiAktif,
+            'leaderboard' => $leaderboard ?? collect([]), // fallback jika null
+        ]);
     }
 }
