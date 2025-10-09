@@ -29,7 +29,6 @@
         @endif
 
         {{-- Kontainer utama dengan efek glassmorphism --}}
-        <
  @foreach ($harga as $jenis => $h)
                 @php
                     $stokSepeda = $stok->$jenis ?? 0;
