@@ -75,7 +75,7 @@
                     </div>
                 </div>
             @else
-                <p class="text-white text-center text-xl mt-8">❌ Belum ada data komponen untuk tim ini.</p>
+                <p class="text-white text-center text-xl mt-8">❌ Belum ada data komponen untuk {{ $tim }}.</p>
             @endif
         </div>
     </div>
