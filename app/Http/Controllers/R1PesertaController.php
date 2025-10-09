@@ -173,9 +173,9 @@ class R1PesertaController extends Controller
         $komponen = DB::table('komponen')->where('team_id', $team->id)->first();
 
         $resep = [
-            'city' => ['wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'city_frame' => 1],
-            'folding' => ['wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'folding_frame' => 1],
-            'mountain' => ['wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'mountain_frame' => 1],
+            'city' => ['wheel' => 3, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'city_frame' => 1],
+            'folding' => ['wheel' => 2, 'brake_and_pedal' => 3, 'chain_and_gear' => 2, 'folding_frame' => 1],
+            'mountain' => ['wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 5, 'mountain_frame' => 1],
             'unicycle' => ['wheel' => 1, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'unicycle_frame' => 1]
         ];
 
