@@ -136,7 +136,7 @@
         <div class="bg-white rounded-lg p-6 w-full mx-4 transform scale-90 opacity-0 transition-all duration-200">
             <div class="text-center">
                 <h3 id="workerTitle" class="text-xl font-bold text-black mb-4">Hire Pekerja</h3>
-                <div id="workerPrice" class="text-green-600 font-bold text-2xl mb-6">$ 1000</div>
+                <div id="workerPrice" class="text-green-600 font-bold text-2xl mb-6">$ 700</div>
 
                 <div class="flex space-x-3">
                     <button id="hireButton" onclick="confirmHire()"
@@ -782,7 +782,7 @@
         function confirmHire() {
             const ownedId = selectedWorkerFactory.owned_id;
 
-            if (window.capital < 1000) {
+            if (window.capital < 700) {
                 alert("Uang tidak mencukupi untuk menyewa pekerja.");
                 hideWorkerModal();
                 return;

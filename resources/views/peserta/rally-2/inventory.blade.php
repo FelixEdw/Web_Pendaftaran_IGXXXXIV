@@ -46,7 +46,7 @@
 
             {{-- Price --}}
             <div class="text-center mb-6">
-                <span id="totalPriceDisplay" class="text-2xl font-bold text-green-400">$110</span>
+                <span id="totalPriceDisplay" class="text-2xl font-bold text-green-400">$200</span>
             </div>
 
             {{-- Sell Button --}}
@@ -65,7 +65,7 @@
     <script>
         let quantity = 1;
         let maxQuantity = {{ $inventory }};
-        const pricePerItem = 110;
+        const pricePerItem = 200;
 
         function changeQuantity(change) {
             const newQuantity = quantity + change;

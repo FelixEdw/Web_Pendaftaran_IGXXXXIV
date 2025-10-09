@@ -18,7 +18,7 @@ class SessionSeeder extends Seeder
             'id' => 1,
             "jenis_sesi" => 0,
             'durasi' => 35,
-            'demand' => 30,
+            'demand' => 23,
             'event' => "",
         ]);
 
@@ -26,7 +26,7 @@ class SessionSeeder extends Seeder
             'id' => 2,
             "jenis_sesi" => 0,
             'durasi' => 35,
-            'demand' => 50,
+            'demand' => 43,
             'event' => "Total Hadih Point X 1.5",
         ]);
 
@@ -34,7 +34,7 @@ class SessionSeeder extends Seeder
             'id' => 3,
             "jenis_sesi" => 0,
             'durasi' => 35,
-            'demand' => 35,
+            'demand' => 37,
             'event' => "Harga Maintenance X 1.5",
         ]);
 
@@ -42,7 +42,7 @@ class SessionSeeder extends Seeder
             'id' => 4,
             "jenis_sesi" => 0,
             'durasi' => 35,
-            'demand' => 70,
+            'demand' => 65,
             'event' => "",
         ]);
         Session::create([

@@ -611,7 +611,7 @@ class R2Controller extends Controller
             return response()->json(['error' => 'Uang tidak mencukupi untuk menyewa pekerja.']);
         }
 
-        $team->total_uang_babak2 -= 1000;
+        $team->total_uang_babak2 -= 700;
         $team->save();
 
         $teamMachine->operator_hired = true;
@@ -632,8 +632,8 @@ class R2Controller extends Controller
     {
         // Harga & batas level (source of truth di server)
         $UPGRADE_PRICES = [ // current -> next
-            1 => 4500, // 1->2
-            2 => 6500, // 2->3
+            1 => 8500, // 1->2
+            2 => 10000, // 2->3
         ];
         $MAX_LEVEL = 3;
 
