@@ -13,10 +13,10 @@ use App\Http\Controllers\Controller;
 class R1PesertaController extends Controller
 {
     private $sesiHarga = [
-        1 => ['city' => 30, 'folding' => 40, 'mountain' => 50],
-        2 => ['city' => 30, 'folding' => 60, 'mountain' => 65],
-        3 => ['city' => 50, 'folding' => 65, 'mountain' => 60, 'unicycle' => 35],
-        4 => ['city' => 50, 'folding' => 60, 'mountain' => 70, 'unicycle' => 40],
+        1 => ['city' => 30, 'folding' => 40, 'mountain' => 45],
+        2 => ['city' => 30, 'folding' => 45, 'mountain' => 50],
+        3 => ['city' => 25, 'folding' => 30, 'mountain' => 35, 'unicycle' => 20],
+        4 => ['city' => 35, 'folding' => 40, 'mountain' => 45, 'unicycle' => 25],
     ];
 
     private $posKomponen = [
