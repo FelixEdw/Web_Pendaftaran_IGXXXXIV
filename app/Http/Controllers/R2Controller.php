@@ -469,6 +469,8 @@ class R2Controller extends Controller
     }
     public function upgradeMachine(Request $request)
     {
+        Log::info('[upgradeMachine] HIT', $request->all());
+
         $user = Auth::user();
         $team = Team::where('nama_tim', $user->name)->firstOrFail();
 

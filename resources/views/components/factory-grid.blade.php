@@ -122,7 +122,7 @@
                         class="flex-1 bg-gray-400 text-white py-3 rounded-lg font-bold hover:bg-gray-500 transition">
                         CANCEL
                     </button>
-                    <button onclick="confirmUpgrade()"
+                    <button onclick="confirmUpgradeMachineLevel()"
                         class="flex-1 bg-green-500 text-white py-3 rounded-lg font-bold hover:bg-green-600 transition">
                         UPGRADE
                     </button>
@@ -304,7 +304,7 @@
                 hideBuyConfirm();
                 return;
             }
-
+            
             $.ajax({
                 url: "{{ route('peserta.rally2.buy') }}",
                 type: "POST",
@@ -364,7 +364,7 @@
             hideModal('upgradeModal');
         }
 
-        function confirmUpgrade() {
+        function confirmUpgradeMachineLevel() {
             const owned = selectedFactory.owned_id;
             const currentLevel = parseInt(selectedFactory.level);
             const nextLevel = currentLevel + 1;
@@ -379,42 +379,46 @@
             const newTime = times[nextLevel];
             const sell = sells[nextLevel];
 
-            // Validasi agar tidak mengirim data kosong
-            if (price === undefined || newCapacity === undefined || newTime === undefined || sell === undefined) {
-                alert("Data upgrade tidak tersedia.");
-                hideUpgradeModal();
-                return;
-            }
 
-            fetch("{{ route('peserta.rally2.upgrade') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": window.Laravel.csrfToken
-                },
-                body: JSON.stringify({
-                    owned: owned,
-                    next_level: nextLevel,
-                    price: price,
-                    new_capacity: newCapacity,
-                    new_time: newTime,
-                    sell: sell
-                })
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.error) {
-                        alert(data.error);
-                    } else {
-                        alert(data.message || "Berhasil diupgrade!");
-                        window.capital = data.capital;
-                        location.reload();
-                    }
-                })
-                .catch(err => {
-                    console.error(err);
-                    alert("Gagal upgrade mesin.");
-                });
+           fetch("{{ route('peserta.rally2.upgrade') }}", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-CSRF-TOKEN": window.Laravel.csrfToken,
+  },
+  body: JSON.stringify({
+    owned: owned,
+    next_level: nextLevel,
+    price: price,
+    new_capacity: newCapacity,
+    new_time: newTime,
+    sell: sell
+  })
+})
+.then(async (res) => {
+  const ct = res.headers.get("content-type") || "";
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`HTTP ${res.status} – ${text.slice(0,200)}`);
+  }
+  if (!ct.includes("application/json")) {
+    const text = await res.text();
+    throw new Error(`Non-JSON response (mungkin redirect middleware): ${text.slice(0,200)}`);
+  }
+  return res.json();
+})
+.then((data) => {
+  if (data.error) return alert(data.error);
+  alert(data.message || "Berhasil diupgrade!");
+  window.capital = data.capital;
+  location.reload();
+})
+.catch((err) => {
+  console.error(err);
+  alert("Gagal upgrade mesin: " + err.message);
+});
+
 
             hideUpgradeModal();
         }
