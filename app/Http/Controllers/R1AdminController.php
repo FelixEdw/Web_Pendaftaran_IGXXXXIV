@@ -406,8 +406,16 @@ class R1AdminController extends Controller
     public function showSesi()
     {
         $sesiAktif = DB::table('sesi_rally1')->value('sesi_aktif');
-        return view('admin.rally-1.admin_sesi', compact('sesiAktif'));
+
+        $leaderboard = DB::table('production_rally1')
+            ->join('teams', 'production_rally1.team_id', '=', 'teams.id')
+            ->select('teams.nama_tim', 'production_rally1.poin_total')
+            ->orderByDesc('production_rally1.poin_total')
+            ->get();
+
+        return view('admin.rally-1.admin_sesi', compact('sesiAktif', 'leaderboard'));
     }
+
 
     public function updateSesi(Request $request)
     {
