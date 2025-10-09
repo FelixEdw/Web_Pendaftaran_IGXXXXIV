@@ -700,7 +700,7 @@ class R2Controller extends Controller
         $user = Auth::user();
         $team = Team::where('nama_tim', $user->name)->firstOrFail();
 
-        if ($teamMachine->team_id !== $team->id) {
+        if ($teamMachine->team_id != $team->id) {
             return response()->json(['error' => 'Unauthorized action.'], 403);
         }
 
