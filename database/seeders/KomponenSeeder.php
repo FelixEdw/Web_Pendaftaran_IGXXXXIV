@@ -21,8 +21,7 @@ class KomponenSeeder extends Seeder
             Komponen::create([
                 'team_id' => $team->id,
                 'wheel' => rand(2, 4),
-                'brake' => rand(2, 4),
-                'pedal' => rand(2, 4),
+                'brake_and_pedal' => rand(2, 4),
                 'chain_and_gear' => rand(2, 4),
                 'city_frame' => rand(0, 1),
                 'folding_frame' => rand(0, 1),

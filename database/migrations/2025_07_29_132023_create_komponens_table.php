@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
         
             $table->integer('wheel')->default(0);
-            $table->integer('brake')->default(0);
-            $table->integer('pedal')->default(0);
+            $table->integer('brake_and_pedal')->default(0);
             $table->integer('chain_and_gear')->default(0);
             $table->integer('city_frame')->default(0);
             $table->integer('folding_frame')->default(0);

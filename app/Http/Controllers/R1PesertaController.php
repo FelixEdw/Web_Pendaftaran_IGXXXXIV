@@ -29,9 +29,8 @@ class R1PesertaController extends Controller
         7 => ['mountain_frame' => 1],
         8 => ['mountain_suspension' => 1],
         9 => ['unicycle_frame' => 1],
-        10 => ['brake' => 1],
-        11 => ['pedal' => 1],
-        12 => ['chain_and_gear' => 1],
+        10 => ['brake_and_pedal' => 1],
+        11 => ['chain_and_gear' => 1],
     ];
 
     public function updateProductionRally($teamId)
@@ -151,16 +150,16 @@ class R1PesertaController extends Controller
 
         if ($sesiSaatIni >= 3 && $sesiSaatIni < 5) {
             $resep = [
-                'city' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'city_frame' => 1],
-                'folding' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'folding_frame' => 1],
-                'mountain' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'mountain_frame' => 1],
-                'unicycle' => ['wheel' => 1, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'unicycle_frame' => 1]
+                'city' => ['wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'city_frame' => 1],
+                'folding' => ['wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'folding_frame' => 1],
+                'mountain' => ['wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'mountain_frame' => 1],
+                'unicycle' => ['wheel' => 1, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'unicycle_frame' => 1]
             ];
         } else {
             $resep = [
-                'city' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'city_frame' => 1],
-                'folding' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'folding_frame' => 1],
-                'mountain' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'mountain_frame' => 1]
+                'city' => ['wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'city_frame' => 1],
+                'folding' => ['wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'folding_frame' => 1],
+                'mountain' => ['wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'mountain_frame' => 1]
             ];
         }
 
@@ -174,10 +173,10 @@ class R1PesertaController extends Controller
         $komponen = DB::table('komponen')->where('team_id', $team->id)->first();
 
         $resep = [
-            'city' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'city_frame' => 1],
-            'folding' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'folding_frame' => 1],
-            'mountain' => ['wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'mountain_frame' => 1],
-            'unicycle' => ['wheel' => 1, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2, 'unicycle_frame' => 1]
+            'city' => ['wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'city_frame' => 1],
+            'folding' => ['wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'folding_frame' => 1],
+            'mountain' => ['wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'mountain_frame' => 1],
+            'unicycle' => ['wheel' => 1, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'unicycle_frame' => 1]
         ];
 
         if (!isset($resep[$jenis])) {

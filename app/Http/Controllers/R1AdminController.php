@@ -11,92 +11,92 @@ class R1AdminController extends Controller
 {
     private $rewardList = [
         1 => [
-            'menang' => ['city' => 1, 'wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2],
-            'kalah' => ['wheel' => 1, 'brake' => 1, 'pedal' => 1, 'chain_and_gear' => 1],
+            'menang' => ['city' => 1, 'wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2],
+            'kalah' => ['wheel' => 1, 'brake_and_pedal' => 1, 'chain_and_gear' => 1],
         ],
         2 => [
-            'menang' => ['chain_and_gear' => 2, 'wheel' => 3, 'brake' => 2, 'pedal' => 2],
+            'menang' => ['chain_and_gear' => 2, 'wheel' => 3, 'brake_and_pedal' => 2],
             'kalah' => ['chain_and_gear' => 2, 'wheel' => 1],
         ],
         3 => [
-            'menang' => ['folding_frame' => 1, 'wheel' => 1, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 3],
-            'kalah' => ['brake' => 1, 'pedal' => 1, 'wheel' => 2, 'chain_and_gear' => 1],
+            'menang' => ['folding_frame' => 1, 'wheel' => 1, 'brake_and_pedal' => 2, 'chain_and_gear' => 3],
+            'kalah' => ['brake_and_pedal' => 1, 'wheel' => 2, 'chain_and_gear' => 1],
         ],
         4 => [
-            'menang' => ['mountain_frame' => 1, 'chain_and_gear' => 1, 'brake' => 2, 'pedal' => 2, 'wheel' => 3],
-            'kalah' => ['chain_and_gear' => 1, 'wheel' => 1, 'brake' => 1, 'pedal' => 1],
+            'menang' => ['mountain_frame' => 1, 'chain_and_gear' => 1, 'brake_and_pedal' => 2, 'wheel' => 3],
+            'kalah' => ['chain_and_gear' => 1, 'wheel' => 1, 'brake_and_pedal' => 1],
         ],
         5 => [
-            'menang' => ['unicycle_frame' => 1, 'wheel' => 1, 'chain_and_gear' => 1, 'pedal' => 2, 'brake_and_pedal' => 2],
+            'menang' => ['unicycle_frame' => 1, 'wheel' => 1, 'chain_and_gear' => 1, 'brake_and_pedal' => 2],
             'kalah' => ['wheel' => 1, 'chain_and_gear' => 1],
         ],
         6 => [
-            'menang' => ['city_frame' => 1, 'wheel' => 2, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2],
-            'kalah' => ['wheel' => 1, 'brake' => 1, 'pedal' => 1, 'chain_and_gear' => 2],
+            'menang' => ['city_frame' => 1, 'wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2],
+            'kalah' => ['wheel' => 1, 'brake_and_pedal' => 1, 'chain_and_gear' => 2],
         ],
         7 => [
-            'menang' => ['mountain_frame' => 1, 'chain_and_gear' => 2, 'wheel' => 1, 'brake' => 2, 'pedal' => 2],
-            'kalah' => ['wheel' => 1, 'brake' => 1, 'pedal' => 1, 'chain_and_gear' => 1],
+            'menang' => ['mountain_frame' => 1, 'chain_and_gear' => 2, 'wheel' => 1, 'brake_and_pedal' => 2],
+            'kalah' => ['wheel' => 1, 'brake_and_pedal' => 1, 'chain_and_gear' => 1],
         ],
         8 => [
-            'menang' => ['folding_frame' => 1, 'wheel' => 3, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 3],
+            'menang' => ['folding_frame' => 1, 'wheel' => 3, 'brake_and_pedal' => 2, 'chain_and_gear' => 3],
             'kalah' => ['wheel' => 2, 'chain_and_gear' => 2],
         ],
         9 => [
-            'menang' => ['city_frame' => 1, 'chain_and_gear' => 2, 'wheel' => 2, 'brake' => 2, 'pedal' => 2],
-            'kalah' => ['chain_and_gear' => 1, 'wheel' => 1, 'brake' => 1, 'pedal' => 1],
+            'menang' => ['city_frame' => 1, 'chain_and_gear' => 2, 'wheel' => 2, 'brake_and_pedal' => 2],
+            'kalah' => ['chain_and_gear' => 1, 'wheel' => 1, 'brake_and_pedal' => 1],
         ],
         10 => [
-            'menang' => ['unicycle_frame' => 1, 'wheel' => 1, 'pedal' => 2, 'brake' => 2, 'chain_and_gear' => 4],
+            'menang' => ['unicycle_frame' => 1, 'wheel' => 1, 'brake_and_pedal' => 2, 'chain_and_gear' => 4],
             'kalah' => ['wheel' => 1, 'chain_and_gear' => 2],
         ],
         11 => [
-            'menang' => ['brake' => 2, 'pedal' => 2, 'chain_and_gear' => 1, 'wheel' => 2, 'mountain_frame' => 1],
-            'kalah' => ['brake' => 1, 'pedal' => 1, 'wheel' => 2],
+            'menang' => ['brake_and_pedal' => 2, 'chain_and_gear' => 1, 'wheel' => 2, 'mountain_frame' => 1],
+            'kalah' => ['brake_and_pedal' => 1, 'wheel' => 2],
         ],
         12 => [
-            'menang' => ['city_frame' => 1, 'chain_and_gear' => 2, 'wheel' => 1, 'brake' => 2, 'pedal' => 2],
+            'menang' => ['city_frame' => 1, 'chain_and_gear' => 2, 'wheel' => 1, 'brake_and_pedal' => 2],
             'kalah' => ['chain_and_gear' => 2, 'wheel' => 1],
         ],
         13 => [
-            'menang' => ['folding_frame' => 1, 'whee' => 3, 'chain_and_gear' => 3, 'pedal' => 2, 'brake' => 2],
-            'kalah' => ['pedal' => 1, 'brake' => 1, 'wheel' => 1, 'chain_and_gear' => 1],
+            'menang' => ['folding_frame' => 1, 'wheel' => 3, 'chain_and_gear' => 3, 'brake_and_pedal' => 2],
+            'kalah' => ['brake_and_pedal' => 1, 'wheel' => 1, 'chain_and_gear' => 1],
         ],
         14 => [
-            'menang' => ['mountain_frame' => 1, 'wheel' => 2, 'pedal' => 2, 'brake' => 2, 'chain_and_gear' => 2],
+            'menang' => ['mountain_frame' => 1, 'wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 2],
             'kalah' => ['wheel' => 1, 'chain_and_gear' => 1],
         ],
         15 => [
-            'menang' => ['city_frame' => 1, 'chain_and_gear' => 2, 'wheel' => 2, 'brake' => 2, 'pedal' => 2],
-            'kalah' => ['wheel' => 2, 'brake' => 1, 'pedal' => 1, 'chain_and_gear' => 1],
+            'menang' => ['city_frame' => 1, 'chain_and_gear' => 2, 'wheel' => 2, 'brake_and_pedal' => 2],
+            'kalah' => ['wheel' => 2, 'brake_and_pedal' => 1, 'chain_and_gear' => 1],
         ],
         16 => [
-            'menang' => ['unicycle_frame' => 1, 'chain_and_gear' => 4, 'wheel' => 1, 'brake' => 2, 'pedal' => 2],
+            'menang' => ['unicycle_frame' => 1, 'chain_and_gear' => 4, 'wheel' => 1, 'brake_and_pedal' => 2],
             'kalah' => ['wheel' => 1, 'chain_and_gear' => 2],
         ],
         17 => [
-            'menang' => ['mountain_frame' => 1, 'brake' => 2, 'pedal' => 2, 'wheel' => 3, 'chain_and_gear' => 2],
-            'kalah' => ['brake' => 1, 'pedal' => 1, 'wheel' => 1, 'chain_and_gear' => 1],
+            'menang' => ['mountain_frame' => 1, 'brake_and_pedal' => 2, 'wheel' => 3, 'chain_and_gear' => 2],
+            'kalah' => ['brake_and_pedal' => 1, 'wheel' => 1, 'chain_and_gear' => 1],
         ],
         18 => [
-            'menang' => ['folding_frame' => 1, 'chain_and_gear' => 3, 'wheel' => 2, 'brake' => 2, 'pedal' => 2],
-            'kalah' => ['chain_and_gear' => 2, 'wheel' => 2, 'brake' => 1, 'pedal' => 1],
+            'menang' => ['folding_frame' => 1, 'chain_and_gear' => 3, 'wheel' => 2, 'brake_and_pedal' => 2],
+            'kalah' => ['chain_and_gear' => 2, 'wheel' => 2, 'brake_and_pedal' => 1],
         ],
         19 => [
-            'menang' => ['unicycle_frame' => 1, 'wheel' => 1, 'brake' => 2, 'pedal' => 2, 'chain_and_gear' => 2],
+            'menang' => ['unicycle_frame' => 1, 'wheel' => 1, 'brake_and_pedal' => 2, 'chain_and_gear' => 2],
             'kalah' => ['wheel' => 1, 'chain_and_gear' => 1],
         ],
         20 => [
-            'menang' => ['city_frame' => 1, 'brake' => 2, 'pedal' => 2, 'wheel' => 2, 'chain_and_gear' => 2],
-            'kalah' => ['brake' => 1, 'pedal' => 1, 'wheel' => 2, 'chain_and_gear' => 1],
+            'menang' => ['city_frame' => 1, 'brake_and_pedal' => 2, 'wheel' => 2, 'chain_and_gear' => 2],
+            'kalah' => ['brake_and_pedal' => 1, 'wheel' => 2, 'chain_and_gear' => 1],
         ],
         21 => [
-            'menang' => ['unicycle_frame' => 1, 'chain_and_gear' => 4, 'brake' => 2, 'pedal' => 2, 'wheel' => 1],
+            'menang' => ['unicycle_frame' => 1, 'chain_and_gear' => 4, 'brake_and_pedal' => 2, 'wheel' => 1],
             'kalah' => ['chain_and_gear' => 2, 'wheel' => 1],
         ],
         22 => [
-            'menang' => ['mountain_frame' => 1, 'wheel' => 2, 'chain_and_gear' => 2, 'brake' => 2, 'pedal' => 2],
-            'kalah' => ['wheel' => 1, 'brake' => 1, 'pedal' => 1, 'chain_and_gear' => 1],
+            'menang' => ['mountain_frame' => 1, 'wheel' => 2, 'chain_and_gear' => 2, 'brake_and_pedal' => 2],
+            'kalah' => ['wheel' => 1, 'brake_and_pedal' => 1, 'chain_and_gear' => 1],
         ],
     ];
 
