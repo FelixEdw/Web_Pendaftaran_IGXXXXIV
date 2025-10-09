@@ -23,7 +23,7 @@
 
                     {{-- Pedal --}}
                     <div class="bg-white/20 rounded-xl p-4 flex flex-col items-center text-white text-center">
-                        <img src="{{ asset('images/Gambar_Pedal.png') }}" alt="Pedal Icon" class="w-16 h-16 mb-2">
+                        <img src="{{ asset('images/Gambar_Pedal_dan_Brake.png') }}" alt="Pedal Icon" class="w-16 h-16 mb-2">
                         <span class="font-medium">Brake and Pedal</span>
                         <span class="mt-2 text-3xl font-bold">{{ $komponen->brake_and_pedal }}</span>
                     </div>
