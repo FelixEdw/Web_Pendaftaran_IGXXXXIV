@@ -132,21 +132,26 @@ public function gantisesi(Request $request)
                 }
             $uang = (int) ($team->total_uang_babak2 ?? 0);
             $poin = (int) floor($uang / 10000);
+            $waktuTerhubung = $this->hitungWaktuTotalTerhubung($connmachine, $teamMachines, $productionResult);
+            if ($waktuTerhubung <= 0 || $totalProduk <= 0) {
+                $base = 0;
+            } else {
+                // Rumus: TOTAL_DURASI / ((waktu_total_semua_mesin_terhubung / 4) × TOTAL_SEPEDA_MESIN_TERAKHIR)
+                $baseFloat = $durasiSesi / ( ($waktuTerhubung / 4.0) * $totalProduk );
+                $base = (int) floor($baseFloat);
+            }
 
             if ($totalProduk > $demand) {
-                $sisa = $totalProduk - $demand;
-                $team->inventory_babak_2 = $sisa;
-                $base = $demand + $poin;
+                $team->inventory_babak_2 = $totalProduk - $demand;
             } else {
                 $team->inventory_babak_2 = 0;
-                $base = $totalProduk + $poin;
             }
 
             // Bonus khusus sesi id=2
             if ((int) $sesiBaru->id == 2) {
-                $team->poin_total_babak2 += $base * 1.5;
+                $team->poin_total_babak2 += ($base * 1.5) + $poin;
             } else {
-                $team->poin_total_babak2 += $base;
+                $team->poin_total_babak2 += $base + $poin;
             }
 
             $team->save();
@@ -156,6 +161,63 @@ public function gantisesi(Request $request)
     return redirect()->route('admin.rally-2.index')
         ->with('success', 'Sesi berhasil diperbarui dan poin dihitung ulang!');
 }
+/**
+ * Hitung total waktu (base_time) semua mesin yang terhubung ke mesin terakhir (end node).
+ * Mengumpulkan mesin_1, mesin_2, mesin_3 + end node, lalu menjumlah base_time dari tteammachine tim tsb.
+ */
+private function hitungWaktuTotalTerhubung($connmachine, $teamMachines, $productionResult)
+{
+    // Kumpulkan tmachine_id end node yang valid (status=true)
+    $endNodes = [];
+    foreach ($productionResult as $r) {
+        if (!empty($r['status'])) {
+            $endNodes[] = $r['tmachine_id'];
+        }
+    }
+    $endNodes = array_values(array_unique($endNodes));
+    if (empty($endNodes)) return 0;
+
+    // Build set semua node yang terlibat (mesin_1,2,3 dan end node)
+    $involved = [];
+
+    foreach ($endNodes as $endId) {
+        $mesin_3 = [];
+        $mesin_2 = [];
+        $mesin_1 = [];
+
+        foreach ($connmachine as $c) {
+            if ($c->target_tmachine_id == $endId) {
+                $mesin_3[] = $c->source_tmachine_id;
+            }
+        }
+        foreach ($connmachine as $c) {
+            if (in_array($c->target_tmachine_id, $mesin_3)) {
+                $mesin_2[] = $c->source_tmachine_id;
+            }
+        }
+        foreach ($connmachine as $c) {
+            if (in_array($c->target_tmachine_id, $mesin_2)) {
+                $mesin_1[] = $c->source_tmachine_id;
+            }
+        }
+
+        $involved = array_merge($involved, [$endId], $mesin_3, $mesin_2, $mesin_1);
+    }
+
+    $involved = array_values(array_unique($involved));
+    if (empty($involved)) return 0;
+
+    // Peta base_time per tmachine_id dari koleksi tteammachine milik tim
+    $sum = 0;
+    foreach ($teamMachines as $tm) {
+        if (in_array($tm->tmachine_id, $involved)) {
+            // jika ada duplikasi mesin yang sama di tim, semuanya dijumlahkan
+            $sum += (int)($tm->base_time ?? 0);
+        }
+    }
+    return $sum;
+}
+
 private function calculateProductionFlow($connmachine, $teamMachines, $durasiSesi)
 {
     $hasilProduksi = [];
