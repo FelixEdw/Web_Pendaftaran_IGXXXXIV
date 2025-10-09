@@ -149,20 +149,20 @@ class R1PesertaController extends Controller
         $sesiSaatIni = $this->getSesiAktif();
 
         if ($sesiSaatIni >= 3 && $sesiSaatIni < 5) {
-            $resep = 
-            [
-                'city' => ['wheel' => 3, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'city_frame' => 1],
-                'folding' => ['wheel' => 2, 'brake_and_pedal' => 3, 'chain_and_gear' => 2, 'folding_frame' => 1],
-                'mountain' => ['wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 5, 'mountain_frame' => 1],
-                'unicycle' => ['wheel' => 1, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'unicycle_frame' => 1]
-            ];
+            $resep =
+                [
+                    'city' => ['wheel' => 3, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'city_frame' => 1],
+                    'folding' => ['wheel' => 2, 'brake_and_pedal' => 3, 'chain_and_gear' => 2, 'folding_frame' => 1],
+                    'mountain' => ['wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 5, 'mountain_frame' => 1],
+                    'unicycle' => ['wheel' => 1, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'unicycle_frame' => 1]
+                ];
         } else {
-            $resep = 
-            [
-                'city' => ['wheel' => 3, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'city_frame' => 1],
-                'folding' => ['wheel' => 2, 'brake_and_pedal' => 3, 'chain_and_gear' => 2, 'folding_frame' => 1],
-                'mountain' => ['wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 5, 'mountain_frame' => 1],
-            ];
+            $resep =
+                [
+                    'city' => ['wheel' => 3, 'brake_and_pedal' => 2, 'chain_and_gear' => 2, 'city_frame' => 1],
+                    'folding' => ['wheel' => 2, 'brake_and_pedal' => 3, 'chain_and_gear' => 2, 'folding_frame' => 1],
+                    'mountain' => ['wheel' => 2, 'brake_and_pedal' => 2, 'chain_and_gear' => 5, 'mountain_frame' => 1],
+                ];
         }
 
         return view('peserta.rally-1.produksi', compact('data', 'resep'));
@@ -222,7 +222,9 @@ class R1PesertaController extends Controller
 
     public function showJual()
     {
-        $timId = Auth::user()->id;
+        $user = Auth::user();
+        $team = Team::where('nama_tim', $user->name)->first();
+        $timId = $team->id;
         $stok = DB::table('sepeda')->where('team_id', $timId)->first();
 
         $sesi = $this->getSesiAktif();

@@ -154,10 +154,10 @@
 
     $sesi = DB::table('sesi_rally1')->value('sesi_aktif') ?? 1;
     $sesiHarga = [
-    1 => ['city' => 40, 'folding' => 75, 'mountain' => 60],
-    2 => ['city' => 45, 'folding' => 80, 'mountain' => 65],
-    3 => ['city' => 40, 'folding' => 75, 'mountain' => 60, 'unicycle' => 30],
-    4 => ['city' => 30, 'folding' => 55, 'mountain' => 45, 'unicycle' => 20],
+        1 => ['city' => 30, 'folding' => 40, 'mountain' => 45],
+        2 => ['city' => 30, 'folding' => 45, 'mountain' => 50],
+        3 => ['city' => 25, 'folding' => 30, 'mountain' => 35, 'unicycle' => 20],
+        4 => ['city' => 35, 'folding' => 40, 'mountain' => 45, 'unicycle' => 25],
     ];
     $harga = $sesiHarga[$sesi] ?? [];
     @endphp
