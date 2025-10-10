@@ -44,6 +44,7 @@ class R2Controller extends Controller
                 'capacity_per_level' => [],
                 'time_per_level' => [],
                 'sell_prices' => [],
+                'purchase_prices' => [],
             ]);
 
             $connections = [];
@@ -84,6 +85,7 @@ class R2Controller extends Controller
                 'capacity_per_level' => $upgradeConfig['capacity_per_level'],
                 'time_per_level' => $upgradeConfig['time_per_level'],
                 'sell_prices' => $upgradeConfig['sell_prices'],
+                'purchase_prices' => $upgradeConfig['purchase_prices'],
                 'connections' => $connections,
 
             ];
