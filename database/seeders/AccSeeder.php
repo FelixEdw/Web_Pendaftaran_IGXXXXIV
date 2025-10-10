@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Team;
 use App\Models\User;
+use App\Models\Member; // <-- Tambahkan ini untuk model Member
 
 class AccSeeder extends Seeder
 {
@@ -14,156 +15,269 @@ class AccSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => "jolem",
-            'role' => 'admin',
-            'password' => bcrypt("jolem@ig33"),
-        ]);
+        // Data Admin Users (dari kode Anda sebelumnya)
+        User::create(['name' => "jolem", 'role' => 'admin', 'password' => bcrypt("jolem@ig33")]);
+        User::create(['name' => "angel", 'role' => 'admin', 'password' => bcrypt("angel@ig33")]);
+        User::create(['name' => "steven", 'role' => 'admin', 'password' => bcrypt("steven@ig33")]);
+        User::create(['name' => "federico", 'role' => 'admin', 'password' => bcrypt("federico@ig33")]);
+        User::create(['name' => "philander", 'role' => 'admin', 'password' => bcrypt("philander@ig33")]);
+        User::create(['name' => "evan", 'role' => 'admin', 'password' => bcrypt("evan@ig33")]);
+        User::create(['name' => "brandon", 'role' => 'admin', 'password' => bcrypt("brandon@ig33")]);
+        User::create(['name' => "rakel", 'role' => 'admin', 'password' => bcrypt("rakel@ig33")]);
+        User::create(['name' => "nico", 'role' => 'admin', 'password' => bcrypt("nico@ig33")]);
+        User::create(['name' => "gaby", 'role' => 'admin', 'password' => bcrypt("gaby@ig33")]);
+        User::create(['name' => "wahyu", 'role' => 'admin', 'password' => bcrypt("wahyu@ig33")]);
+        User::create(['name' => "lady", 'role' => 'admin', 'password' => bcrypt("lady@ig33")]);
+        User::create(['name' => "armando", 'role' => 'admin', 'password' => bcrypt("armando@ig33")]);
+        User::create(['name' => "jason", 'role' => 'admin', 'password' => bcrypt("jason@ig33")]);
+        User::create(['name' => "yuriko", 'role' => 'admin', 'password' => bcrypt("yuriko@ig33")]);
+        User::create(['name' => "albert", 'role' => 'admin', 'password' => bcrypt("albert@ig33")]);
+        // User 'frederico' sudah ada di atas, jadi saya lewati duplikatnya
+        User::create(['name' => "safira", 'role' => 'admin', 'password' => bcrypt("safira@ig33")]);
+        User::create(['name' => "david", 'role' => 'admin', 'password' => bcrypt("david@ig33")]);
+        User::create(['name' => "yovent", 'role' => 'admin', 'password' => bcrypt("yovent@ig33")]);
+        User::create(['name' => "jeslyn", 'role' => 'admin', 'password' => bcrypt("jeslyn@ig33")]);
+        User::create(['name' => "grace", 'role' => 'admin', 'password' => bcrypt("grace@ig33")]);
+        User::create(['name' => "monica", 'role' => 'admin', 'password' => bcrypt("monica@ig33")]);
+        User::create(['name' => "joice", 'role' => 'admin', 'password' => bcrypt("joice@ig33")]);
+        User::create(['name' => "felice", 'role' => 'admin', 'password' => bcrypt("felice@ig33")]);
 
-        User::create([
-            'name' => "angel",
-            'role' => 'admin',
-            'password' => bcrypt("angel@ig33"),
-        ]);
+        // =================================================================
+        // MULAI DATA DARI SQL DUMP
+        // =================================================================
 
-         User::create([
-            'name' => "steven",
-            'role' => 'admin',
-            'password' => bcrypt("steven@ig33"),
-        ]);
+        // 1. Seeding Tabel Teams (Tabel Induk)
+        // Ini harus dijalankan SEBELUM tabel members
+        // =================================================================
+        $teams = [
+            ['id' => 1, 'nama_tim' => 'a', 'password' => '$2y$12$ZEFnK9lTJ8ssNIVeB7f5n.sJ1.bIIl.QLIvbAihIrFD7Ihkjg/E.G', 'asal_sekolah' => 'anjay', 'foto_bukti_pembayaran' => '', 'created_at' => '2025-08-19 10:33:15', 'updated_at' => '2025-08-21 16:00:08', 'ver_bukti_bayar' => 1],
+            ['id' => 2, 'nama_tim' => 'Chasio Goreng Madu', 'password' => '$2y$12$3bj/YWH93i0Gd3WljPdUG.QHT5YtheYfIfMNA02dX33cq2j/4t0S.', 'asal_sekolah' => 'SMAK St. Louis 1 Surabaya', 'foto_bukti_pembayaran' => 'bukti_pembayaran/chasio-goreng-madu_1755612476.jpeg', 'created_at' => '2025-08-19 14:07:57', 'updated_at' => '2025-08-20 04:43:06', 'ver_bukti_bayar' => 1],
+            ['id' => 3, 'nama_tim' => 'Sepik Tel', 'password' => '$2y$12$unFKXG3ZGhNEHUiRuQ2due2IL8uMGGHL/5D56vEOkPRJXjXVs8snq', 'asal_sekolah' => 'SMAK PETRA ACITYA', 'foto_bukti_pembayaran' => 'bukti_pembayaran/sepik-tel_1756951950.jpeg', 'created_at' => '2025-09-04 02:12:31', 'updated_at' => '2025-09-04 04:43:02', 'ver_bukti_bayar' => 1],
+            ['id' => 4, 'nama_tim' => 'SOSIS5', 'password' => '$2y$12$L72kvzZa5BFb4VDDDgvfT.n7k4Knv/61uyhASrXq7YmhS.IPeEHNy', 'asal_sekolah' => 'SMA Kristen Petra 5', 'foto_bukti_pembayaran' => 'bukti_pembayaran/sosis5_1757040394.jpg', 'created_at' => '2025-09-05 02:46:34', 'updated_at' => '2025-09-05 12:07:51', 'ver_bukti_bayar' => 1],
+            ['id' => 5, 'nama_tim' => 'HAYOLO', 'password' => '$2y$12$H932HJfGtNxXK9o7ThO6yOWGmOoUap4oRbVB6CPCMPv8Mh2vxU5EG', 'asal_sekolah' => 'SMA Petra 5 Surabaya', 'foto_bukti_pembayaran' => 'bukti_pembayaran/hayolo_1757082296.jfif', 'created_at' => '2025-09-05 14:24:56', 'updated_at' => '2025-09-10 06:02:10', 'ver_bukti_bayar' => 1],
+            ['id' => 6, 'nama_tim' => 'MaJeRi', 'password' => '$2y$12$UVJ8Si8OZ405UGfopeM9XeXB.GsiFLxmk1G50nZ1KlgWUPiXlOnw6', 'asal_sekolah' => 'SMA Katolik St. Louis 2 Surabaya', 'foto_bukti_pembayaran' => 'bukti_pembayaran/majeri_1757258454.jpeg', 'created_at' => '2025-09-07 15:20:54', 'updated_at' => '2025-09-10 06:04:45', 'ver_bukti_bayar' => 1],
+            ['id' => 7, 'nama_tim' => 'SENYOM 🙂', 'password' => '$2y$12$WhOvVQ9oPmNZpRtsRn1OEeTG96ePHbpTMqm84Mc5X05DyofQwKbje', 'asal_sekolah' => 'SMA Kristen Petra 2', 'foto_bukti_pembayaran' => 'bukti_pembayaran/senyom_1757261924.jpg', 'created_at' => '2025-09-07 16:18:45', 'updated_at' => '2025-09-10 06:05:06', 'ver_bukti_bayar' => 1],
+            ['id' => 8, 'nama_tim' => 'SMH', 'password' => '$2y$12$YeIDsptUmSG5YPijP6/S0Ox6dNK5pVNPulVjhQdMYd6wCZkGr/N0q', 'asal_sekolah' => 'SMA Kristen Petra 5', 'foto_bukti_pembayaran' => 'bukti_pembayaran/smh_1757405219.jpg', 'created_at' => '2025-09-09 08:07:00', 'updated_at' => '2025-09-10 06:05:25', 'ver_bukti_bayar' => 1],
+            ['id' => 9, 'nama_tim' => 'Petraoke', 'password' => '$2y$12$4PEP/xw0MxnZSF9PCaoNce0Va7Ug2gE9ms7d3DnQHnAbZIb78JtJ.', 'asal_sekolah' => 'SMA KRISTEN PETRA 4 SIDOARJO', 'foto_bukti_pembayaran' => 'bukti_pembayaran/petraoke_1757406614.jpeg', 'created_at' => '2025-09-09 08:30:15', 'updated_at' => '2025-09-10 06:06:39', 'ver_bukti_bayar' => 1],
+            ['id' => 10, 'nama_tim' => 'KERAAN', 'password' => '$2y$12$fNACjOSITWBpeewtz3OcL.XMmw6/Y4pf6xqUvJktkG4Qk5Hm3iLF6', 'asal_sekolah' => 'SMA Kristen Petra 5', 'foto_bukti_pembayaran' => 'bukti_pembayaran/keraan_1757422615.jpg', 'created_at' => '2025-09-09 12:56:55', 'updated_at' => '2025-09-10 06:06:49', 'ver_bukti_bayar' => 1],
+            ['id' => 11, 'nama_tim' => 'Generalist', 'password' => '$2y$12$N8QlNb4oJ7DBJGCVWNohAeuUAf2PzFA5mtluQsR84AKJkoShtZIGi', 'asal_sekolah' => 'SMA Kristen Petra Acitya', 'foto_bukti_pembayaran' => 'bukti_pembayaran/generalist_1757467279.jpg', 'created_at' => '2025-09-10 01:21:20', 'updated_at' => '2025-09-10 06:06:59', 'ver_bukti_bayar' => 1],
+            ['id' => 12, 'nama_tim' => 'IGU', 'password' => '$2y$12$EBlNGbpXpgt1XVp5pDgTD.s0b9mJQT/ZPjYntjGxQj.RUKgzbA52i', 'asal_sekolah' => 'SMA Ubaya', 'foto_bukti_pembayaran' => 'bukti_pembayaran/igu_1757516251.png', 'created_at' => '2025-09-10 14:57:32', 'updated_at' => '2025-09-10 14:57:32', 'ver_bukti_bayar' => 0],
+            ['id' => 13, 'nama_tim' => 'Industrial Games', 'password' => '$2y$12$tbC7e/yb11gZukc7YJn9ZuudaA7/35OyaOSmFMs2rylDnTZOH6PXq', 'asal_sekolah' => 'SMA Ubaya', 'foto_bukti_pembayaran' => 'bukti_pembayaran/industrial-games_1757517200.png', 'created_at' => '2025-09-10 15:13:21', 'updated_at' => '2025-09-11 06:26:11', 'ver_bukti_bayar' => 0],
+            ['id' => 14, 'nama_tim' => 'Mie Ayam', 'password' => '$2y$12$kmVANln7wcbcZNPbhFt2muavGF58HL9dgnx5QQli5jwcRNE6LjY2q', 'asal_sekolah' => 'SMAK Petra 1', 'foto_bukti_pembayaran' => 'bukti_pembayaran/mie-ayam_1757558274.jpg', 'created_at' => '2025-09-11 02:37:54', 'updated_at' => '2025-09-11 06:59:22', 'ver_bukti_bayar' => 1],
+            ['id' => 15, 'nama_tim' => 'E=mc²', 'password' => '$2y$12$PO8Hi1s78BkcZppeGj6DtONR9SQHinKXgORP5OP7hZqs7Os9S8tNO', 'asal_sekolah' => 'SMA Kr. Petra Acitya', 'foto_bukti_pembayaran' => 'bukti_pembayaran/emc2_1757559133.jpg', 'created_at' => '2025-09-11 02:52:13', 'updated_at' => '2025-09-11 06:59:24', 'ver_bukti_bayar' => 1],
+            ['id' => 16, 'nama_tim' => 'De chill guys', 'password' => '$2y$12$D9KodXkYbE2XCrrK5qurz.4or18ul.1f.ynbma4InuvN40LMhJI5u', 'asal_sekolah' => 'Sma kristen petra 5', 'foto_bukti_pembayaran' => 'bukti_pembayaran/de-chill-guys_1757688407.jpg', 'created_at' => '2025-09-12 14:46:47', 'updated_at' => '2025-09-13 04:44:37', 'ver_bukti_bayar' => 1],
+            ['id' => 17, 'nama_tim' => 'Pengen Menang', 'password' => '$2y$12$EdgM43jGB2tTxK4gybFAeu0j7ycJp36V86.c1dlJz1PG8qk0ycGCK', 'asal_sekolah' => 'SMA Kristen Petra 2 Surabaya', 'foto_bukti_pembayaran' => 'bukti_pembayaran/pengen-menang_1757737178.jpg', 'created_at' => '2025-09-13 04:19:38', 'updated_at' => '2025-09-13 04:48:28', 'ver_bukti_bayar' => 1],
+            ['id' => 18, 'nama_tim' => 'TheBoyz', 'password' => '$2y$12$RNgo6D0plPVzhZodoV7X8O/U8s0zwdIO0d4WdhbCuHNxtWB0TM8aW', 'asal_sekolah' => 'SMA Santo Carolus Surabaya', 'foto_bukti_pembayaran' => 'bukti_pembayaran/theboyz_1757757160.jpg', 'created_at' => '2025-09-13 09:52:41', 'updated_at' => '2025-09-14 06:46:06', 'ver_bukti_bayar' => 1],
+            ['id' => 19, 'nama_tim' => 'Perintis', 'password' => '$2y$12$7sUq7/OxC25LQKXqpeEji.mDXGlnoPYnvsY/w6vZOkU9gdX8.n8US', 'asal_sekolah' => 'SMA KRISTEN PETRA 5 SURABAYA', 'foto_bukti_pembayaran' => 'bukti_pembayaran/perintis_1757856151.jpg', 'created_at' => '2025-09-14 13:22:31', 'updated_at' => '2025-09-15 02:52:41', 'ver_bukti_bayar' => 1],
+            ['id' => 20, 'nama_tim' => 'Elena', 'password' => '$2y$12$ql3dhDvNHUcMQwSAMwkx1.gigvrwdgItqvq1yZNquIUWUsxo4ZNrG', 'asal_sekolah' => 'SMA Katolik St. Albertus Malang', 'foto_bukti_pembayaran' => 'bukti_pembayaran/elena_1757929316.jpg', 'created_at' => '2025-09-15 09:41:56', 'updated_at' => '2025-09-18 14:30:37', 'ver_bukti_bayar' => 1],
+            ['id' => 21, 'nama_tim' => 'Softboy', 'password' => '$2y$12$Kh.e0AZIlrFyvKUNZ6n3mOm7ChNC540R7YJ7LMk1hZB480/tQuwcW', 'asal_sekolah' => 'SMAK St. Albertus Malang', 'foto_bukti_pembayaran' => 'bukti_pembayaran/softboy_1757935758.jpg', 'created_at' => '2025-09-15 11:29:19', 'updated_at' => '2025-09-19 04:22:27', 'ver_bukti_bayar' => 1],
+            ['id' => 22, 'nama_tim' => 'Equilibria', 'password' => '$2y$12$0y7KZTwvKUHjXareo1UoZOqjaolWIKd4C0qid9s8pf5fdEw4RUKjO', 'asal_sekolah' => 'SMAK ST ALBERTUS', 'foto_bukti_pembayaran' => 'bukti_pembayaran/equilibria_1758094787.jpg', 'created_at' => '2025-09-17 07:39:48', 'updated_at' => '2025-09-18 14:30:29', 'ver_bukti_bayar' => 1],
+            ['id' => 23, 'nama_tim' => 'Kwak kwik kwuk', 'password' => '$2y$12$IRYsNiP2wO7pBUzULD7kKusB9owpm4pVFQPJ9OWXDarNM5WO5nokK', 'asal_sekolah' => 'SMA PETRA 5', 'foto_bukti_pembayaran' => 'bukti_pembayaran/sma-petra-5_1758259708.jpg', 'created_at' => '2025-09-19 05:28:28', 'updated_at' => '2025-09-21 07:57:10', 'ver_bukti_bayar' => 1],
+            ['id' => 24, 'nama_tim' => 'migrain', 'password' => '$2y$12$qp8f0UyI3QYENCBd36fBFu.G7nLW4RXVdLOP5CnsSE3QhF5e8xje.', 'asal_sekolah' => 'SMA PETRA 5', 'foto_bukti_pembayaran' => null, 'created_at' => '2025-09-19 05:28:29', 'updated_at' => '2025-09-21 07:57:23', 'ver_bukti_bayar' => 1],
+            ['id' => 25, 'nama_tim' => 'es teh manis', 'password' => '$2y$12$rfLRyYlYzmtSq7tQDcTamOz6/LtX.k7fL91uh9v1I5kXB.bvrwp7W', 'asal_sekolah' => 'SMA PETRA 5', 'foto_bukti_pembayaran' => null, 'created_at' => '2025-09-19 05:28:29', 'updated_at' => '2025-09-21 07:57:17', 'ver_bukti_bayar' => 1],
+            ['id' => 26, 'nama_tim' => 'Aestus', 'password' => '$2y$12$XOeU7AL5NznpUu4ZN8sxmOJN9BZ30665/RFsNryEcjt3ey2/uPFLa', 'asal_sekolah' => 'SMA Gloria 2', 'foto_bukti_pembayaran' => 'bukti_pembayaran/aestus_1758425830.jpeg', 'created_at' => '2025-09-21 03:37:10', 'updated_at' => '2025-09-22 04:50:17', 'ver_bukti_bayar' => 1],
+            ['id' => 28, 'nama_tim' => 'Hermes', 'password' => '$2y$12$n2Pmz8oPqAyLfmEd9h4tre1rDNfbUOdlqdA/8Q3SWv1/C6lxzKreq', 'asal_sekolah' => 'SMA Kristen Gloria 2', 'foto_bukti_pembayaran' => 'bukti_pembayaran/hermes_1758426639.jpeg', 'created_at' => '2025-09-21 03:50:39', 'updated_at' => '2025-09-21 03:50:39', 'ver_bukti_bayar' => 0],
+            ['id' => 29, 'nama_tim' => 'aming', 'password' => '$2y$12$WKxVxfe/yYnzQMvYEntTm.M5GIH4HEZ8wuSwxj1O42wmYmKzl5swa', 'asal_sekolah' => 'SMAK Frateran Surabaya', 'foto_bukti_pembayaran' => 'bukti_pembayaran/aming_1759068815.jpeg', 'created_at' => '2025-09-28 14:13:35', 'updated_at' => '2025-10-02 06:06:17', 'ver_bukti_bayar' => 1],
+            ['id' => 30, 'nama_tim' => 'aa', 'password' => '$2y$12$i9JCkE7uS3FJ5hJe9RaZBOmPzgH9QkHxJufWcFxNaphRktLlkVVke', 'asal_sekolah' => 'aaaa', 'foto_bukti_pembayaran' => 'bukti_pembayaran/aa_1759367986.jpg', 'created_at' => '2025-10-02 01:19:47', 'updated_at' => '2025-10-02 01:19:47', 'ver_bukti_bayar' => 0],
+            ['id' => 31, 'nama_tim' => 'TRIOSIH', 'password' => '$2y$12$1rIbLlAborhbcRc5p6B9LupfLBPNsEp6c4s73eh56y0VHEI2T4eh.', 'asal_sekolah' => 'SMA KRISTEN PETRA 5', 'foto_bukti_pembayaran' => 'bukti_pembayaran/triosih_1759383860.jpg', 'created_at' => '2025-10-02 05:44:20', 'updated_at' => '2025-10-02 06:07:05', 'ver_bukti_bayar' => 1],
+            ['id' => 32, 'nama_tim' => 'Design Engineers for Applicable Distribution', 'password' => '$2y$12$8AEW6ca7qKa0kW/ZpKKgFORjeRmysq65VyQ5bCg/OsmMo00BmfhPq', 'asal_sekolah' => 'Cita Hati Christian School East Campus Surabaya', 'foto_bukti_pembayaran' => 'bukti_pembayaran/design-engineers-for-applicable-distribution_1759494798.jpeg', 'created_at' => '2025-10-03 12:33:19', 'updated_at' => '2025-10-03 13:51:59', 'ver_bukti_bayar' => 1],
+            ['id' => 33, 'nama_tim' => 'SixSeven', 'password' => '$2y$12$Cyf4oG91WloIQhnFjSD8yuM8H0GZC/j4NpzVvj8giL3wqZ.dYoJAq', 'asal_sekolah' => 'SMA Cita Hati West', 'foto_bukti_pembayaran' => 'bukti_pembayaran/sma-cita-hati-west_1759496616.jpg', 'created_at' => '2025-10-03 13:03:36', 'updated_at' => '2025-10-03 13:03:36', 'ver_bukti_bayar' => 0],
+            ['id' => 34, 'nama_tim' => 'Gekishin', 'password' => '$2y$12$JJe0UGix4yb0PgzCYM.tfOcTWXxvrrd8NytNun8MNMUWCiCqUjrL2', 'asal_sekolah' => 'SMA Cita Hati West', 'foto_bukti_pembayaran' => null, 'created_at' => '2025-10-03 13:03:37', 'updated_at' => '2025-10-03 13:03:37', 'ver_bukti_bayar' => 0],
+            ['id' => 35, 'nama_tim' => 'SkibidyPop', 'password' => '$2y$12$EsRu54bxlegdXEYLJUUrneaRbz7Q4DeAPAKB5FwO8YrmjA86gv0uK', 'asal_sekolah' => 'SMA Cita Hati West', 'foto_bukti_pembayaran' => null, 'created_at' => '2025-10-03 13:03:38', 'updated_at' => '2025-10-03 13:03:38', 'ver_bukti_bayar' => 0],
+            ['id' => 36, 'nama_tim' => 'DameUnGrr', 'password' => '$2y$12$xYxGOH3E22xlqXMSK24KWumkBbDmcNlrXIcKZ.bPRmOLQqkXcQAEe', 'asal_sekolah' => 'Cita Hati West', 'foto_bukti_pembayaran' => 'bukti_pembayaran/dameungrr_1759505646.jpeg', 'created_at' => '2025-10-03 15:34:06', 'updated_at' => '2025-10-03 15:34:06', 'ver_bukti_bayar' => 0],
+            ['id' => 37, 'nama_tim' => '3 Faktorial', 'password' => '$2y$12$XQnUsMSDSubhgjjmyTC18e23w5JdXQYBsi.kZsrgB8aOWQ2IedOF2', 'asal_sekolah' => 'SMAS KATOLIK KARITAS III SURABAYA', 'foto_bukti_pembayaran' => 'bukti_pembayaran/3-faktorial_1759508386.jpg', 'created_at' => '2025-10-03 16:19:46', 'updated_at' => '2025-10-03 16:19:46', 'ver_bukti_bayar' => 0],
+        ];
 
-         User::create([
-            'name' => "federico",
-            'role' => 'admin',
-            'password' => bcrypt("federico@ig33"),
-        ]);
+        foreach ($teams as $team) {
+            // Default values untuk kolom yang mungkin tidak ada di semua array
+            $defaults = [
+                'total_uang_babak2' => 103000,
+                'poin_total_babak2' => 0,
+                'harga_unlock' => 100000,
+                'unlocked_babak2' => 0,
+                'uang' => 20,
+                'inventory_babak_2' => 0
+            ];
+            Team::create(array_merge($defaults, $team));
+        }
 
-         User::create([
-            'name' => "philander",
-            'role' => 'admin',
-            'password' => bcrypt("philander@ig33"),
-        ]);
 
-         User::create([
-            'name' => "evan",
-            'role' => 'admin',
-            'password' => bcrypt("evan@ig33"),
-        ]);
-        
-         User::create([
-            'name' => "brandon",
-            'role' => 'admin',
-            'password' => bcrypt("brandon@ig33"),
-        ]);
+        // 2. Seeding Tabel Members (Tabel Anak)
+        // Ini dijalankan SETELAH semua tim dibuat
+        // =================================================================
+        $members = [
+            ['id' => 1, 'team_id' => 2, 'status' => 'ketua', 'nama_lengkap' => 'Alvianno Rodderick Lim', 'alamat' => 'SDPS XI No. 39', 'nomor_telepon' => '081238770004', 'email' => 'limalvianno@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/chasio-goreng-madu_1.jpeg'],
+            ['id' => 2, 'team_id' => 2, 'status' => 'anggota', 'nama_lengkap' => 'Sebastian Rae Budiman Angkawi', 'alamat' => 'Perumahan Diamond Regency Ruko A02', 'nomor_telepon' => '085230189513', 'email' => 'raeangkawi@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/chasio-goreng-madu_2.jpeg'],
+            ['id' => 3, 'team_id' => 2, 'status' => 'anggota', 'nama_lengkap' => 'Jesselyn Tungary', 'alamat' => 'Wonorejo Permai Selatan CC 598', 'nomor_telepon' => '081217450963', 'email' => 'jesselyntungary@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/chasio-goreng-madu_3.jpeg'],
+            ['id' => 4, 'team_id' => 3, 'status' => 'ketua', 'nama_lengkap' => 'Lionel Yehuda Susanto', 'alamat' => 'Jl. Delima Timur 3 no 22', 'nomor_telepon' => '0895604891909', 'email' => 'kysmember17@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/sepik-tel_1.jpeg'],
+            ['id' => 5, 'team_id' => 3, 'status' => 'anggota', 'nama_lengkap' => 'Liko Yoriko Wei', 'alamat' => 'rungkut asri utara no 29', 'nomor_telepon' => '082233039349', 'email' => 'likoyoriko@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/sepik-tel_2.jpeg'],
+            ['id' => 6, 'team_id' => 3, 'status' => 'anggota', 'nama_lengkap' => 'James Irawan', 'alamat' => 'JL. Penjaringan Palem Indah IV No. 553', 'nomor_telepon' => '085119547878', 'email' => 'jamesirawan757@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/sepik-tel_3.jpeg'],
+            ['id' => 7, 'team_id' => 4, 'status' => 'ketua', 'nama_lengkap' => 'Nathanael Jong Santoso', 'alamat' => 'Jl. Rungkut Mutiara no.21C', 'nomor_telepon' => '081253406288', 'email' => 'Js.nathanael29@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/sosis5_1.jpg'],
+            ['id' => 8, 'team_id' => 4, 'status' => 'anggota', 'nama_lengkap' => 'Satria Dharmagita', 'alamat' => 'Delta Aster No 112, Grand Delta Sari, Wedoro', 'nomor_telepon' => '087751066977', 'email' => 'sattytoo@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/sosis5_2.jpg'],
+            ['id' => 9, 'team_id' => 4, 'status' => 'anggota', 'nama_lengkap' => 'Reyhan Tamayo Dharmady', 'alamat' => 'Jl. Kutisari Indah Utara 2/57', 'nomor_telepon' => '087855641099', 'email' => 'renrxytytta@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/sosis5_3.jpg'],
+            ['id' => 10, 'team_id' => 5, 'status' => 'ketua', 'nama_lengkap' => 'Calvin Tanardhi Setiawan', 'alamat' => 'Jl.Gayungsari Barat No. 122', 'nomor_telepon' => '081259549839', 'email' => 'calvintansetiawan@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/hayolo_1.jpeg'],
+            ['id' => 11, 'team_id' => 5, 'status' => 'anggota', 'nama_lengkap' => 'Austin Caleb Oscar', 'alamat' => 'Kutisari Indah Barat I/96', 'nomor_telepon' => '+62 812-2866-9076', 'email' => 'austincaleboscar@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/hayolo_2.jpg'],
+            ['id' => 12, 'team_id' => 5, 'status' => 'anggota', 'nama_lengkap' => 'Fernando Theodosius', 'alamat' => 'Jl Kutisari III no 17', 'nomor_telepon' => '+62 823-3549-2699', 'email' => 'fernandotheodosius@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/hayolo_3.jpeg'],
+            ['id' => 13, 'team_id' => 6, 'status' => 'ketua', 'nama_lengkap' => 'Rieny Gracierra Beru', 'alamat' => 'Jl. Banyu Urip Lor Gang IIID/No. 29', 'nomor_telepon' => '081334720793', 'email' => 'rideberu@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/majeri_1.jpeg'],
+            ['id' => 14, 'team_id' => 6, 'status' => 'anggota', 'nama_lengkap' => 'Jessica Laura Setiawan', 'alamat' => 'Jl. Petemon Barat No.115 Surabaya', 'nomor_telepon' => '+62 821-4082-7707', 'email' => 'jessicalaura.set@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/majeri_2.jpeg'],
+            ['id' => 15, 'team_id' => 6, 'status' => 'anggota', 'nama_lengkap' => 'Maria Silvia Angela Putri', 'alamat' => 'Jl. Petemon Barat No.110A', 'nomor_telepon' => '+62 812-8389-2849', 'email' => 'maria.emes.20@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/majeri_3.jpeg'],
+            ['id' => 16, 'team_id' => 7, 'status' => 'ketua', 'nama_lengkap' => 'Richie Chandra', 'alamat' => 'Pantai Mentari Y46', 'nomor_telepon' => '085232646231', 'email' => '2020070449@student.pppkpetra.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/senyom_1.jpg'],
+            ['id' => 17, 'team_id' => 7, 'status' => 'anggota', 'nama_lengkap' => 'Jeremy Aurelius Susanto', 'alamat' => 'BarataJaya XXI no 1', 'nomor_telepon' => '089699175678', 'email' => 'jeremy.as.oei@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/senyom_2.jpg'],
+            ['id' => 18, 'team_id' => 7, 'status' => 'anggota', 'nama_lengkap' => 'Nicholas Yoe', 'alamat' => 'Jalan Panglima Sudirman 192', 'nomor_telepon' => '081235522818', 'email' => '2020070414@student.pppkpetra.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/senyom_3.jpg'],
+            ['id' => 19, 'team_id' => 8, 'status' => 'ketua', 'nama_lengkap' => 'Samuel Septo Sitanggang', 'alamat' => 'Jl. Kutisari Indah Barat VII no. 6', 'nomor_telepon' => '08116180885', 'email' => 'samsep30z@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/smh_1.jpg'],
+            ['id' => 20, 'team_id' => 8, 'status' => 'anggota', 'nama_lengkap' => 'Marvel Christian Hartanto', 'alamat' => 'perum sinar Medayu Selatan A5', 'nomor_telepon' => '082228416108', 'email' => '2023070717@student.pppkpetra.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/smh_2.jpg'],
+            ['id' => 21, 'team_id' => 8, 'status' => 'anggota', 'nama_lengkap' => 'Hans Mahargono', 'alamat' => 'Jl raya Kutisari Indah 112', 'nomor_telepon' => '081233519845', 'email' => 'hansmahargonolearns@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => 'Udang & Cabai', 'path_kartu_pelajar' => 'kartu_pelajar/smh_3.jpg'],
+            ['id' => 22, 'team_id' => 9, 'status' => 'ketua', 'nama_lengkap' => 'Klaus Christalin Ch. Raweyai', 'alamat' => 'Jalan kartini gang V', 'nomor_telepon' => '081248542903', 'email' => '2023071930@student.pppkpetra.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/petraoke_1.jpg'],
+            ['id' => 23, 'team_id' => 9, 'status' => 'anggota', 'nama_lengkap' => 'Nathan Ariske Jecton Isach', 'alamat' => 'JIn Kartini GG V no 1', 'nomor_telepon' => '082247547455', 'email' => '2023071932@student.pppkpetra.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/petraoke_2.jpeg'],
+            ['id' => 24, 'team_id' => 9, 'status' => 'anggota', 'nama_lengkap' => 'Geraldi stepenli tanaem', 'alamat' => 'jl kartini gang 5', 'nomor_telepon' => '082340804268', 'email' => 'stepenligeral@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/petraoke_3.jpeg'],
+            ['id' => 25, 'team_id' => 10, 'status' => 'ketua', 'nama_lengkap' => 'Kezia Nathania Suherman', 'alamat' => 'Taman Pondok Jati AR-5, Sepanjang, Sidoarjo', 'nomor_telepon' => '085749745842', 'email' => 'kezznaattt081208@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/keraan_1.jpg'],
+            ['id' => 26, 'team_id' => 10, 'status' => 'anggota', 'nama_lengkap' => 'Raka Bagas Prakoso', 'alamat' => 'Jalan Taruna gang makam no. 7 RT 08 RW 01 Wage, Taman Sidoarjo', 'nomor_telepon' => '087759014113', 'email' => 'rakabagas.prak@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/keraan_2.jpg'],
+            ['id' => 27, 'team_id' => 10, 'status' => 'anggota', 'nama_lengkap' => 'Andrea Levina', 'alamat' => 'Nginden Intan Timur X D6 No.20', 'nomor_telepon' => '081919200535', 'email' => 'andrealevina10@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/keraan_3.jpg'],
+            ['id' => 28, 'team_id' => 11, 'status' => 'ketua', 'nama_lengkap' => 'Christofel Joseph Hendrawan', 'alamat' => 'Pondok Tjandra Indah, Waru, Sidoarjo, 61256', 'nomor_telepon' => '085100974397', 'email' => 'christofeljosephh@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/generalist_1.jpg'],
+            ['id' => 29, 'team_id' => 11, 'status' => 'anggota', 'nama_lengkap' => 'Calvin Kenjiro Jefferson', 'alamat' => 'Jl. Semangka X No.36, Pondok Tjandra Indah, Waru, Sidoarjo, 61256', 'nomor_telepon' => '081230058200', 'email' => 'calvinkenjiro1@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/generalist_2.jpg'],
+            ['id' => 30, 'team_id' => 11, 'status' => 'anggota', 'nama_lengkap' => 'Johnathan Wijaya', 'alamat' => 'Manggis VII, Pondok Tjandra Indah, Waru, Sidoarjo', 'nomor_telepon' => '08979749899', 'email' => '2014070354@student.pppkpetra.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/generalist_3.jpg'],
+            ['id' => 31, 'team_id' => 12, 'status' => 'ketua', 'nama_lengkap' => 'Joshua Alex', 'alamat' => 'Jl. Kertajaya V/12', 'nomor_telepon' => '08123456789', 'email' => 'joshua1602345678@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-Seafood', 'path_kartu_pelajar' => 'kartu_pelajar/igu_1.jpeg'],
+            ['id' => 32, 'team_id' => 12, 'status' => 'anggota', 'nama_lengkap' => 'Astrid Wulandari', 'alamat' => 'Jl. Kertajaya VI/13', 'nomor_telepon' => '08123456789', 'email' => 'Astrid120345678@email.com', 'riwayat_penyakit' => '-Asma', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/igu_2.jpeg'],
+            ['id' => 33, 'team_id' => 12, 'status' => 'anggota', 'nama_lengkap' => 'Budianto Herman', 'alamat' => 'Jl. Kertajaya VII/14', 'nomor_telepon' => '0813456789', 'email' => 'Budianto123456@email.com', 'riwayat_penyakit' => '-Asma', 'alergi' => '-Seafood', 'path_kartu_pelajar' => 'kartu_pelajar/igu_3.jpeg'],
+            ['id' => 34, 'team_id' => 13, 'status' => 'ketua', 'nama_lengkap' => 'Joshua Alek', 'alamat' => 'Jl. Kertajaya VI/12', 'nomor_telepon' => '08987654321', 'email' => 'Joshua13579@email.com', 'riwayat_penyakit' => '-Asma', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/industrial-games_1.jpeg'],
+            ['id' => 35, 'team_id' => 13, 'status' => 'anggota', 'nama_lengkap' => 'Budianto Pengmanan', 'alamat' => 'Jl. Kertajaya VII/13', 'nomor_telepon' => '0896745231', 'email' => 'Budi97531@email.com', 'riwayat_penyakit' => '-', 'alergi' => '-Seafood', 'path_kartu_pelajar' => 'kartu_pelajar/industrial-games_2.jpeg'],
+            ['id' => 36, 'team_id' => 13, 'status' => 'anggota', 'nama_lengkap' => 'Asri Welas', 'alamat' => 'Jl. Kertajaya VIII/16', 'nomor_telepon' => '0987654321', 'email' => 'Asri24680@email.com', 'riwayat_penyakit' => '-Asma', 'alergi' => '-Seafood, Madu', 'path_kartu_pelajar' => 'kartu_pelajar/industrial-games_3.jpeg'],
+            ['id' => 37, 'team_id' => 14, 'status' => 'ketua', 'nama_lengkap' => 'Reynard Giovaldo Christian', 'alamat' => 'Griya Babatan Mukti C-40 Surabaya', 'nomor_telepon' => '081234240007', 'email' => 'reynardgiovaldochristian@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/mie-ayam_1.jpg'],
+            ['id' => 38, 'team_id' => 14, 'status' => 'anggota', 'nama_lengkap' => 'Matthew Alexander Liem', 'alamat' => 'Woodland 5/22', 'nomor_telepon' => '081231838800', 'email' => 'thewxander@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/mie-ayam_2.jpg'],
+            ['id' => 39, 'team_id' => 14, 'status' => 'anggota', 'nama_lengkap' => 'Keane Owen Budianto', 'alamat' => 'Permata Safira A5 no 7', 'nomor_telepon' => '085232640711', 'email' => 'kliuwon@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/mie-ayam_3.jpg'],
+            ['id' => 40, 'team_id' => 15, 'status' => 'ketua', 'nama_lengkap' => 'Felice Jeannie Queen', 'alamat' => 'Jalan Raya Taman Wiguna Selatan no.45', 'nomor_telepon' => '0857-4992-0988', 'email' => '2016070226@student.pppkpetra.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/emc2_1.jpg'],
+            ['id' => 41, 'team_id' => 15, 'status' => 'anggota', 'nama_lengkap' => 'Stefania Valencia Yosephine Tanamatras', 'alamat' => 'Pondok tjandra cluster topaz no 31', 'nomor_telepon' => '081345226678', 'email' => '2025070712@student.pppkpetra.sch.id', 'riwayat_penyakit' => '-', 'alergi' => 'Udang', 'path_kartu_pelajar' => 'kartu_pelajar/emc2_2.jpg'],
+            ['id' => 42, 'team_id' => 15, 'status' => 'anggota', 'nama_lengkap' => 'Vannia Miracle Sutardjana', 'alamat' => 'Wisma kedung asem indah j-5', 'nomor_telepon' => '088230900309', 'email' => '2025070435@student.pppkpetra.sch.id', 'riwayat_penyakit' => 'Asma', 'alergi' => 'Cokelat dan debu', 'path_kartu_pelajar' => 'kartu_pelajar/emc2_3.jpg'],
+            ['id' => 43, 'team_id' => 16, 'status' => 'ketua', 'nama_lengkap' => 'Casey Frederick Zheng', 'alamat' => 'Grand delta sari, delta aster no 75', 'nomor_telepon' => '081216806929', 'email' => 'frederick11712@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/de-chill-guys_1.jpg'],
+            ['id' => 44, 'team_id' => 16, 'status' => 'anggota', 'nama_lengkap' => 'Shawn Adam', 'alamat' => 'Jl raya pulungan No 2', 'nomor_telepon' => '081336923710', 'email' => 'shawn25.adam@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/de-chill-guys_2.jpg'],
+            ['id' => 45, 'team_id' => 16, 'status' => 'anggota', 'nama_lengkap' => 'Javiar Grayson', 'alamat' => 'Taman pondok jati BO.25', 'nomor_telepon' => '0881036001469', 'email' => 'javiargrayson0872@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/de-chill-guys_3.jpg'],
+            ['id' => 46, 'team_id' => 17, 'status' => 'ketua', 'nama_lengkap' => 'Giorgio Glenn Gimono', 'alamat' => 'Rungkut Mapan Barat 2/AB3', 'nomor_telepon' => '+62 817-7664-3177', 'email' => 'glengimono@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => 'Debu', 'path_kartu_pelajar' => 'kartu_pelajar/pengen-menang_1.jpg'],
+            ['id' => 47, 'team_id' => 17, 'status' => 'anggota', 'nama_lengkap' => 'Aaron Cuanda', 'alamat' => 'Perum YKP PS-2/L-12, Penjaringan Sari, Rungkut Surabaya', 'nomor_telepon' => '+62 899-4000-148', 'email' => 'Aaron.cuanda@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/pengen-menang_2.jpg'],
+            ['id' => 48, 'team_id' => 17, 'status' => 'anggota', 'nama_lengkap' => 'Winston Rayson Aria', 'alamat' => 'JL. Pecatu Blok E-11 No. 3 Perum Purimas Gununganyar Surabaya', 'nomor_telepon' => '+62 812-9756-6181', 'email' => 'winstonrayson345@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/pengen-menang_3.jpg'],
+            ['id' => 49, 'team_id' => 18, 'status' => 'ketua', 'nama_lengkap' => 'Benedict Linggo Satria', 'alamat' => 'Garden Hills E-2', 'nomor_telepon' => '085155221004', 'email' => 'benedictlinggosatria@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/theboyz_1.jpg'],
+            ['id' => 50, 'team_id' => 18, 'status' => 'anggota', 'nama_lengkap' => 'Natania Florentina Susanto', 'alamat' => 'Delta Cattelya no 55, Grand Delta sari', 'nomor_telepon' => '089514702753', 'email' => 'natania08.handmobile@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/theboyz_2.jpg'],
+            ['id' => 51, 'team_id' => 18, 'status' => 'anggota', 'nama_lengkap' => 'Nikolas Christian Lie', 'alamat' => 'jl. panjang jiwo ruko panji makmur', 'nomor_telepon' => '08999195971', 'email' => 'nikochlie07@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/theboyz_3.jpg'],
+            ['id' => 52, 'team_id' => 19, 'status' => 'ketua', 'nama_lengkap' => 'Nevan Septeano Mulyadi', 'alamat' => 'Nirwana Regency gang 5 no.655', 'nomor_telepon' => '088226005304', 'email' => '2015070542@student.pppkpetra.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/perintis_1.png'],
+            ['id' => 53, 'team_id' => 19, 'status' => 'anggota', 'nama_lengkap' => 'Joshua Nathanael Hartono', 'alamat' => 'Pondok Citra Eksekutif B15', 'nomor_telepon' => '085236200078', 'email' => '2021070308@student.pppkpetra.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/perintis_2.png'],
+            ['id' => 54, 'team_id' => 19, 'status' => 'anggota', 'nama_lengkap' => 'Nicholas Tristan Sibuea', 'alamat' => 'Wonorejo Green semanggi Blok L 52', 'nomor_telepon' => '083136049708', 'email' => '2024071620@student.pppkpetra.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/perintis_3.png'],
+            ['id' => 55, 'team_id' => 20, 'status' => 'ketua', 'nama_lengkap' => 'Alberta Fidelia Gabriela Dmitry', 'alamat' => 'Jl. Kawi Selatan no. 32 Malang', 'nomor_telepon' => '081331544125', 'email' => '23893@st-albertus.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/elena_1.jpg'],
+            ['id' => 56, 'team_id' => 20, 'status' => 'anggota', 'nama_lengkap' => 'Valentina Maureen', 'alamat' => 'Jl. Brigjen Slamet Riadi No.186, Malang', 'nomor_telepon' => '085895602920', 'email' => '24330@st-albertus.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/elena_2.jpg'],
+            ['id' => 57, 'team_id' => 20, 'status' => 'anggota', 'nama_lengkap' => 'Gwyneth Desvalery Natasha Crystal Putri Wiyanto', 'alamat' => 'Pesona Mutiara Tidar 2 BA 8, Malang', 'nomor_telepon' => '081317017688', 'email' => '24491@st-albertus.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/elena_3.jpg'],
+            ['id' => 58, 'team_id' => 21, 'status' => 'ketua', 'nama_lengkap' => 'Kenno Kristanto Adhidharma', 'alamat' => 'Jalan Akasia No. 4C Malang', 'nomor_telepon' => '085335758127', 'email' => '27kennokristanto@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/softboy_1.jpg'],
+            ['id' => 59, 'team_id' => 21, 'status' => 'anggota', 'nama_lengkap' => 'Christopher Pudji Tjitrohartoko', 'alamat' => 'Jalan Santawi Nomor 55, Bondowoso', 'nomor_telepon' => '085706273876', 'email' => 'christopher.pudji@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/softboy_2.jpg'],
+            ['id' => 60, 'team_id' => 21, 'status' => 'anggota', 'nama_lengkap' => 'Justin Tiffano Nelson Sugiyono', 'alamat' => 'Jalan Candi Penataran Nomor 12, Malang', 'nomor_telepon' => '081330286135', 'email' => 'tiffanojustin@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/softboy_3.jpg'],
+            ['id' => 61, 'team_id' => 22, 'status' => 'ketua', 'nama_lengkap' => 'Gregorius Edward Kelvin', 'alamat' => 'Jl.Papa Kuning I/11A', 'nomor_telepon' => '+62 823-3302-5476', 'email' => 'gedwardka2009@gmail.com', 'riwayat_penyakit' => 'Ankle', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/equilibria_1.jpg'],
+            ['id' => 62, 'team_id' => 22, 'status' => 'anggota', 'nama_lengkap' => 'Patrick Fortune Santoso', 'alamat' => 'Jalan Talang No. 3', 'nomor_telepon' => '0817332883', 'email' => 'patforsan@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => 'Seafood', 'path_kartu_pelajar' => 'kartu_pelajar/equilibria_2.jpg'],
+            ['id' => 63, 'team_id' => 22, 'status' => 'anggota', 'nama_lengkap' => 'Christian Marvellino Jehan', 'alamat' => 'Bukit Dieng T5', 'nomor_telepon' => '081220160873', 'email' => 'cmarvelj@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => 'Dingin', 'path_kartu_pelajar' => 'kartu_pelajar/equilibria_3.jpg'],
+            ['id' => 64, 'team_id' => 23, 'status' => 'ketua', 'nama_lengkap' => 'Joanna Kaylin Tjandra Zee', 'alamat' => 'Kutisari XI/29A', 'nomor_telepon' => '089675894117', 'email' => 'Joanna.kaylin.tjandra@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'public/kartu_pelajar/kwak-kwik-kwuk_member_1_1758259708.jpg'],
+            ['id' => 65, 'team_id' => 23, 'status' => 'anggota', 'nama_lengkap' => 'Georginia Radcliffia Kurniawan', 'alamat' => 'Jl. duku IV CA-288', 'nomor_telepon' => '08175791877', 'email' => 'georginia0203@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'public/kartu_pelajar/kwak-kwik-kwuk_member_2_1758259709.jpg'],
+            ['id' => 66, 'team_id' => 23, 'status' => 'anggota', 'nama_lengkap' => 'Juan Javier Weilin Tama Wijaya', 'alamat' => 'wiguna timur 4 no 25', 'nomor_telepon' => '085100600245', 'email' => 'juanjavierwtw1@gmail.com', 'riwayat_penyakit' => 'asma', 'alergi' => 'udang dan coklat', 'path_kartu_pelajar' => 'public/kartu_pelajar/kwak-kwik-kwuk_member_3_1758259709.jpg'],
+            ['id' => 67, 'team_id' => 24, 'status' => 'ketua', 'nama_lengkap' => 'Milano Abygail Nainggolan', 'alamat' => 'JL Kendangsari No 100', 'nomor_telepon' => '08135909363', 'email' => 'abygailmilano@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'public/kartu_pelajar/migrain_member_1_1758259709.jpg'],
+            ['id' => 68, 'team_id' => 24, 'status' => 'anggota', 'nama_lengkap' => 'Nicole Yunita Koesnandar', 'alamat' => 'Jl. Semangka V No. 23, Pondok Tjandra', 'nomor_telepon' => '085257630000', 'email' => 'nicoleyk1525@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'public/kartu_pelajar/migrain_member_2_1758259709.jpg'],
+            ['id' => 69, 'team_id' => 24, 'status' => 'anggota', 'nama_lengkap' => 'Gracia Monica Sari', 'alamat' => 'Jl. Delta Fortuna No.88, RT 032/RW 011 Kelurahan Ngingas, Kecamatan Waru, KAB. SIDOARJO, JAWA TIMUR, ID 61256', 'nomor_telepon' => '081515521136', 'email' => 'ciagracia54@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'public/kartu_pelajar/migrain_member_3_1758259709.jpg'],
+            ['id' => 70, 'team_id' => 25, 'status' => 'ketua', 'nama_lengkap' => 'Gwen Charise Emanuele', 'alamat' => 'jl. mangga V No. H-148', 'nomor_telepon' => '085232289229', 'email' => '2022070338@student.pppkpetra.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'public/kartu_pelajar/es-teh-manis_member_1_1758259710.jpg'],
+            ['id' => 71, 'team_id' => 25, 'status' => 'anggota', 'nama_lengkap' => 'Aveline Ivana Nofriyanto', 'alamat' => 'jl.flamboyan AF18', 'nomor_telepon' => '087852880799', 'email' => '2022070315@student.pppkpetra.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'public/kartu_pelajar/es-teh-manis_member_2_1758259710.jpg'],
+            ['id' => 72, 'team_id' => 25, 'status' => 'anggota', 'nama_lengkap' => 'Xianlun Gracia Rimba', 'alamat' => 'Ngagel dadi 1/77', 'nomor_telepon' => '081381685020', 'email' => '2022070343@student.pppkpetra.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'public/kartu_pelajar/es-teh-manis_member_3_1758259710.jpg'],
+            ['id' => 73, 'team_id' => 26, 'status' => 'ketua', 'nama_lengkap' => 'Kesya Gabriela Limantara', 'alamat' => 'Galaxi bumi permai blok G6 No.34', 'nomor_telepon' => '082335876255', 'email' => 'kesyagabrielaliem@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/aestus_1.jpeg'],
+            ['id' => 74, 'team_id' => 26, 'status' => 'anggota', 'nama_lengkap' => 'Calverick Ian Widharta', 'alamat' => 'Karang Empat Timur 1 no 5', 'nomor_telepon' => '083837941576', 'email' => 'calverick2008@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/aestus_2.jpeg'],
+            ['id' => 75, 'team_id' => 26, 'status' => 'anggota', 'nama_lengkap' => 'Lionel Winston Sengkey', 'alamat' => 'Bhaskara Sari no.41', 'nomor_telepon' => '081322069998', 'email' => 'lionelwinston08@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/aestus_3.jpeg'],
+            ['id' => 79, 'team_id' => 28, 'status' => 'ketua', 'nama_lengkap' => 'Kesya Gabriela Limantara', 'alamat' => 'Galaxi bumi permai blok G6 No.34', 'nomor_telepon' => '082335876255', 'email' => 'uspotify210@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/hermes_1.jpeg'],
+            ['id' => 80, 'team_id' => 28, 'status' => 'anggota', 'nama_lengkap' => 'Calverick Ian Widharta', 'alamat' => 'Karang Empat Timur 1 no 5', 'nomor_telepon' => '083837941576', 'email' => 'calverickian@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/hermes_2.jpeg'],
+            ['id' => 81, 'team_id' => 28, 'status' => 'anggota', 'nama_lengkap' => 'Lionel Winston Sengkey', 'alamat' => 'Bhaskara Sari no.41', 'nomor_telepon' => '081322069998', 'email' => 'lionel.winston81@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/hermes_3.jpeg'],
+            ['id' => 82, 'team_id' => 29, 'status' => 'ketua', 'nama_lengkap' => 'Fidelyan Nixon Fandiano', 'alamat' => 'Jl. Ikan Sepat 5 No.4', 'nomor_telepon' => '081515452199', 'email' => 'school1.fandianonixon@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/aming_1.jpeg'],
+            ['id' => 83, 'team_id' => 29, 'status' => 'anggota', 'nama_lengkap' => 'Dyson Fersia', 'alamat' => 'Gembong Sawah Barat 4/11', 'nomor_telepon' => '082245958793', 'email' => 'dysonfersia2009@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/aming_2.jpeg'],
+            ['id' => 84, 'team_id' => 29, 'status' => 'anggota', 'nama_lengkap' => 'Jason jonathan Effendy', 'alamat' => 'Jl. Niaga dalam no 4', 'nomor_telepon' => '085282095252', 'email' => 'jasoneffendy8@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/aming_3.jpeg'],
+            ['id' => 85, 'team_id' => 30, 'status' => 'ketua', 'nama_lengkap' => 'aaa', 'alamat' => 'sasdasd', 'nomor_telepon' => '081937539171', 'email' => 'a@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/aa_1.jpg'],
+            ['id' => 86, 'team_id' => 30, 'status' => 'anggota', 'nama_lengkap' => 'aaaaa', 'alamat' => 'sasda', 'nomor_telepon' => '081937539171', 'email' => 'b@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/aa_2.jpg'],
+            ['id' => 87, 'team_id' => 30, 'status' => 'anggota', 'nama_lengkap' => 'aaaaa', 'alamat' => 'dsdasd', 'nomor_telepon' => '081937539171', 'email' => 'c@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/aa_3.jpg'],
+            ['id' => 88, 'team_id' => 31, 'status' => 'ketua', 'nama_lengkap' => 'DHANESH DEVDAN HENDRAWAN', 'alamat' => 'Perum. DSB, Cluster Delta Asri 23, Waru, Sidoarjo', 'nomor_telepon' => '085730975193', 'email' => 'dhaneshdevdan@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/triosih_1.jpg'],
+            ['id' => 89, 'team_id' => 31, 'status' => 'anggota', 'nama_lengkap' => 'KENNETH WAYNE HARTONO', 'alamat' => 'Jalan Siwalankerto VIII Blok AB No 4', 'nomor_telepon' => '081906995235', 'email' => 'kennethwayneee88@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/triosih_2.jpg'],
+            ['id' => 90, 'team_id' => 31, 'status' => 'anggota', 'nama_lengkap' => 'JOSHUA RENAISS CHAO', 'alamat' => 'Graha tirta, Bromelia no 49, Waru, Sidoarjo', 'nomor_telepon' => '085820275246', 'email' => 'joshuachao181@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/triosih_3.jpg'],
+            ['id' => 91, 'team_id' => 32, 'status' => 'ketua', 'nama_lengkap' => 'Dylan Bradley', 'alamat' => 'Jl. Lebak Jaya III/10', 'nomor_telepon' => '081221831276', 'email' => 'sse_dylan.bradley@bchati.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/design-engineers-for-applicable-distribution_1.jpeg'],
+            ['id' => 92, 'team_id' => 32, 'status' => 'anggota', 'nama_lengkap' => 'Rafael Santoso', 'alamat' => 'Kemuning 38', 'nomor_telepon' => '081331198982', 'email' => 'sse_rafael.santoso@bchati.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/design-engineers-for-applicable-distribution_2.jpeg'],
+            ['id' => 93, 'team_id' => 32, 'status' => 'anggota', 'nama_lengkap' => 'Kenzo Davidson Tjahjadi', 'alamat' => 'Lebak Indah Regency G 21', 'nomor_telepon' => '082233555578', 'email' => 'sse_kenzo.tjahjadi@bchati.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/design-engineers-for-applicable-distribution_3.jpeg'],
+            ['id' => 94, 'team_id' => 33, 'status' => 'ketua', 'nama_lengkap' => 'Jonathan Aurelius Sutanto', 'alamat' => 'Bukit Golf L02-01', 'nomor_telepon' => '081359697070', 'email' => 'ssw_jonathan.sutanto@bchati.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'public/kartu_pelajar/sixseven_member_1_1759496617.jpg'],
+            ['id' => 95, 'team_id' => 33, 'status' => 'anggota', 'nama_lengkap' => 'Maikel Harold Johan Schoenmakers', 'alamat' => 'Bukit Golf L02-01', 'nomor_telepon' => '-', 'email' => 'ssw_maikel.johan@bchati.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'public/kartu_pelajar/sixseven_member_2_1759496617.jpg'],
+            ['id' => 96, 'team_id' => 33, 'status' => 'anggota', 'nama_lengkap' => 'Steve Anthony Wijono', 'alamat' => 'Bukit Golf L02-01', 'nomor_telepon' => '-', 'email' => 'ssw_steve.anthony@bchati.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'public/kartu_pelajar/sixseven_member_3_1759496617.jpg'],
+            ['id' => 97, 'team_id' => 34, 'status' => 'ketua', 'nama_lengkap' => 'Fedyenka Porwanto', 'alamat' => 'Bukit Golf L02-01', 'nomor_telepon' => '081231212407', 'email' => 'ssw_fedyenka.porwanto@bchati.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'public/kartu_pelajar/gekishin_member_1_1759496617.jpg'],
+            ['id' => 98, 'team_id' => 34, 'status' => 'anggota', 'nama_lengkap' => 'Rafael Exvan', 'alamat' => 'Bukit Golf L02-01', 'nomor_telepon' => '-', 'email' => 'ssw_rafael.exvan@bchati.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'public/kartu_pelajar/gekishin_member_2_1759496617.jpg'],
+            ['id' => 99, 'team_id' => 34, 'status' => 'anggota', 'nama_lengkap' => 'Michael Edmund Lay', 'alamat' => 'Bukit Golf L02-01', 'nomor_telepon' => '-', 'email' => 'ssw_michael.edmund@bchati.sch.id', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'public/kartu_pelajar/gekishin_member_3_1759496617.jpg'],
+            ['id' => 100, 'team_id' => 35, 'status' => 'ketua', 'nama_lengkap' => 'Klara Felicia Kanoko', 'alamat' => 'Bukit Golf L02-01', 'nomor_telepon' => '081216749009', 'email' => 'klarafeliciakanoko@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'public/kartu_pelajar/skibidypop_member_1_1759496618.jpg'],
+            ['id' => 101, 'team_id' => 35, 'status' => 'anggota', 'nama_lengkap' => 'Chelsea Joanne Wijaya', 'alamat' => 'Bukit Golf L02-01', 'nomor_telepon' => '-', 'email' => 'chelseajw1411@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'public/kartu_pelajar/skibidypop_member_2_1759496618.jpg'],
+            ['id' => 102, 'team_id' => 35, 'status' => 'anggota', 'nama_lengkap' => 'Jessica Anabelle Juswandy', 'alamat' => 'Bukit Golf L02-01', 'nomor_telepon' => '-', 'email' => 'abelless.jess12@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'public/kartu_pelajar/skibidypop_member_3_1759496618.jpg'],
+            ['id' => 103, 'team_id' => 36, 'status' => 'ketua', 'nama_lengkap' => 'Ezra Arsenio Immanuel Taka', 'alamat' => 'Wisata Bukit Mas blok C1-21 cluster Alexandria', 'nomor_telepon' => '08113836561', 'email' => 'takaezra827@gmail.com', 'riwayat_penyakit' => '-Tidak ada', 'alergi' => '-Tidak ada', 'path_kartu_pelajar' => 'kartu_pelajar/dameungrr_1.jpeg'],
+            ['id' => 104, 'team_id' => 36, 'status' => 'anggota', 'nama_lengkap' => 'Osvaldo Robin Hidoyono', 'alamat' => 'Jl pukis bukit anggrek Darmohill L2', 'nomor_telepon' => '+62 812-3461-6063', 'email' => 'osvaldorobinho@gmail.con', 'riwayat_penyakit' => '-Tidak Ada', 'alergi' => '-Tidak Ada', 'path_kartu_pelajar' => 'kartu_pelajar/dameungrr_2.jpeg'],
+            ['id' => 105, 'team_id' => 36, 'status' => 'anggota', 'nama_lengkap' => 'Denzel Sutandar', 'alamat' => 'villa taman telaga 2 tj 6 nomer 23', 'nomor_telepon' => '+62 811-3173-331', 'email' => 'denzelsutandar@gmail.com', 'riwayat_penyakit' => '-Tidak Ada', 'alergi' => '-Tidak Ada', 'path_kartu_pelajar' => 'kartu_pelajar/dameungrr_3.jpeg'],
+            ['id' => 106, 'team_id' => 37, 'status' => 'ketua', 'nama_lengkap' => 'Helena Hermanto', 'alamat' => 'Menteng Regency C-22 Gresik', 'nomor_telepon' => '+62 877-5011-8480', 'email' => 'helenahermanto08@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/3-faktorial_1.jpg'],
+            ['id' => 107, 'team_id' => 37, 'status' => 'anggota', 'nama_lengkap' => 'Jovinka Racle Marvelita', 'alamat' => 'tubanan baru indah C 76 Surabaya', 'nomor_telepon' => '083119530201', 'email' => 'jovinkaracle@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/3-faktorial_2.jpg'],
+            ['id' => 108, 'team_id' => 37, 'status' => 'anggota', 'nama_lengkap' => 'Kathleen Widjaja', 'alamat' => 'Babatan Pratama LL/37 Surabaya', 'nomor_telepon' => '+62 888-9117-575', 'email' => 'kathlenwww10@gmail.com', 'riwayat_penyakit' => '-', 'alergi' => '-', 'path_kartu_pelajar' => 'kartu_pelajar/3-faktorial_3.jpg'],
+        ];
 
-         User::create([
-            'name' => "rakel",
-            'role' => 'admin',
-            'password' => bcrypt("rakel@ig33"),
-        ]);
+        foreach ($members as $member) {
+            // Timestamp default akan diisi otomatis oleh Eloquent jika tidak ada di array
+            $defaults = [
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+            // Cek apakah timestamp ada di data, jika tidak, gunakan default
+            $data = array_merge($defaults, $member);
+            if (isset($member['created_at']) && isset($member['updated_at'])) {
+                $data['created_at'] = $member['created_at'];
+                $data['updated_at'] = $member['updated_at'];
+            }
+            Member::create($data);
+        }
 
-         User::create([
-            'name' => "nico",
-            'role' => 'admin',
-            'password' => bcrypt("nico@ig33"),
-        ]);
+        // 3. Seeding Tabel Users (Peserta)
+        // Ini dijalankan setelah semua tim dibuat
+        // =================================================================
+        $users = [
+            ['id' => 1, 'name' => 'a', 'role' => 'peserta', 'password' => '$2y$12$y8axRAMqDLQ.V5DEN6Uz1.V/n9RDlituNtnnz5W6zzdjbiRkSpWWy'],
+            ['id' => 3, 'name' => 'Chasio Goreng Madu', 'role' => 'peserta', 'password' => '$2y$12$ujCKdpj7Sod27YosWqPXiOYCP7ruhHhSz0GeYJ6yLYsMDxUrXvhwO'],
+            ['id' => 4, 'name' => 'Sepik Tel', 'role' => 'peserta', 'password' => '$2y$12$adM8IKQP4rCHpj9OuxIHAebiG42Wy5ORAXTGhjDEZZ5tlXSRFvjJK'],
+            ['id' => 5, 'name' => 'SOSIS5', 'role' => 'peserta', 'password' => '$2y$12$ZbrecUUTPwgT.Ad0Z62LIOvA5pRetfzcItgxeZ7fpv7jNqPdwZJCC'],
+            ['id' => 6, 'name' => 'HAYOLO', 'role' => 'peserta', 'password' => '$2y$12$e8gxUIJoOxv70c07PuQDL.7UVf6IQdquNH1ubYr6yx7x3T3YfoIw2'],
+            ['id' => 7, 'name' => 'MaJeRi', 'role' => 'peserta', 'password' => '$2y$12$w5G.3Rm8j5GQUVrJztPRL.f98jVX.9.pMbUlTLiVf38DLksych/96'],
+            ['id' => 8, 'name' => 'SENYOM 🙂', 'role' => 'peserta', 'password' => '$2y$12$DxNFxh6YRayO5lxwjUijge8wRuC99JoyHDD71XhGPsu4eaytCcuNS'],
+            ['id' => 9, 'name' => 'SMH', 'role' => 'peserta', 'password' => '$2y$12$tKX.iIeUns825K4t8uaXjOAHCM2FzL3CEzzo/XHV8wFLd7.Gs1t8q'],
+            ['id' => 10, 'name' => 'Petraoke', 'role' => 'peserta', 'password' => '$2y$12$KgTNpBwuoeHeb7YXIvbEX.Gr/jHzAogJ56eod9lZr0tyycuF.h/pm'],
+            ['id' => 11, 'name' => 'KERAAN', 'role' => 'peserta', 'password' => '$2y$12$9KEwFFfmOvv/G8Sj/s2kIOgw2sCJ.V5imxm9Ztk2w827oMjEj53xy'],
+            ['id' => 12, 'name' => 'Generalist', 'role' => 'peserta', 'password' => '$2y$12$PO8Gt9z9sjpuVI3cJdMjBOCFGEcQhd1cisgLhKBt.vkPN5LsdUzFm'],
+            ['id' => 13, 'name' => 'IGU', 'role' => 'peserta', 'password' => '$2y$12$uETFa3aEmy7n8hwEvbxyZO.PhEnXiUO/cXOZBhVrcRixomccZTT1C'],
+            ['id' => 14, 'name' => 'Industrial Games', 'role' => 'peserta', 'password' => '$2y$12$2kc0V7evweeu0aZ3ZGxE0uV8/uXFUlH7TouJ4OTrFLrEh0CfRH0ne'],
+            ['id' => 15, 'name' => 'Mie Ayam', 'role' => 'peserta', 'password' => '$2y$12$rc/Gtquc5qLkMC/.LbpLMegPOhvZX0o2qDwPko2B.Jz22cqdHXQ9y'],
+            ['id' => 16, 'name' => 'E=mc²', 'role' => 'peserta', 'password' => '$2y$12$8YSKwOb3ZdJspWg4yG56rukbqDg3uHirgL2Mff5YlXixEtwsnTSGm'],
+            ['id' => 17, 'name' => 'De chill guys', 'role' => 'peserta', 'password' => '$2y$12$ugGzWwOxoXSoUzyeLUDGkOWgyhKm5t1zfOFWPk7UIDVbPbtcyQ4Na'],
+            ['id' => 18, 'name' => 'Pengen Menang', 'role' => 'peserta', 'password' => '$2y$12$B.TDtgxfrzXwLF9pt3sVCu4T0VqWIpVZWFoPlkLF0lW82wmUPAHo.'],
+            ['id' => 19, 'name' => 'TheBoyz', 'role' => 'peserta', 'password' => '$2y$12$AGxS.saGCxYEqLB2f/nX5udKwkr7q3yLbPLtAJHU07wb4oVrl4PUC'],
+            ['id' => 20, 'name' => 'Perintis', 'role' => 'peserta', 'password' => '$2y$12$SAZWF3EkHNnvaZOT7lKN4ea3R2WgIZ5urV5pz1sbpDw8Vd5xVacJe'],
+            ['id' => 21, 'name' => 'Elena', 'role' => 'peserta', 'password' => '$2y$12$ka/g79nmwMsUPkLK3CmyZO9TCI1iM2L3XJKEYgbV8E0sTawl21LfG'],
+            ['id' => 22, 'name' => 'Softboy', 'role' => 'peserta', 'password' => '$2y$12$6effqZuBjo2ZY1dJvcGtzesKLoHfcrtDy7vghvMG2GFfx6eY5vL4e'],
+            ['id' => 23, 'name' => 'Equilibria', 'role' => 'peserta', 'password' => '$2y$12$.Ksf0uzLg90DlXhuy0K/GuzFTVSDowp.4w1rTE9Ehwql.hyXRPZ3C'],
+            ['id' => 24, 'name' => 'Kwak kwik kwuk', 'role' => 'peserta', 'password' => 'kwek'],
+            ['id' => 25, 'name' => 'migrain', 'role' => 'peserta', 'password' => 'migrain'],
+            ['id' => 26, 'name' => 'es teh manis', 'role' => 'peserta', 'password' => 'estehmanis'],
+            ['id' => 27, 'name' => 'Aestus', 'role' => 'peserta', 'password' => '$2y$12$LOrdnqG5fz1.tepbhSfhSOulw5Up2zQHgmnIyN9zz12w89tn6eile'],
+            ['id' => 29, 'name' => 'Hermes', 'role' => 'peserta', 'password' => '$2y$12$qtj6qUuSY333F/9W1mkHCu1lTbpxbiSMQLMDqVhC1vqu.lyttWC5G'],
+            ['id' => 30, 'name' => 'aming', 'role' => 'peserta', 'password' => '$2y$12$zb6EtHlv1JTUEtqhwh5EkuokbknFBw1jvpmXrWk7JqoL3J9lwUJ32'],
+            ['id' => 31, 'name' => 'aa', 'role' => 'peserta', 'password' => '$2y$12$sFZbbPdTqGpZyj1K3H4Sz.0nVwx3f9hIG8iouzxO.576gPxNuxcPa'],
+            ['id' => 32, 'name' => 'TRIOSIH', 'role' => 'peserta', 'password' => '$2y$12$mDNWcWDZy696GjaL12FvnO8qA7J1LujOdM.han8n1OJ9O/T4i.uVu'],
+            ['id' => 33, 'name' => 'Design Engineers for Applicable Distribution', 'role' => 'peserta', 'password' => '$2y$12$Kar5U4mjU9de7Y0dBjxOKOmzxgi3BN/rNIaWVdxxF9yPQ1TUwivnC'],
+            ['id' => 34, 'name' => 'SixSeven', 'role' => 'peserta', 'password' => '$2y$12$uHH0guW77y2EkP3OSjENtOlJOiU3P3EnAUSH1gOekfYjvWu91XOV2'],
+            ['id' => 35, 'name' => 'Gekishin', 'role' => 'peserta', 'password' => '$2y$12$aKWYV/I/O5hChqpZwb00SeVj.Ulh8sKUipF7/we3nZPjHIbmtM3Pa'],
+            ['id' => 36, 'name' => 'SkibidyPop', 'role' => 'peserta', 'password' => 'CitaHati@123'],
+            ['id' => 37, 'name' => 'DameUnGrr', 'role' => 'peserta', 'password' => '$2y$12$pHC6QJtcUWcwvMfcxYkhf.SW40/Edj.CyGITd6O/l.Pq3VRH0Jfn.'],
+            ['id' => 38, 'name' => '3 Faktorial', 'role' => 'peserta', 'password' => '$2y$12$j1BgJhckBn9dWuimSe/naOamLqxUfn7LTQvtLe71BrIiqmP5PUiW.'],
+        ];
 
-         User::create([
-            'name' => "gaby",
-            'role' => 'admin',
-            'password' => bcrypt("gaby@ig33"),
-        ]);
-
-         User::create([
-            'name' => "wahyu",
-            'role' => 'admin',
-            'password' => bcrypt("wahyu@ig33"),
-        ]);
-
-         User::create([
-            'name' => "lady",
-            'role' => 'admin',
-            'password' => bcrypt("lady@ig33"),
-        ]);
-
-         User::create([
-            'name' => "armando",
-            'role' => 'admin',
-            'password' => bcrypt("armando@ig33"),
-        ]);
-
-         User::create([
-            'name' => "jason",
-            'role' => 'admin',
-            'password' => bcrypt("jason@ig33"),
-        ]);
-
-         User::create([
-            'name' => "yuriko",
-            'role' => 'admin',
-            'password' => bcrypt("yuriko@ig33"),
-        ]);
-
-         User::create([
-            'name' => "albert",
-            'role' => 'admin',
-            'password' => bcrypt("albert@ig33"),
-        ]);
-
-         User::create([
-            'name' => "frederico",
-            'role' => 'admin',
-            'password' => bcrypt("frederico@ig33"),
-        ]);
-
-         User::create([
-            'name' => "safira",
-            'role' => 'admin',
-            'password' => bcrypt("safira@ig33"),
-        ]);
-
-         User::create([
-            'name' => "david",
-            'role' => 'admin',
-            'password' => bcrypt("david@ig33"),
-        ]);
-
-         User::create([
-            'name' => "yovent",
-            'role' => 'admin',
-            'password' => bcrypt("yovent@ig33"),
-        ]);
-
-         User::create([
-            'name' => "jeslyn",
-            'role' => 'admin',
-            'password' => bcrypt("jeslyn@ig33"),
-        ]);
-
-         User::create([
-            'name' => "grace",
-            'role' => 'admin',
-            'password' => bcrypt("grace@ig33"),
-        ]);
-
-         User::create([
-            'name' => "monica",
-            'role' => 'admin',
-            'password' => bcrypt("monica@ig33"),
-        ]);
-
-         User::create([
-            'name' => "joice",
-            'role' => 'admin',
-            'password' => bcrypt("joice@ig33"),
-        ]);
-
-         User::create([
-            'name' => "felice",
-            'role' => 'admin',
-            'password' => bcrypt("felice@ig33"),
-        ]);
-
+        foreach ($users as $user) {
+            // Untuk password yang belum di-hash, kita hash dulu.
+            // Jika sudah ada '$2y$', berarti sudah di-hash.
+            if (strpos($user['password'], '$2y$') !== 0) {
+                $user['password'] = bcrypt($user['password']);
+            }
+            User::create($user);
+        }
 
     }
 }
