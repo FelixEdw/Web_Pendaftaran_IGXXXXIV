@@ -113,6 +113,28 @@ class R1PesertaController extends Controller
         return view('peserta.rally-1.performance', compact('data'));
     }
 
+    public function showEvent()
+    {
+        $sesi = $this->getSesiAktif();
+
+        if ($sesi == 1) {
+            $event = "Tidak ada event pada sesi ini";
+        } else if ($sesi == 2) {
+            $event = "Karena cuaca di Cyclovia sedang baik, bersepeda di daerah pegunungan menjadi trend utama dalam dunia olahraga. 
+            Hal ini menyebabkan demand untuk Mountain Bike dan Folding Bike meningkat,
+            sehingga IG.Bike.Co dapat meningkatkan harga jual kedua jenis sepeda tersebut.";
+        } else if ($sesi == 3) {
+            $event = "Karena tingkat kecelakaan akibat pengendara sepeda yang seringkali tidak mematuhi aturan lalu lintas, 
+            menyebabkan minat warga Cyclovia untuk membeli dan mengendarai sepeda sebagai kendaraan sehari - hari menurun. 
+            Hal ini mengakibatkan harga jual City Bike, Mountain Bike, dan Folding Bike menurun. 
+            Tetapi, untuk mengatasi hal ini, IG Bike.Co menghadirkan jenis sepeda baru yang berfungsi sebagai hiburan, yaitu Unicycle.";
+        } else if ($sesi == 4) {
+            $event = "Hasil pemasaran Unicycle oleh IG.Bike.Co di Cyclovia menyebabkan trend penggunaan sepeda untuk kebutuhan sehari - hari kembali. Hal ini mengakibatkan harga sepeda kembali stabil dan IG.Bike.Co dapat kembali menaikan harganya.";
+        }
+
+        return view('peserta.rally-1.story', compact('event'));
+    }
+
 
     private function getSesiAktif()
     {

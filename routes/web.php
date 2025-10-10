@@ -182,6 +182,7 @@ Route::group([
     Route::post('/rally1/jual', [R1PesertaController::class, 'jualSepeda'])->name('jual.sepeda');
 
     Route::get('/rally1/performance', [R1PesertaController::class, 'showPerformance'])->name('peserta.performance');
+    Route::get('/rally1/event', [R1PesertaController::class, 'showEvent'])->name('story');
 });
 
 
