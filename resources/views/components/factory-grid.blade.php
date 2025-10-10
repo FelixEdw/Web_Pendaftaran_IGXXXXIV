@@ -757,7 +757,7 @@
 
             workerTitle.textContent = 'Hire worker';
 
-            workerPrice.textContent = '$ 1000';
+            workerPrice.textContent = '$ 700';
             workerPrice.className = 'text-green-600 font-bold text-2xl mb-6';
 
             const hasWorkers = factory.workers > 0;
