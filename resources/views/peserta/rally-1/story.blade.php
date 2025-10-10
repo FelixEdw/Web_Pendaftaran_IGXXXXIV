@@ -9,11 +9,15 @@
     <style>
         /* ====== Tema Utama (Dari Referensi IG Dark Mode & Bronze Aksen) ====== */
         body {
-            background-color: #14191A !important;
             font-family: 'Inter', sans-serif;
             color: #EAEAEA;
             margin: 0;
             padding: 0;
+            /* Tambahkan properti background-size, background-position, dll. di sini */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         /* ====== Container Utama ====== */
@@ -26,11 +30,11 @@
 
         /* ====== Card Detail Event ====== */
         .event-box {
-            background-color: #1C1F21;
-            border: 1px solid #4A4A63;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
             padding: 32px;
-            max-width: 400px;
+            max-width: 300px;
             width: 90%;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             text-align: center;
@@ -39,7 +43,7 @@
         .event-title {
             font-size: 1.2rem;
             color: #FFDA89;
-            margin-bottom: 8px;
+            margin-bottom: 50px;
         }
 
         p {
@@ -49,16 +53,17 @@
             margin-bottom: 8px;
         }
 
-        .divider {
+        /* Kelas divider ini sekarang tidak digunakan lagi di HTML */
+        /* .divider {
             width: 60%;
             height: 2px;
             background-color: #956238;
             margin: 16px auto;
             border-radius: 2px;
-        }
+        } */
 
         .btn-bronze {
-            background-color: #956238;
+            background-color: rgba(255, 255, 255, 0.5);
             color: #FFFFFF;
             border: none;
             border-radius: 8px;
@@ -66,6 +71,7 @@
             font-size: 1rem;
             cursor: pointer;
             transition: background-color 0.2s, transform 0.1s;
+            margin-top: 50px;
         }
 
         .btn-bronze:hover {
@@ -84,13 +90,17 @@
     </style>
 </head>
 
-<body>
+<body style="background-image: url('{{ asset('images/Background_FAQ.svg') }}');">
     <div class="container">
         <div class="event-box">
             <p>Event saat ini</p>
-            <h4 class="event-title">{{ $event }}</h4>
-            <div class="divider"></div>
-            <a href="{{ route('peserta.rally-1.index') }}" class="btn-bronze">Kembali</a>
+            {{-- Karena nilai $event di gambar adalah "Tidak ada event pada sesi ini", saya asumsikan itu adalah string biasa --}}
+            {{-- Jika $event adalah variabel Blade, pastikan tidak null atau gunakan default --}}
+            <h4 class="event-title">{{ $event ?? 'Tidak ada event pada sesi ini' }}</h4>
+            
+            {{-- Garis divider telah dihapus dari sini --}}
+            
+            <a href="{{ route('peserta.rally-1.index') }}"class="btn-bronze">Kembali</a>
         </div>
     </div>
 </body>
