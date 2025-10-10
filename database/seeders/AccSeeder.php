@@ -223,6 +223,13 @@ class AccSeeder extends Seeder
             ['id' => 38, 'name' => '3 Faktorial', 'role' => 'peserta', 'password' => '$2y$12$j1BgJhckBn9dWuimSe/naOamLqxUfn7LTQvtLe71BrIiqmP5PUiW.', 'created_at' => '2025-10-03 16:19:47', 'updated_at' => '2025-10-03 16:19:47'],
         ];
 
+        foreach ($users as $user) {
+            if (strpos($user['password'], '$2y$') !== 0) {
+                $user['password'] = bcrypt($user['password']);
+            }
+            User::create($user);
+        }
+
         User::create(['name' => "jolem", 'role' => 'admin', 'password' => bcrypt("jolem@ig33")]);
         User::create(['name' => "angel", 'role' => 'admin', 'password' => bcrypt("angel@ig33")]);
         User::create(['name' => "steven", 'role' => 'admin', 'password' => bcrypt("steven@ig33")]);
@@ -247,12 +254,5 @@ class AccSeeder extends Seeder
         User::create(['name' => "monica", 'role' => 'admin', 'password' => bcrypt("monica@ig33")]);
         User::create(['name' => "joice", 'role' => 'admin', 'password' => bcrypt("joice@ig33")]);
         User::create(['name' => "felice", 'role' => 'admin', 'password' => bcrypt("felice@ig33")]);
-
-        foreach ($users as $user) {
-            if (strpos($user['password'], '$2y$') !== 0) {
-                $user['password'] = bcrypt($user['password']);
-            }
-            User::create($user);
-        }
     }
 }
