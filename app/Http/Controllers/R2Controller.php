@@ -524,37 +524,42 @@ class R2Controller extends Controller
             'base_time' => $newTime,
         ]);
     }
-    public function sell(Request $request)
-    {
-        $request->validate([
-            'owned' => 'required|integer',
-            'price' => 'required|integer|min:0',
-        ]);
+public function sell(Request $request)
+{
+    $request->validate([
+        'owned' => 'required|integer',
+        'price' => 'required|integer|min:0',
+    ]);
 
-        $user = Auth::user();
-        $team = Team::where('nama_tim', $user->name)->firstOrFail();
+    $user = Auth::user();
+    $team = Team::where('nama_tim', $user->name)->firstOrFail();
 
-        // Cek mesin milik tim
-        $teamMachine = TeamMachine::where('id', $request->owned)
-            ->where('team_id', $team->id)
-            ->first();
+    $teamMachine = TeamMachine::where('id', $request->owned)
+        ->where('team_id', $team->id)
+        ->first();
 
-        if (!$teamMachine) {
-            return response()->json(['error' => 'Mesin tidak ditemukan atau bukan milik tim.'], 403);
-        }
-
-        // Hapus mesin
-        $teamMachine->delete();
-
-        // Tambahkan saldo tim
-        $team->total_uang_babak2 += $request->price;
-        $team->save();
-
-        return response()->json([
-            'message' => 'Mesin berhasil dijual!',
-            'capital' => $team->total_uang_babak2
-        ]);
+    if (!$teamMachine) {
+        return response()->json(['error' => 'Mesin tidak ditemukan atau bukan milik tim.'], 403);
     }
+
+    // --- TAMBAHKAN VALIDASI DI SINI ---
+    if ($teamMachine->operator_hired) {
+        return response()->json(['error' => 'Pekerja harus di-layoff terlebih dahulu sebelum menjual mesin.'], 400);
+    }
+    // ------------------------------------
+
+    // Hapus mesin
+    $teamMachine->delete();
+
+    // Tambahkan saldo tim
+    $team->total_uang_babak2 += $request->price;
+    $team->save();
+
+    return response()->json([
+        'message' => 'Mesin berhasil dijual!',
+        'capital' => $team->total_uang_babak2
+    ]);
+}
 
 
     public function storeConnection(Request $request)

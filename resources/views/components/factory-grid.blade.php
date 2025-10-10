@@ -41,7 +41,6 @@
     </div>
 
 
-    <!-- Factory Info Modal -->
     <div id="factoryInfoModal"
         class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
         <div
@@ -64,10 +63,12 @@
                     class="w-full bg-blue-500 text-white py-3 rounded-lg font-bold hover:bg-blue-600 transition">
                     CONNECT
                 </button>
-                <button onclick="showSellModal()"
+                {{-- [MODIFIKASI] Menambahkan id="sellButton" --}}
+                <button id="sellButton" onclick="showSellModal()"
                     class="w-full bg-red-500 text-white py-3 rounded-lg font-bold hover:bg-red-600 transition">
                     SELL
                 </button>
+                {{-- [MODIFIKASI] Menambahkan id="layoffButton" --}}
                 <button id="layoffButton" onclick="showLayoffConfirm()"
                     class="w-full bg-red-500 text-white py-3 rounded-lg font-bold hover:bg-red-600 transition">
                     LAYOFF WORKER
@@ -81,7 +82,6 @@
         </div>
     </div>
 
-    <!-- Buy Confirmation Modal -->
     <div id="buyConfirmModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
         <div class="bg-white rounded-lg p-6 max-w-sm mx-4 transform scale-90 opacity-0 transition-all duration-200">
             <div class="text-center">
@@ -103,7 +103,6 @@
         </div>
     </div>
 
-    <!-- Upgrade Modal -->
     <div id="upgradeModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
         <div class="bg-white rounded-lg p-6 max-w-sm mx-4 transform scale-90 opacity-0 transition-all duration-200">
             <div class="text-center">
@@ -131,7 +130,6 @@
         </div>
     </div>
 
-    <!-- Worker Modal -->
     <div id="workerModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
         <div class="bg-white rounded-lg p-6 w-full mx-4 transform scale-90 opacity-0 transition-all duration-200">
             <div class="text-center">
@@ -148,14 +146,13 @@
         </div>
     </div>
 
-    <!-- Layoff Confirmation Modal -->
     <div id="layoffConfirmModal"
         class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
         <div class="bg-white rounded-lg p-6 max-w-sm mx-4 transform scale-90 opacity-0 transition-all duration-200">
             <div class="text-center">
                 <h3 class="text-xl font-bold text-black mb-4">Apakah Anda ingin memberhentikan pekerja?</h3>
 
-                <div id="layoffCost" class="text-red-600 font-bold text-2xl mb-6">-$500</div>
+                <div id="layoffCost" class="text-red-600 font-bold text-2xl mb-6">-$1000</div>
 
                 <div class="flex space-x-3">
                     <button onclick="hideLayoffConfirm()"
@@ -171,7 +168,6 @@
         </div>
     </div>
 
-    <!-- Connect Modal -->
     <div id="connectModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
         <div class="bg-white rounded-lg p-6 max-w-sm mx-4 transform scale-90 opacity-0 transition-all duration-200">
             <div class="text-center">
@@ -214,7 +210,6 @@
 
 
     <script>
-
         let selectedFactoryIndex = null;
         let selectedFactory = null;
         let connections = [];
@@ -223,56 +218,74 @@
         let selectedWorkerFactoryIndex = null;
         let selectedWorkerFactory = null;
 
-
+        // ========================================================================
+        // [MODIFIKASI] FUNGSI showFactoryInfo DENGAN LOGIKA UI BARU
+        // ========================================================================
         function showFactoryInfo(index, factory) {
             selectedFactoryIndex = index;
             selectedFactory = factory;
 
+            // Mengisi info dasar mesin
             document.getElementById('machineTitle').textContent = `Machine ${factory.name} Info`;
             document.getElementById('machineLevel').textContent = `Level ${factory.level || 1}`;
             document.getElementById('machineCapacity').textContent = `Kapasitas: ${factory.kapasitas_dasar || 5}`;
             document.getElementById('machineTime').textContent = `Waktu: ${factory.base_time || 6} menit`;
             document.getElementById('machinePrice').textContent = `$${factory.sell_prices[selectedFactory.level] || 3000}`;
 
+            // Mengambil elemen tombol
             const buyButton = document.getElementById('buyButton');
             const ownedButtons = document.getElementById('ownedButtons');
-
-            const isOwned = factory.owned == true || factory.owned == "true";
-
             const connectButton = document.getElementById('connectButton');
+            const sellButton = document.getElementById('sellButton');
             const layoffButton = document.getElementById('layoffButton');
 
             if (factory.owned) {
+                // Jika mesin sudah dimiliki, tampilkan tombol-tombol aksi
                 buyButton.classList.add('hidden');
                 ownedButtons.classList.remove('hidden');
-
-                if (factory.jenis == 4 && connectButton) {
+                
+                // Logika untuk tombol CONNECT
+                if (factory.jenis == 4) { // Mesin jenis terakhir tidak bisa connect
                     connectButton.classList.add('hidden');
-                }
-                // ✅ Tambahkan logika ini untuk disable jika belum sewa pekerja
-                else if ((factory.operator_hired == 0 || !factory.operator_hired) && connectButton) {
+                } else if (!factory.operator_hired) { // Belum sewa pekerja
                     connectButton.disabled = true;
                     connectButton.classList.add('opacity-50', 'cursor-not-allowed');
+                } else { // Sudah sewa pekerja
+                    connectButton.disabled = false;
+                    connectButton.classList.remove('hidden', 'opacity-50', 'cursor-not-allowed');
+                }
+
+                // Logika untuk tombol SELL dan LAYOFF
+                if (factory.operator_hired) {
+                    // Jika ADA pekerja: Nonaktifkan SELL, Aktifkan LAYOFF
+                    sellButton.disabled = true;
+                    sellButton.classList.add('opacity-50', 'cursor-not-allowed');
+                    sellButton.setAttribute('title', 'Layoff pekerja terlebih dahulu untuk menjual mesin ini.');
+
+                    layoffButton.disabled = false;
+                    layoffButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                } else {
+                    // Jika TIDAK ADA pekerja: Aktifkan SELL, Nonaktifkan LAYOFF
+                    sellButton.disabled = false;
+                    sellButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                    sellButton.removeAttribute('title');
+
                     layoffButton.disabled = true;
                     layoffButton.classList.add('opacity-50', 'cursor-not-allowed');
                 }
-                else if (connectButton) {
-                    connectButton.disabled = false;
-                    connectButton.classList.remove('hidden', 'opacity-50', 'cursor-not-allowed');
-                    layoffButton.disabled = false;
-                    layoffButton.classList.remove('opacity-50', 'cursor-not-allowed');
-                }
 
             } else {
+                // Jika mesin belum dimiliki, hanya tampilkan tombol BUY
                 ownedButtons.classList.add('hidden');
                 buyButton.classList.remove('hidden');
             }
 
-
-
-
+            // Tampilkan modal
             showModal('factoryInfoModal');
         }
+        // ========================================================================
+        // AKHIR DARI MODIFIKASI
+        // ========================================================================
 
         function hideFactoryInfo() {
             hideModal('factoryInfoModal', () => {
@@ -422,10 +435,6 @@
 
             hideUpgradeModal();
         }
-
-
-
-
 
         function showSellModal() {
             const sellPrices = selectedFactory.sell_prices || {};
@@ -969,3 +978,4 @@
             }
         }
     </script>
+}
