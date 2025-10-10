@@ -237,7 +237,7 @@
             const buyButton = document.getElementById('buyButton');
             const ownedButtons = document.getElementById('ownedButtons');
 
-            const isOwned = factory.owned === true || factory.owned === "true";
+            const isOwned = factory.owned == true || factory.owned == "true";
 
             const connectButton = document.getElementById('connectButton');
             const layoffButton = document.getElementById('layoffButton');
@@ -250,7 +250,7 @@
                     connectButton.classList.add('hidden');
                 }
                 // ✅ Tambahkan logika ini untuk disable jika belum sewa pekerja
-                else if ((factory.operator_hired === 0 || !factory.operator_hired) && connectButton) {
+                else if ((factory.operator_hired == 0 || !factory.operator_hired) && connectButton) {
                     connectButton.disabled = true;
                     connectButton.classList.add('opacity-50', 'cursor-not-allowed');
                     layoffButton.disabled = true;
@@ -497,11 +497,11 @@
             const fromOwnedId = selectedFactory.owned_id;
             const nextJenis = parseInt(selectedFactory.jenis) + 1;
 
-            const connectionFromThisFactory = selectedFactory.connections.find(c => c.from === fromOwnedId);
+            const connectionFromThisFactory = selectedFactory.connections.find(c => c.from == fromOwnedId);
 
             // Kalau sudah terkoneksi (sebagai FROM), tampilkan info saja
             if (connectionFromThisFactory) {
-                const connectedFactory = factoriesData.find(f => f.owned_id === connectionFromThisFactory.to);
+                const connectedFactory = factoriesData.find(f => f.owned_id == connectionFromThisFactory.to);
 
                 if (connectedFactory) {
                     const factoryItem = document.createElement('div');
@@ -528,13 +528,13 @@
             // 🔍 Fungsi bantu: cek apakah factory ini sudah jadi FROM
             function isAlreadyUsedAsFrom(ownedId) {
                 return factoriesData.some(f =>
-                    (f.connections || []).some(c => c.from === ownedId)
+                    (f.connections || []).some(c => c.from == ownedId)
                 );
             }
 
             function isAlreadyUsedAsTo(ownedId) {
                 return factoriesData.some(f =>
-                    (f.connections || []).some(c => c.to === ownedId)
+                    (f.connections || []).some(c => c.to == ownedId)
                 );
             }
 
@@ -544,8 +544,8 @@
             factoriesData.forEach((factory, index) => {
                 const isValidConnection =
                     factory.owned &&
-                    index !== selectedFactoryIndex &&
-                    parseInt(factory.jenis) === nextJenis;
+                    index != selectedFactoryIndex &&
+                    parseInt(factory.jenis) == nextJenis;
 
                 if (isValidConnection) {
                     candidateCount++;
@@ -569,7 +569,7 @@
                 }
             });
 
-            if (candidateCount === 0) {
+            if (candidateCount == 0) {
                 factoryList.innerHTML = '<p class="text-gray-500 py-4">Tidak ada factory jenis berikutnya yang bisa dikoneksikan</p>';
             }
 
@@ -583,12 +583,12 @@
 
         function hasNextOwned(factory) {
             const nextJenis = (parseInt(factory.jenis) || 0) + 1;
-            return factoriesData.some(f => f.owned && parseInt(f.jenis) === nextJenis);
+            return factoriesData.some(f => f.owned && parseInt(f.jenis) == nextJenis);
         }
 
         function hasOutgoing(factory) {
             const fromOwnedId = factory.owned_id;
-            return Array.isArray(factory.connections) && factory.connections.some(c => c.from === fromOwnedId);
+            return Array.isArray(factory.connections) && factory.connections.some(c => c.from == fromOwnedId);
         }
 
         function needsConnection(factory) {
@@ -634,14 +634,14 @@
         // Konversi connections berbasis owned_id → indeks grid (buat drawConnections)
         function buildConnectionsIndexBased() {
             function idxByOwnedId(id) {
-                return factoriesData.findIndex(ff => ff.owned_id === id);
+                return factoriesData.findIndex(ff => ff.owned_id == id);
             }
             connections = factoriesData
                 .flatMap(f => (f.connections || []).map(c => ({
                     from: idxByOwnedId(c.from),
                     to: idxByOwnedId(c.to),
                 })))
-                .filter(c => c.from !== -1 && c.to !== -1);
+                .filter(c => c.from != -1 && c.to != -1);
         }
 
 
@@ -901,49 +901,49 @@
         }
 
         document.getElementById('factoryInfoModal').addEventListener('click', function (e) {
-            if (e.target === this) {
+            if (e.target == this) {
                 hideFactoryInfo();
             }
         });
 
         document.getElementById('buyConfirmModal').addEventListener('click', function (e) {
-            if (e.target === this) {
+            if (e.target == this) {
                 hideBuyConfirm();
             }
         });
 
         document.getElementById('upgradeModal').addEventListener('click', function (e) {
-            if (e.target === this) {
+            if (e.target == this) {
                 hideUpgradeModal();
             }
         });
 
         document.getElementById('layoffConfirmModal').addEventListener('click', function (e) {
-            if (e.target === this) {
+            if (e.target == this) {
                 hideLayoffConfirm();
             }
         });
 
         document.getElementById('workerModal').addEventListener('click', function (e) {
-            if (e.target === this) {
+            if (e.target == this) {
                 hideWorkerModal();
             }
         });
 
         document.getElementById('connectModal').addEventListener('click', function (e) {
-            if (e.target === this) {
+            if (e.target == this) {
                 hideConnectModal();
             }
         });
 
         document.getElementById('sellModal').addEventListener('click', function (e) {
-            if (e.target === this) {
+            if (e.target == this) {
                 hideSellModal();
             }
         });
 
         document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') {
+            if (e.key == 'Escape') {
                 if (!document.getElementById('layoffConfirmModal').classList.contains('hidden')) {
                     hideLayoffConfirm();
                 } else if (!document.getElementById('workerModal').classList.contains('hidden')) {
