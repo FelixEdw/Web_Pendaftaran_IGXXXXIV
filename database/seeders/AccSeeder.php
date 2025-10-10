@@ -223,6 +223,31 @@ class AccSeeder extends Seeder
             ['id' => 38, 'name' => '3 Faktorial', 'role' => 'peserta', 'password' => '$2y$12$j1BgJhckBn9dWuimSe/naOamLqxUfn7LTQvtLe71BrIiqmP5PUiW.', 'created_at' => '2025-10-03 16:19:47', 'updated_at' => '2025-10-03 16:19:47'],
         ];
 
+        User::create(['name' => "jolem", 'role' => 'admin', 'password' => bcrypt("jolem@ig33")]);
+        User::create(['name' => "angel", 'role' => 'admin', 'password' => bcrypt("angel@ig33")]);
+        User::create(['name' => "steven", 'role' => 'admin', 'password' => bcrypt("steven@ig33")]);
+        User::create(['name' => "federico", 'role' => 'admin', 'password' => bcrypt("federico@ig33")]);
+        User::create(['name' => "philander", 'role' => 'admin', 'password' => bcrypt("philander@ig33")]);
+        User::create(['name' => "evan", 'role' => 'admin', 'password' => bcrypt("evan@ig33")]);
+        User::create(['name' => "brandon", 'role' => 'admin', 'password' => bcrypt("brandon@ig33")]);
+        User::create(['name' => "rakel", 'role' => 'admin', 'password' => bcrypt("rakel@ig33")]);
+        User::create(['name' => "nico", 'role' => 'admin', 'password' => bcrypt("nico@ig33")]);
+        User::create(['name' => "gaby", 'role' => 'admin', 'password' => bcrypt("gaby@ig33")]);
+        User::create(['name' => "wahyu", 'role' => 'admin', 'password' => bcrypt("wahyu@ig33")]);
+        User::create(['name' => "lady", 'role' => 'admin', 'password' => bcrypt("lady@ig33")]);
+        User::create(['name' => "armando", 'role' => 'admin', 'password' => bcrypt("armando@ig33")]);
+        User::create(['name' => "jason", 'role' => 'admin', 'password' => bcrypt("jason@ig33")]);
+        User::create(['name' => "yuriko", 'role' => 'admin', 'password' => bcrypt("yuriko@ig33")]);
+        User::create(['name' => "albert", 'role' => 'admin', 'password' => bcrypt("albert@ig33")]);
+        User::create(['name' => "safira", 'role' => 'admin', 'password' => bcrypt("safira@ig33")]);
+        User::create(['name' => "david", 'role' => 'admin', 'password' => bcrypt("david@ig33")]);
+        User::create(['name' => "yovent", 'role' => 'admin', 'password' => bcrypt("yovent@ig33")]);
+        User::create(['name' => "jeslyn", 'role' => 'admin', 'password' => bcrypt("jeslyn@ig33")]);
+        User::create(['name' => "grace", 'role' => 'admin', 'password' => bcrypt("grace@ig33")]);
+        User::create(['name' => "monica", 'role' => 'admin', 'password' => bcrypt("monica@ig33")]);
+        User::create(['name' => "joice", 'role' => 'admin', 'password' => bcrypt("joice@ig33")]);
+        User::create(['name' => "felice", 'role' => 'admin', 'password' => bcrypt("felice@ig33")]);
+
         foreach ($users as $user) {
             if (strpos($user['password'], '$2y$') !== 0) {
                 $user['password'] = bcrypt($user['password']);
