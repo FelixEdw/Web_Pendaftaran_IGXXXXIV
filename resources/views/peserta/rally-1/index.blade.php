@@ -8,47 +8,54 @@
 <style>
     /* 1. Latar Belakang Body Disesuaikan dengan Tema Gelap IG */
     body {
-        background-color: #14191A !important; 
+        background-color: #14191A !important;
         font-family: 'Inter', sans-serif;
     }
 
     /* 2. Custom Class untuk Tombol Utama & Aksen Bronze/Emas Tua */
     .btn-bronze {
-        background-color: #956238; /* Bronze */
+        background-color: #956238;
+        /* Bronze */
         color: #FFFFFF;
         transition: background-color 0.2s, transform 0.1s;
     }
+
     .btn-bronze:hover {
         background-color: #A57248;
         transform: translateY(-1px);
     }
+
     .btn-bronze:disabled {
-        background-color: #5A402D; /* Darker bronze for disabled state */
+        background-color: #5A402D;
+        /* Darker bronze for disabled state */
         cursor: not-allowed;
     }
 
     /* 3. Custom Class untuk Pos Status agar tetap gelap */
     /* Pos Kosong: Dark Green/Bronze Tint */
     .status-kosong {
-        background-color: #602c00; 
+        background-color: #602c00;
         color: #FFDA89;
         border-color: #602c10;
     }
+
     /* Pos Butuh Grup: Dark Yellow/Olive Tint */
     .status-butuh-grup {
-        background-color: #4C4C2D; 
+        background-color: #4C4C2D;
         color: #FFDA89;
         border-color: #73734C;
     }
+
     /* Pos Terisi: Dark Red/Maroon Tint */
     .status-terisi {
-        background-color: #5C2D2D; 
+        background-color: #5C2D2D;
         color: #FFB8B8;
         border-color: #854D4D;
     }
+
     /* Pos Default */
     .status-default {
-        background-color: #2C2C3A; 
+        background-color: #2C2C3A;
         color: #CFCFCF;
         border-color: #4A4A63;
     }
@@ -59,6 +66,7 @@
         color: #B8E6B8;
         border-color: #4C734C;
     }
+
     .toast-error {
         background-color: #391E1E;
         color: #FFB8B8;
@@ -123,7 +131,7 @@
                 </li>
                 {{-- Inventory: Darker Accent Color --}}
                 <li>
-                    <a href="{{ route('peserta.komponen') }}" class ="block px-4 py-3 btn-bronze text-white rounded-lg shadow-lg hover:shadow-xl transition font-medium">
+                    <a href="{{ route('peserta.komponen') }}" class="block px-4 py-3 btn-bronze text-white rounded-lg shadow-lg hover:shadow-xl transition font-medium">
                         📦 Inventory
                     </a>
                 </li>
@@ -132,6 +140,12 @@
                     <a href="{{ route('peserta.peserta.performance') }}"
                         class="block px-4 py-3 btn-bronze text-white rounded-lg shadow-lg hover:shadow-xl transition font-medium">
                         📊 Performance
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('peserta.story') }}"
+                        class="block px-4 py-3 btn-bronze text-white rounded-lg shadow-lg hover:shadow-xl transition font-medium">
+                        📖 Detail Event
                     </a>
                 </li>
             </ul>
@@ -154,10 +168,10 @@
 
     $sesi = DB::table('sesi_rally1')->value('sesi_aktif') ?? 1;
     $sesiHarga = [
-    1 => ['city' => 40, 'folding' => 75, 'mountain' => 60],
-    2 => ['city' => 45, 'folding' => 80, 'mountain' => 65],
-    3 => ['city' => 40, 'folding' => 75, 'mountain' => 60, 'unicycle' => 30],
-    4 => ['city' => 30, 'folding' => 55, 'mountain' => 45, 'unicycle' => 20],
+    1 => ['city' => 30, 'folding' => 40, 'mountain' => 45],
+    2 => ['city' => 30, 'folding' => 45, 'mountain' => 50],
+    3 => ['city' => 25, 'folding' => 30, 'mountain' => 35, 'unicycle' => 20],
+    4 => ['city' => 35, 'folding' => 40, 'mountain' => 45, 'unicycle' => 25],
     ];
     $harga = $sesiHarga[$sesi] ?? [];
     @endphp
@@ -183,7 +197,7 @@
     <div style="background-color: #602c00; border-color: #956238;" class="rounded-2xl p-6 shadow-2xl border-2">
         <div class="flex items-center justify-between pb-3 mb-3">
             <div class="text-gray-200 font-bold">
-                <span class="text-lg">Sesi saat ini:</span> 
+                <span class="text-lg">Sesi saat ini:</span>
                 {{-- Text: Bright Gold --}}
                 <span style="color: #FBC02D;" class="text-2xl font-extrabold">{{ $sesi }}</span>
             </div>
@@ -219,21 +233,21 @@
         @foreach ($posList as $pos)
         @php
         $sudahDikunjungiBaruBaruIni = in_array($pos->id, $riwayat);
-        
+
         $statusClass = match($pos->status) {
-            'kosong' => 'status-kosong',
-            'butuh_grup' => 'status-butuh-grup',
-            'terisi' => 'status-terisi',
-            default => 'status-default'
+        'kosong' => 'status-kosong',
+        'butuh_grup' => 'status-butuh-grup',
+        'terisi' => 'status-terisi',
+        default => 'status-default'
         };
         $statusText = match($pos->status) {
-            'kosong' => 'POS KOSONG',
-            'butuh_grup' => 'MENUNGGU REKAN',
-            'terisi' => 'SEDANG DIGUNAKAN',
-            default => 'STATUS TIDAK DIKETAHUI'
+        'kosong' => 'POS KOSONG',
+        'butuh_grup' => 'MENUNGGU REKAN',
+        'terisi' => 'SEDANG DIGUNAKAN',
+        default => 'STATUS TIDAK DIKETAHUI'
         };
         @endphp
-        
+
         {{-- Menggunakan Custom Class untuk Card Status Pos --}}
         <div class="rounded-xl shadow-lg p-5 border-2 {{ $statusClass }} transition hover:shadow-xl hover:-translate-y-1 duration-200 ease-in-out">
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between">
@@ -241,7 +255,7 @@
                     <h4 class="text-xl font-extrabold mb-1">{{ $pos->nama }}</h4>
                     <p class="text-sm font-semibold italic">{{ $statusText }}</p>
                 </div>
-                
+
                 <form action="{{ route('peserta.pos.pergi', $pos->id) }}" method="POST">
                     @csrf
                     {{-- Tombol "Pergi ke Pos": Bronze Button --}}
@@ -251,7 +265,7 @@
                     </button>
                 </form>
             </div>
-            
+
             {{-- Pesan Peringatan --}}
             @if ($sudahDikunjungiBaruBaruIni)
             <p class="text-sm italic mt-2 opacity-80">

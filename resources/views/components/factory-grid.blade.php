@@ -14,7 +14,7 @@
                 </span>
                 <div
                     class="aspect-square w-full relative border-2 transition cursor-pointer rounded-[20px]
-                                                                    {{ $factory['owned'] ? 'bg-green-100 border-gray-600 hover:border-green-600' : 'bg-gradient-to-br from-gray-300 via-gray-500 to-gray-700 border-gray-700' }}">
+                                                                                    {{ $factory['owned'] ? 'bg-green-100 border-gray-600 hover:border-green-600' : 'bg-gradient-to-br from-gray-300 via-gray-500 to-gray-700 border-gray-700' }}">
 
                     @if($factory['owned'])
                         <img src="{{ asset('storage/rally-2/mesin' . $factory['jenis'] . '.png') }}"
@@ -87,7 +87,7 @@
             <div class="text-center">
                 <h3 class="text-xl font-bold text-black mb-4">Apakah Anda ingin membeli mesin?</h3>
 
-                <div id="confirmPrice" class="text-green-600 font-bold text-2xl mb-6">$3000</div>
+                <div id="machinePurchasePrice" class="text-green-600 font-bold text-2xl mb-6">$3000</div>
 
                 <div class="flex space-x-3">
                     <button onclick="hideBuyConfirm()"
@@ -286,7 +286,7 @@
             if (!selectedFactory || selectedFactory.owned) return;
 
             // lanjutkan ke confirm modal
-            document.getElementById('confirmPrice').textContent = `$${selectedFactory.price || 3000}`;
+            document.getElementById('machinePurchasePrice').textContent = `$${selectedFactory.purchase_prices}`;
             showModal('buyConfirmModal');
         }
 
@@ -380,44 +380,44 @@
             const sell = sells[nextLevel];
 
 
-           fetch("{{ route('peserta.rally2.upgrade') }}", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-CSRF-TOKEN": window.Laravel.csrfToken,
-  },
-  body: JSON.stringify({
-    owned: owned,
-    next_level: nextLevel,
-    price: price,
-    new_capacity: newCapacity,
-    new_time: newTime,
-    sell: sell
-  })
-})
-.then(async (res) => {
-  const ct = res.headers.get("content-type") || "";
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`HTTP ${res.status} – ${text.slice(0,200)}`);
-  }
-  if (!ct.includes("application/json")) {
-    const text = await res.text();
-    throw new Error(`Non-JSON response (mungkin redirect middleware): ${text.slice(0,200)}`);
-  }
-  return res.json();
-})
-.then((data) => {
-  if (data.error) return alert(data.error);
-  alert(data.message || "Berhasil diupgrade!");
-  window.capital = data.capital;
-  location.reload();
-})
-.catch((err) => {
-  console.error(err);
-  alert("Gagal upgrade mesin: " + err.message);
-});
+            fetch("{{ route('peserta.rally2.upgrade') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "X-CSRF-TOKEN": window.Laravel.csrfToken,
+                },
+                body: JSON.stringify({
+                    owned: owned,
+                    next_level: nextLevel,
+                    price: price,
+                    new_capacity: newCapacity,
+                    new_time: newTime,
+                    sell: sell
+                })
+            })
+                .then(async (res) => {
+                    const ct = res.headers.get("content-type") || "";
+                    if (!res.ok) {
+                        const text = await res.text();
+                        throw new Error(`HTTP ${res.status} – ${text.slice(0, 200)}`);
+                    }
+                    if (!ct.includes("application/json")) {
+                        const text = await res.text();
+                        throw new Error(`Non-JSON response (mungkin redirect middleware): ${text.slice(0, 200)}`);
+                    }
+                    return res.json();
+                })
+                .then((data) => {
+                    if (data.error) return alert(data.error);
+                    alert(data.message || "Berhasil diupgrade!");
+                    window.capital = data.capital;
+                    location.reload();
+                })
+                .catch((err) => {
+                    console.error(err);
+                    alert("Gagal upgrade mesin: " + err.message);
+                });
 
 
             hideUpgradeModal();
@@ -757,7 +757,7 @@
 
             workerTitle.textContent = 'Hire worker';
 
-            workerPrice.textContent = '$ 1000';
+            workerPrice.textContent = '$ 700';
             workerPrice.className = 'text-green-600 font-bold text-2xl mb-6';
 
             const hasWorkers = factory.workers > 0;
@@ -834,7 +834,7 @@
 
         //LAYOFF
         function confirmLayoff() {
-            const ownedId = selectedFactory.owned_id; 
+            const ownedId = selectedFactory.owned_id;
             if (!ownedId) {
                 alert("Gagal: Mesin tidak valid.");
                 hideLayoffConfirm();
