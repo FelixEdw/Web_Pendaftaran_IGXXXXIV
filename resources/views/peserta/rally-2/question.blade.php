@@ -97,11 +97,13 @@
         </div>
     </div>
 
-    <!-- Modal Jawaban Benar -->
     <div id="correctModal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50">
         <div class="bg-amber-100 border-4 border-amber-500 rounded-2xl p-8 max-w-sm mx-4 text-center">
             <div class="flex items-center justify-center mb-4">
-                <x-clarity-success-standard-solid class="w-24 h-24 text-green-500" />
+                {{-- [PERBAIKAN] Mengganti <x-clarity-success-standard-solid> dengan SVG --}}
+                <svg class="w-24 h-24 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
             </div>
             <h2 class="text-2xl font-bold text-green-700 mb-2">Jawaban Benarr!!!</h2>
             <div class="flex items-center justify-center mb-4">
@@ -116,7 +118,6 @@
         </div>
     </div>
 
-    <!-- Modal Jawaban Salah -->
     <div id="wrongModal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50">
         <div class="bg-red-50 border-4 border-red-500 rounded-2xl p-8 max-w-sm mx-4 text-center">
             <div class="text-6xl mb-4 text-red-500">✕</div>
