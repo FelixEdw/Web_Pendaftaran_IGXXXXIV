@@ -100,14 +100,17 @@
     <div id="correctModal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50">
         <div class="bg-amber-100 border-4 border-amber-500 rounded-2xl p-8 max-w-sm mx-4 text-center">
             <div class="flex items-center justify-center mb-4">
-                {{-- [PERBAIKAN] Mengganti <x-clarity-success-standard-solid> dengan SVG --}}
+                {{-- [PERBAIKAN 1] --}}
                 <svg class="w-24 h-24 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
             </div>
             <h2 class="text-2xl font-bold text-green-700 mb-2">Jawaban Benarr!!!</h2>
             <div class="flex items-center justify-center mb-4">
-                <x-eva-plus-outline class="w-6 h-6 text-green-600" />
+                {{-- [PERBAIKAN 2] Mengganti <x-eva-plus-outline> dengan SVG --}}
+                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
                 <p class="text-2xl text-green-600 font-semibold">$1000</p>
             </div>
             <button
