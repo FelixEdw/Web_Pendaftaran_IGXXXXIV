@@ -205,7 +205,7 @@ class AccSeeder extends Seeder
             ['id' => 19, 'name' => 'TheBoyz', 'role' => 'peserta', 'password' => '$2y$12$AGxS.saGCxYEqLB2f/nX5udKwkr7q3yLbPLtAJHU07wb4oVrl4PUC', 'created_at' => '2025-09-13 09:52:41', 'updated_at' => '2025-09-13 09:52:41'],
             ['id' => 20, 'name' => 'Perintis', 'role' => 'peserta', 'password' => '$2y$12$SAZWF3EkHNnvaZOT7lKN4ea3R2WgIZ5urV5pz1sbpDw8Vd5xVacJe', 'created_at' => '2025-09-14 13:22:32', 'updated_at' => '2025-09-14 13:22:32'],
             ['id' => 21, 'name' => 'Elena', 'role' => 'peserta', 'password' => '$2y$12$ka/g79nmwMsUPkLK3CmyZO9TCI1iM2L3XJKEYgbV8E0sTawl21LfG', 'created_at' => '2025-09-15 09:41:57', 'updated_at' => '2025-09-15 09:41:57'],
-            ['id' => 22, 'name' => 'Softboy', 'role' => 'peserta', 'password' => '$2y$12$6effqZuBjo2ZY1dJvcGtzesKLoHfcrtDy7vghvMG2GFfx6eY5vL4e', 'created_at' => '2025-09-15 11:29:19', 'updated_at' => '2025-09-15 11:29:19'],
+            ['id' => 22, 'name' => 'Softboy', 'role' => 'peserta', 'password' => 'Softboyys', 'created_at' => '2025-09-15 11:29:19', 'updated_at' => '2025-09-15 11:29:19'],
             ['id' => 23, 'name' => 'Equilibria', 'role' => 'peserta', 'password' => '$2y$12$.Ksf0uzLg90DlXhuy0K/GuzFTVSDowp.4w1rTE9Ehwql.hyXRPZ3C', 'created_at' => '2025-09-17 07:39:48', 'updated_at' => '2025-09-17 07:39:48'],
             ['id' => 24, 'name' => 'Kwak kwik kwuk', 'role' => 'peserta', 'password' => 'kwek', 'created_at' => '2025-09-19 05:28:28', 'updated_at' => '2025-09-19 05:28:28'],
             ['id' => 25, 'name' => 'migrain', 'role' => 'peserta', 'password' => 'migrain', 'created_at' => '2025-09-19 05:28:29', 'updated_at' => '2025-09-19 05:28:29'],
@@ -220,7 +220,7 @@ class AccSeeder extends Seeder
             ['id' => 35, 'name' => 'Gekishin', 'role' => 'peserta', 'password' => '$2y$12$aKWYV/I/O5hChqpZwb00SeVj.Ulh8sKUipF7/we3nZPjHIbmtM3Pa', 'created_at' => '2025-10-03 13:03:37', 'updated_at' => '2025-10-03 13:03:37'],
             ['id' => 36, 'name' => 'SkibidyPop', 'role' => 'peserta', 'password' => 'CitaHati@123', 'created_at' => '2025-10-03 13:03:38', 'updated_at' => '2025-10-03 13:03:38'],
             ['id' => 37, 'name' => 'DameUnGrr', 'role' => 'peserta', 'password' => '$2y$12$pHC6QJtcUWcwvMfcxYkhf.SW40/Edj.CyGITd6O/l.Pq3VRH0Jfn.', 'created_at' => '2025-10-03 15:34:07', 'updated_at' => '2025-10-03 15:34:07'],
-            ['id' => 38, 'name' => '3 Faktorial', 'role' => 'peserta', 'password' => '$2y$12$j1BgJhckBn9dWuimSe/naOamLqxUfn7LTQvtLe71BrIiqmP5PUiW.', 'created_at' => '2025-10-03 16:19:47', 'updated_at' => '2025-10-03 16:19:47'],
+            ['id' => 38, 'name' => '3 Faktorial', 'role' => 'peserta', 'password' => '3faktorial33', 'created_at' => '2025-10-03 16:19:47', 'updated_at' => '2025-10-03 16:19:47'],
         ];
 
         foreach ($users as $user) {
