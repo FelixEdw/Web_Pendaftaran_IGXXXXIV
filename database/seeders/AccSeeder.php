@@ -217,7 +217,7 @@ class AccSeeder extends Seeder
             ['id' => 32, 'name' => 'TRIOSIH', 'role' => 'peserta', 'password' => '$2y$12$mDNWcWDZy696GjaL12FvnO8qA7J1LujOdM.han8n1OJ9O/T4i.uVu', 'created_at' => '2025-10-02 05:44:20', 'updated_at' => '2025-10-02 05:44:20'],
             ['id' => 33, 'name' => 'Design Engineers for Applicable Distribution', 'role' => 'peserta', 'password' => '$2y$12$Kar5U4mjU9de7Y0dBjxOKOmzxgi3BN/rNIaWVdxxF9yPQ1TUwivnC', 'created_at' => '2025-10-03 12:33:19', 'updated_at' => '2025-10-03 12:33:19'],
             ['id' => 34, 'name' => 'SixSeven', 'role' => 'peserta', 'password' => 'sixseven33', 'created_at' => '2025-10-03 13:03:37', 'updated_at' => '2025-10-03 13:03:37'],
-            ['id' => 35, 'name' => 'Gekishin', 'role' => 'peserta', 'password' => '$2y$12$aKWYV/I/O5hChqpZwb00SeVj.Ulh8sKUipF7/we3nZPjHIbmtM3Pa', 'created_at' => '2025-10-03 13:03:37', 'updated_at' => '2025-10-03 13:03:37'],
+            ['id' => 35, 'name' => 'Gekishin', 'role' => 'peserta', 'password' => 'gekishin33', 'created_at' => '2025-10-03 13:03:37', 'updated_at' => '2025-10-03 13:03:37'],
             ['id' => 36, 'name' => 'SkibidyPop', 'role' => 'peserta', 'password' => 'CitaHati@123', 'created_at' => '2025-10-03 13:03:38', 'updated_at' => '2025-10-03 13:03:38'],
             ['id' => 37, 'name' => 'DameUnGrr', 'role' => 'peserta', 'password' => '$2y$12$pHC6QJtcUWcwvMfcxYkhf.SW40/Edj.CyGITd6O/l.Pq3VRH0Jfn.', 'created_at' => '2025-10-03 15:34:07', 'updated_at' => '2025-10-03 15:34:07'],
             ['id' => 38, 'name' => '3 Faktorial', 'role' => 'peserta', 'password' => '3faktorial33', 'created_at' => '2025-10-03 16:19:47', 'updated_at' => '2025-10-03 16:19:47'],
