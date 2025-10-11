@@ -842,6 +842,9 @@
         }
 
         //LAYOFF
+// Di dalam file resources/views/components/factory-grid.blade.php
+        // Ganti fungsi confirmLayoff() yang lama dengan yang ini.
+
         function confirmLayoff() {
             const ownedId = selectedFactory.owned_id;
             if (!ownedId) {
@@ -874,8 +877,17 @@
                     updateCapitalDisplay();
 
                     alert(data.message || "Pekerja berhasil di-PHK!");
+                    
+                    factoriesData[selectedFactoryIndex].operator_hired = false;
+                    
+                    selectedFactory.operator_hired = false;
+
                     hideLayoffConfirm();
-                    location.reload();
+
+                    setTimeout(() => {
+                        showFactoryInfo(selectedFactoryIndex, selectedFactory);
+                    }, 250); // Jeda 250 milidetik
+
                 },
                 error: function (xhr, status, error) {
                     console.error("AJAX Error:", xhr.responseText);
