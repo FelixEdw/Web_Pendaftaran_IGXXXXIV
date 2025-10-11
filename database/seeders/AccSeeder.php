@@ -234,6 +234,7 @@ class AccSeeder extends Seeder
         User::create(['name' => "angel", 'role' => 'admin', 'password' => bcrypt("angel@ig33")]);
         User::create(['name' => "steven", 'role' => 'admin', 'password' => bcrypt("steven@ig33")]);
         User::create(['name' => "federico", 'role' => 'admin', 'password' => bcrypt("federico@ig33")]);
+        User::create(['name' => "frederico", 'role' => 'admin', 'password' => bcrypt("frederico@ig33")]);
         User::create(['name' => "philander", 'role' => 'admin', 'password' => bcrypt("philander@ig33")]);
         User::create(['name' => "evan", 'role' => 'admin', 'password' => bcrypt("evan@ig33")]);
         User::create(['name' => "brandon", 'role' => 'admin', 'password' => bcrypt("brandon@ig33")]);
